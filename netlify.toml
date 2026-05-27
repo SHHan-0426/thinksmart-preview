@@ -1,0 +1,64 @@
+# 씽크스마트 v3 시험판 — Netlify 설정
+# https://thinksmart-preview.netlify.app
+
+[build]
+  # 정적 사이트라 빌드 명령 없음 — 루트 그대로 게시
+  publish = "."
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = false
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/ig_thumb/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/data/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# 깔끔한 URL — /authors → /authors.html
+[[redirects]]
+  from = "/instagram"
+  to = "/instagram.html"
+  status = 200
+
+[[redirects]]
+  from = "/events"
+  to = "/events.html"
+  status = 200
+
+[[redirects]]
+  from = "/authors"
+  to = "/authors.html"
+  status = 200
+
+[[redirects]]
+  from = "/books"
+  to = "/books.html"
+  status = 200
+
+[[redirects]]
+  from = "/schools"
+  to = "/schools.html"
+  status = 200
+
+[[redirects]]
+  from = "/more"
+  to = "/more.html"
+  status = 200

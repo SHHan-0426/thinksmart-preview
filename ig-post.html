@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>인스타 게시물 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const ig = await loadInstagram();
+  const id = qs('id', ig.posts[0]?.id);
+  const idx = ig.posts.findIndex(p => p.id === id);
+  const p = ig.posts[idx] || ig.posts[0];
+  const prev = idx > 0 ? ig.posts[idx-1] : null;
+  const next = idx < ig.posts.length - 1 ? ig.posts[idx+1] : null;
+
+  document.getElementById('content').innerHTML = `
+    ${backBar(p.date_display || '인스타 게시물')}
+    <main>
+      <div class="ig-post-images">
+        ${p.images.map(img => `<img src="${thumb(img)}" alt="" loading="lazy">`).join('')}
+      </div>
+
+      <div class="ig-caption">${(p.caption||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+
+      <div style="display:flex;gap:6px;margin-top:14px;flex-wrap:wrap;">
+        ${p.types.includes('event') ? '<span class="tag" style="background:#FFE0E0;color:#B5483B;">🎤 행사</span>' : ''}
+        ${p.types.includes('book')  ? '<span class="tag" style="background:#E8F0E0;color:#2E5928;">📚 책</span>' : ''}
+        <span class="tag">사진 ${p.images.length}장</span>
+      </div>
+
+      <div class="card" style="margin-top:18px;text-align:center;">
+        <a href="${ig.meta.profile}" target="_blank"
+           style="display:inline-block;font-size:13px;color:var(--c-primary-2);text-decoration:underline;">
+          📷 인스타그램에서 원본 보기 →
+        </a>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:18px;">
+        ${prev ? `<a class="btn outline" href="ig-post.html?id=${prev.id}" style="flex:1;">← 이전</a>` : '<div style="flex:1;"></div>'}
+        ${next ? `<a class="btn outline" href="ig-post.html?id=${next.id}" style="flex:1;">다음 →</a>` : '<div style="flex:1;"></div>'}
+      </div>
+    </main>
+    ${nav('events')}
+  `;
+})();
+</script>
+</body>
+</html>

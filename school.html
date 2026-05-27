@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>마을학교 상세 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  const name = qs('name', '낭독학교');
+  const stats = data.schools[name];
+  const desc = data.school_descriptions[name];
+  const color = SCHOOL_COLORS[name];
+  const authors = stats.author_ids.map(id => data.authors.find(a => a.id === id)).filter(Boolean)
+    .sort((a,b) => b.count - a.count);
+  const books = stats.book_ids.map(id => data.books.find(b => b.id === id)).filter(Boolean);
+
+  document.getElementById('content').innerHTML = `
+    ${backBar('마을학교')}
+    <div style="background:linear-gradient(180deg, ${color} 0%, ${color}cc 100%);color:#fff;padding:32px 22px 28px;border-radius:0 0 24px 24px;text-align:center;">
+      <div style="font-size:42px;margin-bottom:10px;">${desc.icon}</div>
+      <h1 style="font-size:24px;font-weight:700;margin-bottom:8px;">${name}</h1>
+      <p style="font-size:13px;opacity:0.9;line-height:1.5;max-width:280px;margin:0 auto;">${desc.desc}</p>
+      <div style="display:flex;justify-content:center;gap:24px;margin-top:18px;">
+        <div><div style="font-size:22px;font-weight:700;">${stats.author_count}</div><div style="font-size:11px;opacity:0.8;">강사</div></div>
+        <div><div style="font-size:22px;font-weight:700;">${stats.book_count}</div><div style="font-size:11px;opacity:0.8;">관련 책</div></div>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" style="margin-top:20px;">
+        <div class="section-title"><h2>강사 (자동 매핑)</h2></div>
+        ${authors.length ? `
+          <div class="author-grid">
+            ${authors.map(authorCard).join('')}
+          </div>
+        ` : `
+          <div class="empty">
+            <div class="icon">📭</div>
+            아직 매핑된 강사가 없습니다.<br>
+            <span style="font-size:11px;">운영팀 검수 후 추가됩니다.</span>
+          </div>
+        `}
+      </section>
+
+      ${books.length ? `
+        <section class="section">
+          <div class="section-title"><h2>관련 책</h2></div>
+          <div class="row-list">
+            ${books.slice(0, 12).map(bookCard).join('')}
+          </div>
+        </section>
+      ` : ''}
+
+      <section class="section">
+        <div class="card" style="text-align:center;padding:24px;">
+          <h3 style="font-size:15px;color:var(--c-primary);margin-bottom:10px;">신청·문의</h3>
+          <p style="font-size:12px;color:var(--c-sub);margin-bottom:14px;">
+            온라인 신청 시스템은 2단계(3~4개월차) 구축 예정입니다.
+          </p>
+          <a class="btn amber" style="display:inline-block;padding:12px 28px;">카톡 문의</a>
+        </div>
+      </section>
+    </main>
+    ${nav('schools')}
+  `;
+})();
+</script>
+</body>
+</html>

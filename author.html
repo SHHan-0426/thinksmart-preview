@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>저자 상세 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  const id = qs('id', 'A001');
+  const a = data.authors.find(x => x.id === id) || data.authors[0];
+  const books = data.books.filter(b => b.authors.includes(a.id));
+
+  document.getElementById('content').innerHTML = `
+    ${backBar('저자')}
+    <div class="author-hero">
+      <div class="avatar" style="background:${avatarColor(a.name)};color:#fff;">
+        ${initial(a.name)}
+      </div>
+      <h1>${a.name}</h1>
+      <div class="meta">${a.reason}</div>
+      <div class="sns">
+        <a class="icon-pill" title="인스타그램 (등록 대기)">📷</a>
+        <a class="icon-pill" title="블로그 (등록 대기)">📝</a>
+        <a class="icon-pill" title="유튜브 (등록 대기)">▶️</a>
+      </div>
+    </div>
+
+    <main>
+      ${a.bio_one ? `
+        <div class="card" style="margin-top:16px;text-align:center;">
+          <p style="font-size:14px;line-height:1.6;">${a.bio_one}</p>
+        </div>
+      ` : `
+        <div class="notice" style="margin-top:16px;">
+          한 줄 소개·약력은 저자 본인 회신 후 채워질 예정입니다.
+        </div>
+      `}
+
+      <section class="section" style="margin-top:22px;">
+        <div class="section-title">
+          <h2>집필 책 <span style="font-size:12px;color:var(--c-sub);font-weight:400;">${books.length}권</span></h2>
+        </div>
+        <div class="row-list">
+          ${books.map(bookCard).join('')}
+        </div>
+      </section>
+
+      ${a.schools.length ? `
+        <section class="section">
+          <div class="section-title">
+            <h2>운영·참여 마을학교</h2>
+          </div>
+          <div class="h-scroll">
+            ${a.schools.map(s => schoolCard(s, data.schools[s], data.school_descriptions[s])).join('')}
+          </div>
+          <p style="font-size:11px;color:var(--c-sub);margin-top:8px;">※ 시리즈 기반 1차 자동 매핑 — 실제 강의 이력은 운영팀 검수 후 확정</p>
+        </section>
+      ` : ''}
+
+      <section class="section">
+        <div class="card">
+          <h3 style="font-size:14px;font-weight:700;color:var(--c-primary);margin-bottom:10px;">저자 코멘트 & 독자 후기</h3>
+          <p style="font-size:13px;color:var(--c-sub);line-height:1.6;">
+            저자가 직접 올린 글과 독자 후기가 여기에 표시됩니다.<br>
+            <span style="font-size:11px;">(3단계 — 5~6개월차 구현 예정)</span>
+          </p>
+        </div>
+      </section>
+    </main>
+    ${nav('authors')}
+  `;
+})();
+</script>
+</body>
+</html>

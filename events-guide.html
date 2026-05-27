@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>행사 입력 가이드 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  document.getElementById('content').innerHTML = `
+    ${backBar('행사 입력 가이드')}
+    <main>
+      <h2 style="font-size:18px;font-weight:700;color:var(--c-primary);margin-bottom:12px;">
+        📷 인스타그램 행사를 사이트에 올리는 법
+      </h2>
+      <p style="font-size:13px;color:var(--c-sub);line-height:1.7;margin-bottom:20px;">
+        인스타그램은 외부 사이트에서 자동 수집이 어렵습니다.<br>
+        대신 운영자가 인스타그램 게시물 URL만 복사해 넣으면, 사이트가 인스타 공식 임베드로 자동 표시합니다.
+      </p>
+
+      <div class="card">
+        <h3 style="font-size:15px;font-weight:700;color:var(--c-primary);margin-bottom:12px;">
+          ① 인스타그램 앱에서 게시물 URL 복사
+        </h3>
+        <ol style="padding-left:18px;font-size:13px;line-height:1.8;">
+          <li>인스타그램 앱에서 사이트에 올리고 싶은 행사 게시물 진입</li>
+          <li>우측 상단 <strong>⋯ (점 3개)</strong> 탭</li>
+          <li><strong>'링크 복사'</strong> 선택</li>
+          <li>URL 예시: <code style="background:var(--c-tag-bg);padding:2px 6px;border-radius:4px;font-size:11px;">https://www.instagram.com/p/Cxxxx/</code></li>
+        </ol>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h3 style="font-size:15px;font-weight:700;color:var(--c-primary);margin-bottom:12px;">
+          ② events.json에 행사 추가
+        </h3>
+        <p style="font-size:12px;color:var(--c-sub);margin-bottom:10px;">파일 위치: <code style="background:var(--c-tag-bg);padding:2px 6px;border-radius:4px;font-size:11px;">data/events.json</code></p>
+        <pre style="background:#1F3A5F;color:#D4E5F7;padding:12px;border-radius:8px;font-size:11px;line-height:1.6;overflow-x:auto;">{
+  "id": "ev-2026-06-2",
+  "title": "북토크 — 더 생각",
+  "type": "북토크",
+  "date": "2026-06-15",
+  "time": "19:00",
+  "location": "고양 북카페",
+  "host": "김무영",
+  "status": "upcoming",
+  "summary": "한 줄 소개...",
+  <span style="color:#FFE08A;">"instagram_url": "https://www.instagram.com/p/Cxxxx/"</span>,
+  "register_url": ""
+}</pre>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h3 style="font-size:15px;font-weight:700;color:var(--c-primary);margin-bottom:12px;">
+          ③ 필드 설명
+        </h3>
+        <div class="info-row"><span class="k">id</span><span class="v" style="font-family:monospace;font-size:11px;">ev-YYYY-MM-N</span></div>
+        <div class="info-row"><span class="k">status</span><span class="v" style="font-size:12px;">upcoming / past</span></div>
+        <div class="info-row"><span class="k">type</span><span class="v" style="font-size:12px;">북토크/출간 기념/살롱/수료식/마을학교 모집</span></div>
+        <div class="info-row"><span class="k">related_book_id</span><span class="v" style="font-size:11px;">B001 형식 (선택)</span></div>
+        <div class="info-row"><span class="k">related_school</span><span class="v" style="font-size:12px;">낭독학교/사춘기살롱 등 (선택)</span></div>
+        <div class="info-row" style="border:none;"><span class="k">instagram_url</span><span class="v" style="font-size:11px;">https://www.instagram.com/p/CODE/</span></div>
+      </div>
+
+      <div class="notice" style="margin-top:18px;">
+        <strong>💡 자동화 옵션</strong><br>
+        매주 운영팀이 인스타 새 게시물 URL을 카톡으로 보내주시면, 한성호 PM이 events.json에 일괄 반영(주 1회) 가능합니다.
+      </div>
+
+      <div class="card" style="margin-top:14px;text-align:center;">
+        <a class="btn" href="${'/data/events.json'}" target="_blank">events.json 열어보기</a>
+      </div>
+    </main>
+    ${nav('events')}
+  `;
+})();
+</script>
+</body>
+</html>

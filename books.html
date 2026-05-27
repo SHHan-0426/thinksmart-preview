@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>책방 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  const view = qs('view', 'recent');
+
+  let groups = [];
+
+  if (view === 'author') {
+    // 저자별 그룹 (책이 많은 저자 순)
+    const aAuthors = data.authors.filter(a => a.count >= 2).sort((x,y) => y.count - x.count).slice(0, 20);
+    groups = aAuthors.map(a => ({
+      label: a.name,
+      sub: `${a.count}권 · ${a.schools.join(', ') || '—'}`,
+      items: data.books.filter(b => b.authors.includes(a.id)).slice(0, 6),
+    }));
+  } else if (view === 'series') {
+    // 시리즈별 그룹
+    const seriesMap = {};
+    data.books.forEach(b => {
+      if (!b.series) return;
+      const key = b.series.replace(/\s*시리즈\s*\d+\s*$/, ' 시리즈');
+      (seriesMap[key] = seriesMap[key] || []).push(b);
+    });
+    groups = Object.entries(seriesMap)
+      .sort((a,b) => b[1].length - a[1].length)
+      .slice(0, 15)
+      .map(([name, items]) => ({
+        label: name,
+        sub: `${items.length}권`,
+        items: items.slice(0, 6),
+      }));
+  } else if (view === 'category') {
+    const catMap = {};
+    data.books.forEach(b => { if (b.category) (catMap[b.category] = catMap[b.category] || []).push(b); });
+    groups = Object.entries(catMap)
+      .sort((a,b) => b[1].length - a[1].length)
+      .map(([name, items]) => ({ label: name, sub: `${items.length}권`, items: items.slice(0, 6) }));
+  } else {
+    // 최신순
+    const recent = [...data.books].sort((a,b) => (b.pub_date || '').localeCompare(a.pub_date || ''));
+    groups = [{ label: '전체 신간순', sub: `${recent.length}권`, items: recent.slice(0, 50) }];
+  }
+
+  document.getElementById('content').innerHTML = `
+    ${headerTop()}
+    <main>
+      <h2 style="font-size:20px;font-weight:700;color:var(--c-primary);margin-bottom:14px;">
+        책방 <span style="font-size:13px;color:var(--c-sub);font-weight:400;">${data.books.length}권</span>
+      </h2>
+      <div class="filter-bar">
+        <a class="chip ${view==='recent'?'active':''}"   href="?view=recent">신간순</a>
+        <a class="chip ${view==='author'?'active':''}"   href="?view=author">저자로 보기</a>
+        <a class="chip ${view==='series'?'active':''}"   href="?view=series">시리즈로 보기</a>
+        <a class="chip ${view==='category'?'active':''}" href="?view=category">주제로 보기</a>
+      </div>
+      ${groups.map(g => `
+        <section class="section">
+          <div class="section-title">
+            <h2>${g.label}</h2>
+            <span class="more">${g.sub}</span>
+          </div>
+          <div class="row-list">
+            ${g.items.map(bookCard).join('')}
+          </div>
+        </section>
+      `).join('')}
+    </main>
+    ${nav('books')}
+  `;
+})();
+</script>
+</body>
+</html>

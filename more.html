@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>더보기 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  document.getElementById('content').innerHTML = `
+    ${headerTop()}
+    <main>
+      <h2 style="font-size:20px;font-weight:700;color:var(--c-primary);margin-bottom:18px;">더보기</h2>
+
+      <div class="menu-list">
+        <a class="item" href="events.html"><span class="icon">🎤</span><span>행사 · 모임</span><span class="arrow">›</span></a>
+        <a class="item" href="instagram.html"><span class="icon">📷</span><span>인스타그램 피드</span><span class="arrow">›</span></a>
+        <a class="item" href="events-guide.html"><span class="icon">📘</span><span>인스타 행사 입력 가이드</span><span class="arrow">›</span></a>
+        <a class="item"><span class="icon">📰</span><span>커뮤니티 · 공지사항</span><span class="arrow">›</span></a>
+        <a class="item"><span class="icon">📖</span><span>씽크스마트 소개</span><span class="arrow">›</span></a>
+        <a class="item"><span class="icon">✉️</span><span>출판 상담 신청</span><span class="arrow">›</span></a>
+        <a class="item"><span class="icon">👤</span><span>로그인 / 마이페이지</span><span class="arrow">›</span></a>
+      </div>
+
+      <h3 style="font-size:14px;font-weight:700;color:var(--c-primary);margin:26px 0 12px;">데이터 현황</h3>
+      <div class="menu-list">
+        <div class="item"><span>총 도서</span><span class="arrow" style="color:var(--c-primary);font-weight:700;">${data.meta.total_books}권</span></div>
+        <div class="item"><span>총 저자</span><span class="arrow" style="color:var(--c-primary);font-weight:700;">${data.meta.total_authors}명</span></div>
+        <div class="item"><span>A등급 저자</span><span class="arrow" style="color:#8B6914;font-weight:700;">${data.meta.grade_a}명</span></div>
+        <div class="item"><span>B등급 저자</span><span class="arrow" style="color:#2E5928;font-weight:700;">${data.meta.grade_b}명</span></div>
+        <div class="item"><span>최종 업데이트</span><span class="arrow">${data.meta.updated}</span></div>
+      </div>
+
+      <div class="notice" style="margin-top:20px;">
+        <strong>v0.1 프로토타입</strong><br>
+        본 페이지는 김태영 대표 검수용 미리보기입니다. 저자 사진·책 표지·소개문은 검수 완료 후 알라딘 API와 직접 회수된 자료로 보강될 예정입니다.
+      </div>
+
+      <p style="text-align:center;font-size:11px;color:var(--c-sub);margin-top:30px;">
+        씽크스마트 · 더 큰 생각으로 통하는 길<br>
+        제안: 거닐만 한성호 · 2026.05.24
+      </p>
+    </main>
+    ${nav('more')}
+  `;
+})();
+</script>
+</body>
+</html>

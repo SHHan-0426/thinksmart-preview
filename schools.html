@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>마을학교 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  const order = ['낭독학교','사춘기살롱','서각학교','남독학교','썰래발학교'];
+
+  document.getElementById('content').innerHTML = `
+    ${headerTop()}
+    <main>
+      <h2 style="font-size:20px;font-weight:700;color:var(--c-primary);margin-bottom:6px;">
+        천개의 마을학교
+      </h2>
+      <p style="font-size:13px;color:var(--c-sub);margin-bottom:18px;">
+        책 밖으로 걸어 나온 5개의 학교. 저자가 강사가 되고, 독자가 학생이 됩니다.
+      </p>
+
+      <div class="row-list">
+        ${order.map(name => {
+          const stats = data.schools[name];
+          const desc = data.school_descriptions[name];
+          const color = SCHOOL_COLORS[name];
+          return `
+            <a class="card" href="school.html?name=${encodeURIComponent(name)}"
+               style="display:flex;gap:14px;align-items:center;border-left:4px solid ${color};">
+              <div style="font-size:30px;width:50px;text-align:center;">${desc.icon}</div>
+              <div style="flex:1;">
+                <div style="font-size:16px;font-weight:700;color:${color};margin-bottom:4px;">${name}</div>
+                <div style="font-size:12px;color:var(--c-sub);line-height:1.5;margin-bottom:6px;">${desc.desc}</div>
+                <div style="font-size:11px;color:var(--c-sub);">
+                  강사 <strong style="color:${color};">${stats.author_count}명</strong> · 관련 책 <strong style="color:${color};">${stats.book_count}권</strong>
+                </div>
+              </div>
+              <div style="color:var(--c-sub);font-size:18px;">›</div>
+            </a>
+          `;
+        }).join('')}
+      </div>
+
+      <div class="notice" style="margin-top:22px;">
+        ※ 시리즈명을 기준으로 1차 자동 매핑된 결과입니다. 실제 강사·강의 이력은 운영팀 검수 후 확정됩니다.
+      </div>
+    </main>
+    ${nav('schools')}
+  `;
+})();
+</script>
+</body>
+</html>

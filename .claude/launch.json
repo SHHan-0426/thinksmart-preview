@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "thinksmart-proto",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "/Users/a1/Desktop/thinksmart_proto"],
+      "port": 8765
+    }
+  ]
+}

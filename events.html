@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>행사 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const ev = await loadEvents();
+  const ig = await loadInstagram();
+  const tab = qs('tab', 'upcoming');
+
+  const upcoming = ev.events
+    .filter(e => e.status === 'upcoming')
+    .sort((a,b) => (a.date || '').localeCompare(b.date || ''));
+  const pastCurated = ev.events
+    .filter(e => e.status === 'past')
+    .sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+  const pastIg = ig.posts
+    .filter(p => p.types.includes('event'));
+
+  let body = '';
+
+  if (tab === 'upcoming') {
+    body = upcoming.length ? `
+      <div class="row-list">${upcoming.map(eventCard).join('')}</div>
+    ` : `
+      <div class="empty">
+        <div class="icon">📭</div>
+        예정된 행사가 없습니다.
+      </div>
+    `;
+  } else if (tab === 'past') {
+    body = `
+      ${pastCurated.length ? `
+        <h3 style="font-size:13px;font-weight:700;color:var(--c-sub);margin:6px 0 10px;">큐레이션된 지난 행사</h3>
+        <div class="row-list" style="margin-bottom:24px;">${pastCurated.map(eventCard).join('')}</div>
+      ` : ''}
+      <h3 style="font-size:13px;font-weight:700;color:var(--c-sub);margin:6px 0 10px;">
+        📷 인스타그램에서 가져온 행사 기록 (${pastIg.length}건)
+      </h3>
+      <div class="row-list">${pastIg.slice(0, 30).map(igListCard).join('')}</div>
+      ${pastIg.length > 30 ? `
+        <div style="text-align:center;margin-top:16px;">
+          <a class="btn outline" href="instagram.html?filter=event">전체 ${pastIg.length}건 보기 →</a>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  document.getElementById('content').innerHTML = `
+    ${headerTop()}
+    <main>
+      <h2 style="font-size:20px;font-weight:700;color:var(--c-primary);margin-bottom:4px;">
+        행사 · 모임
+      </h2>
+      <p style="font-size:12px;color:var(--c-sub);margin-bottom:16px;">
+        북토크 · 출간 기념 · 마을학교 모집 · 살롱 · 수료식
+      </p>
+
+      <div class="tab-toggle">
+        <a class="t ${tab==='upcoming'?'active':''}" href="?tab=upcoming">
+          다가오는 (${upcoming.length})
+        </a>
+        <a class="t ${tab==='past'?'active':''}" href="?tab=past">
+          지난 (${pastCurated.length + pastIg.length})
+        </a>
+      </div>
+
+      ${body}
+
+      <div class="notice" style="margin-top:22px;">
+        <strong>📷 인스타그램 연동 (${ig.meta.updated} 기준)</strong><br>
+        @${ig.meta.profile.split('/').filter(Boolean).pop()}에서 백업 다운로드된 ${ig.meta.total_posts}개 게시물 중 행사 키워드(북토크·출간·모집 등)가 감지된 ${ig.meta.event_posts}건이 자동 등록되었습니다.
+      </div>
+    </main>
+    ${nav('events')}
+  `;
+})();
+</script>
+</body>
+</html>

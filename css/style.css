@@ -1,0 +1,470 @@
+/* ===========================================
+   씽크스마트 v1 프로토타입 — 모바일 퍼스트
+   =========================================== */
+
+:root {
+  --c-primary:    #1F3A5F;
+  --c-primary-2:  #2E5984;
+  --c-accent:     #B5483B;
+  --c-amber:      #D4A574;
+  --c-bg:         #FFFCF7;
+  --c-card:       #FFFFFF;
+  --c-text:       #1A1A1A;
+  --c-sub:        #6B7280;
+  --c-line:       #E8E2D6;
+  --c-tag-bg:     #F2EDE2;
+  --c-school-bg:  #FFF3E5;
+
+  --tab-h:        62px;
+  --r:            14px;
+  --shadow:       0 2px 8px rgba(31, 58, 95, 0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+}
+a { color: inherit; text-decoration: none; }
+button { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ====== 데스크탑에서 모바일 프레임 표시 ====== */
+@media (min-width: 600px) {
+  body { background: #ECE9E1; display: flex; justify-content: center; }
+  #app {
+    width: 420px;
+    min-height: 100vh;
+    background: var(--c-bg);
+    box-shadow: 0 0 40px rgba(0,0,0,0.08);
+    position: relative;
+  }
+}
+
+#app {
+  min-height: 100vh;
+  padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px));
+}
+
+/* ====== 상단 헤더 ====== */
+.app-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-line);
+  padding: 14px 18px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.app-header .logo {
+  font-size: 17px; font-weight: 700; color: var(--c-primary);
+  letter-spacing: -0.3px;
+}
+.app-header .logo small { font-weight: 400; color: var(--c-sub); font-size: 11px; margin-left: 6px; }
+.app-header .header-actions { display: flex; gap: 8px; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: transparent; color: var(--c-primary);
+  font-size: 18px;
+}
+.icon-btn:active { background: var(--c-tag-bg); }
+
+.back-bar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-line);
+  padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.back-bar h1 { font-size: 16px; font-weight: 700; color: var(--c-primary); }
+
+/* ====== 본문 컨테이너 ====== */
+main { padding: 14px 18px 30px; }
+.section { margin-bottom: 26px; }
+.section-title {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.section-title h2 { font-size: 16px; font-weight: 700; color: var(--c-primary); }
+.section-title .more { font-size: 12px; color: var(--c-sub); }
+
+/* ====== 카드 공통 ====== */
+.card {
+  background: var(--c-card);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+/* ====== 히어로 — 오늘의 저자 ====== */
+.hero {
+  background: linear-gradient(135deg, #1F3A5F 0%, #2E5984 100%);
+  color: #fff;
+  border-radius: var(--r);
+  padding: 22px 20px;
+  margin-bottom: 22px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: "오늘의 저자"; position: absolute; top: 16px; right: 18px;
+  font-size: 11px; opacity: 0.7; letter-spacing: 0.5px;
+}
+.hero .avatar {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--c-amber); color: var(--c-primary);
+  display: grid; place-items: center;
+  font-size: 32px; font-weight: 700;
+  margin-bottom: 14px; border: 3px solid rgba(255,255,255,0.3);
+}
+.hero h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 6px; }
+.hero p.lead { font-size: 13px; opacity: 0.85; margin-bottom: 14px; }
+.hero .meta { font-size: 12px; opacity: 0.7; }
+.hero .meta strong { color: var(--c-amber); font-weight: 600; }
+
+/* ====== 마을학교 가로 스크롤 ====== */
+.h-scroll {
+  display: flex; gap: 12px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  margin: 0 -18px; padding: 0 18px 4px;
+}
+.h-scroll::-webkit-scrollbar { display: none; }
+.h-scroll > * { scroll-snap-align: start; flex: 0 0 auto; }
+
+.school-card {
+  width: 140px; height: 130px;
+  background: var(--c-school-bg);
+  border-radius: var(--r);
+  padding: 14px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  border: 1px solid var(--c-line);
+}
+.school-card .icon { font-size: 26px; }
+.school-card .name { font-size: 14px; font-weight: 700; color: var(--c-primary); }
+.school-card .stat { font-size: 11px; color: var(--c-sub); }
+
+/* ====== 신간 책 카드 ====== */
+.book-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.book-card {
+  display: flex; gap: 14px;
+  background: var(--c-card); border-radius: var(--r);
+  padding: 14px; box-shadow: var(--shadow);
+  cursor: pointer;
+}
+.book-card .cover {
+  width: 64px; height: 88px; flex: 0 0 auto;
+  background: linear-gradient(135deg, #E8E2D6 0%, #D8CFB8 100%);
+  border-radius: 4px;
+  display: grid; place-items: center;
+  font-size: 10px; color: var(--c-sub); text-align: center; padding: 6px;
+  font-weight: 500;
+}
+.book-card .info { flex: 1; min-width: 0; }
+.book-card .info .title {
+  font-size: 14px; font-weight: 600; line-height: 1.35;
+  margin-bottom: 4px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.book-card .info .sub {
+  font-size: 11px; color: var(--c-sub);
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+.book-card .info .meta {
+  font-size: 11px; color: var(--c-sub); margin-top: 6px;
+}
+.book-card .info .meta strong { color: var(--c-primary); font-weight: 600; }
+
+/* ====== 저자 카드 (그리드) ====== */
+.author-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.author-card {
+  background: var(--c-card); border-radius: var(--r);
+  padding: 14px 12px; text-align: center;
+  box-shadow: var(--shadow); cursor: pointer;
+}
+.author-card .avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  margin: 0 auto 10px;
+  display: grid; place-items: center;
+  font-size: 22px; font-weight: 700; color: #fff;
+}
+.author-card .name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.author-card .count { font-size: 11px; color: var(--c-sub); }
+.author-card .tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 8px; }
+
+/* ====== 태그 ====== */
+.tag {
+  display: inline-block; padding: 3px 8px;
+  border-radius: 10px; font-size: 10px;
+  background: var(--c-tag-bg); color: var(--c-primary);
+  font-weight: 500;
+}
+.tag.school { background: var(--c-school-bg); color: var(--c-accent); }
+.tag.grade-A { background: #FFF2CC; color: #8B6914; }
+.tag.grade-B { background: #E2EFDA; color: #2E5928; }
+
+/* ====== 저자 상세 페이지 ====== */
+.author-hero {
+  background: linear-gradient(180deg, #2E5984 0%, #1F3A5F 100%);
+  color: #fff; padding: 30px 20px 26px;
+  border-radius: 0 0 24px 24px;
+  text-align: center;
+}
+.author-hero .avatar {
+  width: 100px; height: 100px; border-radius: 50%;
+  margin: 0 auto 16px;
+  display: grid; place-items: center;
+  font-size: 36px; font-weight: 700;
+  border: 3px solid rgba(255,255,255,0.3);
+}
+.author-hero h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.author-hero .meta { font-size: 12px; opacity: 0.8; margin-bottom: 14px; }
+.author-hero .sns { display: flex; justify-content: center; gap: 14px; }
+.author-hero .sns .icon-pill {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); color: #fff;
+  display: grid; place-items: center; font-size: 14px;
+  opacity: 0.6;
+}
+
+/* ====== 책 상세 ====== */
+.book-detail-cover {
+  width: 140px; height: 200px;
+  margin: 0 auto 18px;
+  background: linear-gradient(135deg, #E8E2D6 0%, #D8CFB8 100%);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  display: grid; place-items: center;
+  text-align: center; padding: 14px;
+  font-size: 13px; color: var(--c-sub); font-weight: 500;
+}
+.book-detail-title { font-size: 20px; font-weight: 700; text-align: center; line-height: 1.3; }
+.book-detail-sub { font-size: 13px; color: var(--c-sub); text-align: center; margin-top: 6px; margin-bottom: 18px; }
+.info-row {
+  display: flex; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid var(--c-line);
+  font-size: 13px;
+}
+.info-row .k { color: var(--c-sub); }
+.info-row .v { font-weight: 500; max-width: 60%; text-align: right; }
+
+.btn-row { display: flex; gap: 8px; margin-top: 18px; }
+.btn {
+  flex: 1; padding: 13px 0; border-radius: 10px;
+  background: var(--c-primary); color: #fff;
+  font-size: 13px; font-weight: 600; text-align: center;
+}
+.btn.outline { background: transparent; color: var(--c-primary); border: 1.5px solid var(--c-primary); }
+.btn.amber { background: var(--c-amber); color: var(--c-primary); }
+
+/* ====== 검색/필터 바 ====== */
+.filter-bar {
+  display: flex; gap: 8px;
+  padding-bottom: 14px; overflow-x: auto;
+  margin: 0 -18px; padding-left: 18px; padding-right: 18px;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto;
+  padding: 7px 14px; border-radius: 20px;
+  background: var(--c-card); border: 1px solid var(--c-line);
+  font-size: 12px; color: var(--c-sub); font-weight: 500;
+  white-space: nowrap;
+}
+.chip.active { background: var(--c-primary); color: #fff; border-color: var(--c-primary); }
+
+/* ====== 하단 탭 바 ====== */
+.tab-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(255, 252, 247, 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--c-line);
+  display: flex;
+  z-index: 100;
+}
+@media (min-width: 600px) {
+  .tab-bar { position: absolute; max-width: 420px; left: 50%; transform: translateX(-50%); }
+}
+.tab-bar .tab {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  color: var(--c-sub); font-size: 10px; font-weight: 500;
+  padding-top: 8px;
+}
+.tab-bar .tab .icon { font-size: 20px; }
+.tab-bar .tab.active { color: var(--c-primary); font-weight: 700; }
+
+/* ====== 더보기 메뉴 ====== */
+.menu-list {
+  background: var(--c-card); border-radius: var(--r); overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.menu-list .item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border-bottom: 1px solid var(--c-line);
+  font-size: 14px;
+}
+.menu-list .item:last-child { border-bottom: none; }
+.menu-list .item .icon { font-size: 18px; }
+.menu-list .item .arrow { margin-left: auto; color: var(--c-sub); font-size: 14px; }
+
+/* ====== 빈 상태 / 안내 배너 ====== */
+.notice {
+  background: #FFF8E6; border: 1px solid #F0D89B;
+  border-radius: 10px; padding: 12px 14px;
+  font-size: 12px; color: #6B5414; line-height: 1.5;
+  margin-bottom: 18px;
+}
+.notice strong { color: var(--c-accent); }
+
+.empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--c-sub); font-size: 13px;
+}
+.empty .icon { font-size: 36px; margin-bottom: 10px; }
+
+/* ====== 행사 카드 ====== */
+.event-card {
+  display: block;
+  background: var(--c-card); border-radius: var(--r);
+  overflow: hidden; box-shadow: var(--shadow);
+  cursor: pointer;
+}
+.event-card .event-cover {
+  height: 110px; position: relative;
+  display: grid; place-items: center;
+  color: rgba(255,255,255,0.3); font-size: 56px;
+}
+.event-card .event-icon { font-size: 48px; opacity: 0.85; }
+.event-card .event-date-badge {
+  position: absolute; top: 12px; left: 12px;
+  background: rgba(255,255,255,0.95); color: var(--c-primary);
+  border-radius: 8px; padding: 4px 10px; text-align: center;
+  font-weight: 700; line-height: 1.1;
+}
+.event-card .event-date-badge .m { font-size: 10px; color: var(--c-accent); }
+.event-card .event-date-badge .d { font-size: 18px; }
+.event-card .event-body { padding: 14px 16px 16px; }
+.event-card .event-meta {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;
+}
+.event-card .event-title {
+  font-size: 15px; font-weight: 700; line-height: 1.35;
+  margin-bottom: 6px; color: var(--c-text);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.event-card .event-sub {
+  font-size: 12px; color: var(--c-sub); line-height: 1.45;
+}
+.event-card .event-host {
+  font-size: 11px; color: var(--c-primary-2); margin-top: 4px; font-weight: 500;
+}
+
+/* ====== 행사 가로 스크롤 (홈) ====== */
+.event-h-scroll .event-card {
+  width: 260px; flex: 0 0 auto;
+}
+
+/* ====== 행사 상세 — 인스타그램 임베드 ====== */
+.ig-embed-wrap {
+  background: #fff; border-radius: var(--r);
+  overflow: hidden; box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.ig-embed-wrap iframe { width: 100%; border: 0; min-height: 580px; }
+.ig-placeholder {
+  padding: 30px 20px; text-align: center;
+  color: var(--c-sub); font-size: 13px; line-height: 1.6;
+  border: 1.5px dashed var(--c-line); border-radius: var(--r);
+}
+.ig-placeholder .icon { font-size: 32px; margin-bottom: 8px; }
+
+/* ====== 행사 상태 탭 ====== */
+.tab-toggle {
+  display: flex; background: var(--c-card);
+  border-radius: 24px; padding: 4px;
+  box-shadow: var(--shadow); margin-bottom: 16px;
+}
+.tab-toggle .t {
+  flex: 1; text-align: center; padding: 10px 0;
+  font-size: 13px; font-weight: 600; color: var(--c-sub);
+  border-radius: 20px;
+}
+.tab-toggle .t.active {
+  background: var(--c-primary); color: #fff;
+}
+
+/* ====== 인스타 그리드 ====== */
+.ig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin: 0 -18px;
+}
+.ig-card { position: relative; aspect-ratio: 1/1; overflow: hidden; cursor: pointer; }
+.ig-thumb {
+  width: 100%; height: 100%;
+  background-size: cover; background-position: center;
+  background-color: #E8E2D6;
+  transition: opacity 0.2s;
+}
+.ig-card:active .ig-thumb { opacity: 0.7; }
+.ig-multi {
+  position: absolute; top: 6px; right: 6px;
+  background: rgba(0,0,0,0.6); color: #fff;
+  font-size: 10px; padding: 2px 6px; border-radius: 4px;
+  font-weight: 600;
+}
+
+/* 홈용 가로 스크롤 인스타 카드 */
+.ig-h-scroll .ig-card {
+  width: 110px; height: 110px;
+  border-radius: 8px;
+  flex: 0 0 auto;
+}
+
+/* 인스타 리스트 카드 */
+.ig-list-card {
+  display: flex; gap: 12px;
+  background: var(--c-card); border-radius: var(--r);
+  padding: 12px; box-shadow: var(--shadow);
+  cursor: pointer;
+}
+.ig-list-thumb {
+  width: 80px; height: 80px; flex: 0 0 auto;
+  background-size: cover; background-position: center;
+  background-color: #E8E2D6;
+  border-radius: 8px;
+}
+.ig-list-body { flex: 1; min-width: 0; }
+.ig-list-date { font-size: 11px; color: var(--c-sub); margin-bottom: 6px; }
+.ig-list-caption {
+  font-size: 13px; line-height: 1.45; color: var(--c-text);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  margin-bottom: 6px;
+}
+.ig-list-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+
+/* 인스타 포스트 상세 */
+.ig-post-images { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.ig-post-images img {
+  width: 100%; height: auto; display: block;
+  border-radius: var(--r); box-shadow: var(--shadow);
+}
+.ig-caption {
+  background: var(--c-card); border-radius: var(--r);
+  padding: 16px; box-shadow: var(--shadow);
+  font-size: 14px; line-height: 1.7;
+  white-space: pre-wrap; word-break: keep-all;
+}
+
+/* ====== 유틸 ====== */
+.row-list > * + * { margin-top: 10px; }

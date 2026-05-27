@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>책 상세 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  const id = qs('id', 'B001');
+  const b = data.books.find(x => x.id === id) || data.books[0];
+  const authors = b.authors.map(aid => data.authors.find(a => a.id === aid)).filter(Boolean);
+
+  document.getElementById('content').innerHTML = `
+    ${backBar('책 상세')}
+    <main>
+      <div class="book-detail-cover">
+        ${b.series ? `<div style="font-size:11px;margin-bottom:8px;">${b.series}</div>` : ''}
+        <div style="font-weight:700;font-size:16px;color:var(--c-primary);">${b.title}</div>
+      </div>
+      <h1 class="book-detail-title">${b.title}</h1>
+      <div class="book-detail-sub">${b.subtitle || ''}</div>
+
+      <div class="card">
+        <div class="info-row"><span class="k">시리즈</span><span class="v">${b.series || '—'}</span></div>
+        <div class="info-row"><span class="k">출간일</span><span class="v">${b.pub_date || '—'}</span></div>
+        <div class="info-row"><span class="k">분야</span><span class="v">${b.category || '—'}</span></div>
+        <div class="info-row"><span class="k">가격</span><span class="v">${b.price ? b.price.toLocaleString() + '원' : (b.price === '비매품' ? '비매품' : '—')}</span></div>
+        <div class="info-row"><span class="k">ISBN</span><span class="v" style="font-size:11px;">${b.isbn || '—'}</span></div>
+        ${b.schools.length ? `
+          <div class="info-row" style="border:none;">
+            <span class="k">마을학교</span>
+            <span class="v">
+              ${b.schools.map(s => `<span class="tag school" style="background:${SCHOOL_COLORS[s]}22;color:${SCHOOL_COLORS[s]};">${s}</span>`).join(' ')}
+            </span>
+          </div>
+        ` : ''}
+      </div>
+
+      <section class="section" style="margin-top:22px;">
+        <div class="section-title"><h2>저자</h2></div>
+        ${authors.map(a => `
+          <a class="book-card" href="author.html?id=${a.id}" style="align-items:center;">
+            <div class="avatar" style="width:50px;height:50px;background:${avatarColor(a.name)};color:#fff;font-size:18px;flex:0 0 auto;display:grid;place-items:center;border-radius:50%;font-weight:700;">
+              ${initial(a.name)}
+            </div>
+            <div class="info">
+              <div class="title">${a.name}</div>
+              <div class="meta">${a.count}권 집필 · 이 저자의 다른 활동 보기 →</div>
+            </div>
+          </a>
+        `).join('')}
+      </section>
+
+      <section class="section">
+        <div class="section-title"><h2>구매</h2></div>
+        <div class="btn-row">
+          <a class="btn" href="${b.links.kyobo}" target="_blank">교보문고</a>
+          <a class="btn outline" href="${b.links.yes24}" target="_blank">예스24</a>
+          <a class="btn outline" href="${b.links.aladin}" target="_blank">알라딘</a>
+        </div>
+      </section>
+
+      ${b.intro ? `
+        <section class="section">
+          <div class="section-title"><h2>책 소개</h2></div>
+          <div class="card">
+            <p style="font-size:13px;line-height:1.7;">${b.intro}</p>
+          </div>
+        </section>
+      ` : `
+        <div class="notice" style="margin-top:16px;">
+          책 소개문은 알라딘 OpenAPI 연동(1회 일괄 보강) 후 자동 채워질 예정입니다.
+        </div>
+      `}
+    </main>
+    ${nav('books')}
+  `;
+})();
+</script>
+</body>
+</html>

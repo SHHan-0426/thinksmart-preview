@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>저자 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  const filter = qs('filter', 'A');
+
+  let list;
+  if (filter === 'A')        list = data.authors.filter(a => a.grade === 'A');
+  else if (filter === 'school') list = data.authors.filter(a => a.schools.length);
+  else if (filter === 'multi')  list = data.authors.filter(a => a.count >= 2);
+  else                          list = data.authors;
+
+  document.getElementById('content').innerHTML = `
+    ${headerTop()}
+    <main>
+      <h2 style="font-size:20px;font-weight:700;color:var(--c-primary);margin-bottom:14px;">
+        저자 <span style="font-size:13px;color:var(--c-sub);font-weight:400;">${list.length}명</span>
+      </h2>
+      <div class="filter-bar">
+        <a class="chip ${filter==='A'?'active':''}"      href="?filter=A">A등급 (30)</a>
+        <a class="chip ${filter==='school'?'active':''}" href="?filter=school">마을학교 강사</a>
+        <a class="chip ${filter==='multi'?'active':''}"  href="?filter=multi">2권 이상</a>
+        <a class="chip ${filter==='all'?'active':''}"    href="?filter=all">전체 (${data.authors.length})</a>
+      </div>
+      <div class="author-grid">
+        ${list.map(authorCard).join('')}
+      </div>
+    </main>
+    ${nav('authors')}
+  `;
+})();
+</script>
+</body>
+</html>

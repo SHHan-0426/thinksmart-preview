@@ -1,0 +1,12 @@
+# 원본 인스타 이미지(482MB) — 배포 제외, 썸네일만 사용
+assets/ig/
+
+# Node / OS
+node_modules/
+.DS_Store
+.env
+*.log
+
+# 임시
+*.bak
+.cache/

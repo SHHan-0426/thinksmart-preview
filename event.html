@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1F3A5F">
+<title>행사 상세 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const ev = await loadEvents();
+  const data = await loadData();
+  const id = qs('id', ev.events[0]?.id);
+  const e = ev.events.find(x => x.id === id) || ev.events[0];
+  const book = e.related_book_id ? data.books.find(b => b.id === e.related_book_id) : null;
+  const dleft = daysUntil(e.date);
+
+  // Instagram embed URL 변환 — /p/CODE/ → /p/CODE/embed
+  function instaEmbedUrl(url) {
+    if (!url) return '';
+    return url.replace(/\/?$/, '/').replace(/\/embed\/?$/, '/') + 'embed/';
+  }
+
+  const igEmbed = e.instagram_url
+    ? `
+      <section class="section">
+        <div class="section-title">
+          <h2>📷 인스타그램 원본</h2>
+          <a class="more" href="${e.instagram_url}" target="_blank">앱에서 열기 →</a>
+        </div>
+        <div class="ig-embed-wrap">
+          <iframe src="${instaEmbedUrl(e.instagram_url)}" scrolling="no" allowtransparency="true"></iframe>
+        </div>
+      </section>
+    `
+    : `
+      <section class="section">
+        <div class="section-title">
+          <h2>📷 인스타그램</h2>
+        </div>
+        <div class="ig-placeholder">
+          <div class="icon">📷</div>
+          이 행사의 인스타그램 게시물 URL이 등록되면<br>
+          여기에 원본 포스트가 자동 임베드됩니다.<br>
+          <a href="${ev.meta.instagram_url}" target="_blank" style="color:var(--c-accent);font-size:12px;text-decoration:underline;display:inline-block;margin-top:10px;">
+            @${ev.meta.instagram_handle} 방문하기 →
+          </a>
+        </div>
+      </section>
+    `;
+
+  document.getElementById('content').innerHTML = `
+    ${backBar(e.type || '행사')}
+
+    <div style="background:linear-gradient(180deg, #2E5984 0%, #1F3A5F 100%);color:#fff;padding:28px 22px 24px;border-radius:0 0 24px 24px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:10px;">${eventTypeIcon(e.type)}</div>
+      ${e.status==='upcoming' && dleft!==null ? `
+        <div style="display:inline-block;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:12px;font-size:11px;margin-bottom:10px;">
+          ${dleft <= 0 ? '🔴 진행 중' : `D-${dleft}`}
+        </div>
+      ` : `
+        <div style="display:inline-block;background:rgba(255,255,255,0.15);padding:4px 12px;border-radius:12px;font-size:11px;margin-bottom:10px;opacity:0.8;">
+          지난 행사
+        </div>
+      `}
+      <h1 style="font-size:20px;font-weight:700;line-height:1.35;margin-bottom:10px;">${e.title}</h1>
+      <div style="font-size:13px;opacity:0.85;line-height:1.6;">
+        ${fmtKoreanDate(e.date)}${e.time ? ' · ' + e.time : ''}<br>
+        📍 ${e.location}
+      </div>
+    </div>
+
+    <main>
+      ${e.summary ? `
+        <div class="card" style="margin-top:18px;">
+          <p style="font-size:14px;line-height:1.7;">${e.summary}</p>
+        </div>
+      ` : ''}
+
+      <div class="card" style="margin-top:14px;">
+        ${e.host ? `<div class="info-row"><span class="k">진행</span><span class="v">${e.host}</span></div>` : ''}
+        ${e.type ? `<div class="info-row"><span class="k">분류</span><span class="v">${e.type}</span></div>` : ''}
+        ${e.related_school ? `<div class="info-row"><span class="k">연관 마을학교</span><span class="v"><a href="school.html?name=${encodeURIComponent(e.related_school)}" style="color:var(--c-primary-2);">${e.related_school}</a></span></div>` : ''}
+        ${book ? `<div class="info-row" style="border:none;"><span class="k">연관 책</span><span class="v"><a href="book.html?id=${book.id}" style="color:var(--c-primary-2);">『${book.title}』</a></span></div>` : ''}
+      </div>
+
+      ${igEmbed}
+
+      ${e.status === 'upcoming' && e.register_url ? `
+        <div class="btn-row" style="margin-top:18px;">
+          <a class="btn amber" href="${e.register_url}" target="_blank">참가 신청</a>
+        </div>
+      ` : e.status === 'upcoming' ? `
+        <div class="btn-row" style="margin-top:18px;">
+          <a class="btn outline">참가 신청 — 카톡 문의</a>
+        </div>
+      ` : ''}
+    </main>
+    ${nav('events')}
+  `;
+})();
+</script>
+</body>
+</html>
