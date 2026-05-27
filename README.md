@@ -75,3 +75,5 @@ git push origin main
 
 **버전**: v0.3 (인스타 통합)
 **최종 업데이트**: 2026-05-27
+
+<!-- deploy-test -->
