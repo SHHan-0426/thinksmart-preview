@@ -10,3 +10,6 @@ node_modules/
 # 임시
 *.bak
 .cache/
+
+# Local Netlify folder
+.netlify

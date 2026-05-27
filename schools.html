@@ -30,6 +30,23 @@
           const stats = data.schools[name];
           const desc = data.school_descriptions[name];
           const color = SCHOOL_COLORS[name];
+          const empty = (stats.author_count === 0 && stats.book_count === 0);
+          if (empty) {
+            return `
+              <a class="card" href="school.html?name=${encodeURIComponent(name)}"
+                 style="display:flex;gap:14px;align-items:center;border-left:4px solid var(--c-line);opacity:0.6;position:relative;">
+                <div style="position:absolute;top:10px;right:14px;background:var(--c-tag-bg);color:var(--c-sub);font-size:10px;padding:3px 8px;border-radius:8px;font-weight:600;">준비 중</div>
+                <div style="font-size:30px;width:50px;text-align:center;opacity:0.5;">${desc.icon}</div>
+                <div style="flex:1;">
+                  <div style="font-size:16px;font-weight:700;color:var(--c-sub);margin-bottom:4px;">${name}</div>
+                  <div style="font-size:12px;color:var(--c-sub);line-height:1.5;margin-bottom:6px;">${desc.desc}</div>
+                  <div style="font-size:11px;color:var(--c-sub);">
+                    곧 시작합니다 · 관심 등록을 받고 있습니다
+                  </div>
+                </div>
+              </a>
+            `;
+          }
           return `
             <a class="card" href="school.html?name=${encodeURIComponent(name)}"
                style="display:flex;gap:14px;align-items:center;border-left:4px solid ${color};">

@@ -27,6 +27,52 @@ async function loadInstagram() {
   return INSTAGRAM;
 }
 
+// 가로 스크롤 영역에 진행 인디케이터 자동 부착
+function attachScrollIndicators() {
+  document.querySelectorAll('.h-scroll').forEach(scroll => {
+    const items = scroll.children.length;
+    if (items < 2) return;
+    if (scroll.dataset.indicatorAttached) return;
+    scroll.dataset.indicatorAttached = '1';
+    const dots = document.createElement('div');
+    dots.className = 'scroll-indicator';
+    for (let i = 0; i < items; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dots.appendChild(dot);
+    }
+    scroll.parentNode.insertBefore(dots, scroll.nextSibling);
+
+    scroll.addEventListener('scroll', () => {
+      const cards = scroll.children;
+      const scrollLeft = scroll.scrollLeft;
+      const cardW = cards[0].offsetWidth + 12; // gap
+      const active = Math.round(scrollLeft / cardW);
+      [...dots.children].forEach((d, i) => {
+        d.classList.toggle('active', i === Math.min(active, items - 1));
+      });
+    }, { passive: true });
+  });
+}
+
+// DOMContentLoaded 시점이 아니라 페이지 렌더 후 호출
+function afterRender() {
+  requestAnimationFrame(() => {
+    attachScrollIndicators();
+  });
+}
+
+// #content 안의 변화를 감지해 자동 인디케이터 부착
+document.addEventListener('DOMContentLoaded', () => {
+  const target = document.getElementById('content');
+  if (!target) return;
+  const obs = new MutationObserver(() => {
+    attachScrollIndicators();
+    attachDrawerHandlers();
+  });
+  obs.observe(target, { childList: true, subtree: true });
+});
+
 function thumb(path) {
   // /assets/ig/XXXX.jpg → /assets/ig_thumb/XXXX.jpg
   return path
@@ -173,10 +219,64 @@ function headerTop() {
     <header class="app-header">
       <div class="logo">씽크스마트 <small>사람이 책이 된다</small></div>
       <div class="header-actions">
-        <button class="icon-btn" onclick="location.href='more.html'" aria-label="더보기">☰</button>
+        <button class="icon-btn" data-drawer-open aria-label="메뉴 열기">☰</button>
       </div>
     </header>
+    ${drawerMarkup()}
   `;
+}
+
+function drawerMarkup() {
+  return `
+    <div class="drawer-backdrop" data-drawer-close></div>
+    <aside class="drawer" role="dialog" aria-label="보조 메뉴">
+      <div class="drawer-head">
+        <div class="drawer-logo">씽크스마트</div>
+        <button class="icon-btn" data-drawer-close aria-label="메뉴 닫기">✕</button>
+      </div>
+
+      <div class="drawer-search">
+        <input type="search" placeholder="저자·책·행사 검색…" disabled>
+        <span class="coming">곧 추가 예정</span>
+      </div>
+
+      <nav class="drawer-menu">
+        <a class="d-item"><span class="d-ic">📢</span><span>공지사항</span><span class="d-arrow">›</span></a>
+        <a class="d-item" href="events.html"><span class="d-ic">🎤</span><span>모든 행사</span><span class="d-arrow">›</span></a>
+        <a class="d-item" href="instagram.html"><span class="d-ic">📷</span><span>인스타그램 피드</span><span class="d-arrow">›</span></a>
+        <a class="d-item" href="events-guide.html"><span class="d-ic">📘</span><span>인스타 입력 가이드</span><span class="d-arrow">›</span></a>
+        <a class="d-item"><span class="d-ic">📖</span><span>씽크스마트 소개</span><span class="d-arrow">›</span></a>
+        <a class="d-item"><span class="d-ic">✉️</span><span>출판 상담 신청</span><span class="d-arrow">›</span></a>
+      </nav>
+
+      <div class="drawer-divider"></div>
+
+      <nav class="drawer-menu">
+        <a class="d-item"><span class="d-ic">⚙️</span><span>설정</span><span class="d-arrow">›</span></a>
+        <a class="d-item"><span class="d-ic">👤</span><span>로그인 / 마이페이지</span><span class="d-arrow">›</span></a>
+      </nav>
+
+      <div class="drawer-foot">
+        v0.4 · ${new Date().toISOString().slice(0,10)}<br>
+        <a href="https://www.instagram.com/thinksmart.official/" target="_blank">@thinksmart.official</a>
+      </div>
+    </aside>
+  `;
+}
+
+function attachDrawerHandlers() {
+  if (document._drawerWired) return;
+  document._drawerWired = true;
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-drawer-open]')) {
+      document.body.classList.add('drawer-open');
+    } else if (e.target.closest('[data-drawer-close]')) {
+      document.body.classList.remove('drawer-open');
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.body.classList.remove('drawer-open');
+  });
 }
 
 function backBar(title) {
@@ -236,6 +336,18 @@ function authorCard(author) {
 
 function schoolCard(name, stats, desc) {
   const color = SCHOOL_COLORS[name] || '#888';
+  const empty = (stats.author_count === 0 && stats.book_count === 0);
+  if (empty) {
+    return `
+      <a class="school-card empty" href="school.html?name=${encodeURIComponent(name)}">
+        <div class="empty-badge">준비 중</div>
+        <div class="icon" style="opacity:0.4;">${desc.icon}</div>
+        <div>
+          <div class="name" style="color:var(--c-sub);">${name}</div>
+          <div class="stat">곧 시작합니다</div>
+        </div>
+      </a>`;
+  }
   return `
     <a class="school-card" href="school.html?name=${encodeURIComponent(name)}" style="border-color:${color}33;">
       <div class="icon">${desc.icon}</div>
