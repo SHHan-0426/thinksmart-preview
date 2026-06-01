@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#1F3A5F">
+<meta name="theme-color" content="#3B6EAA">
 <title>저자 상세 · 씽크스마트</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,9 +13,18 @@
 <script>
 (async function() {
   const data = await loadData();
+  const ig   = await loadInstagram();
   const id = qs('id', 'A001');
   const a = data.authors.find(x => x.id === id) || data.authors[0];
   const books = data.books.filter(b => b.authors.includes(a.id));
+
+  // 함께한 행사 — 매칭된 인스타 게시물
+  const igIds = a.ig_post_ids || [];
+  const relatedPosts = igIds
+    .map(pid => ig.posts.find(p => p.id === pid))
+    .filter(Boolean);
+  const eventPosts = relatedPosts.filter(p => p.types.includes('event'));
+  const otherPosts = relatedPosts.filter(p => !p.types.includes('event'));
 
   document.getElementById('content').innerHTML = `
     ${backBar('저자')}
@@ -64,12 +73,52 @@
         </section>
       ` : ''}
 
+      ${eventPosts.length ? `
+        <section class="section">
+          <div class="section-title">
+            <h2>🎤 씽크스마트와 함께한 행사</h2>
+            <span class="more">총 ${eventPosts.length}건</span>
+          </div>
+          <div class="row-list">
+            ${eventPosts.slice(0, 6).map(igListCard).join('')}
+          </div>
+          ${eventPosts.length > 6 ? `
+            <div style="text-align:center;margin-top:12px;">
+              <a class="btn outline" href="instagram.html?filter=event">전체 인스타 행사 보기 →</a>
+            </div>
+          ` : ''}
+        </section>
+      ` : ''}
+
+      ${otherPosts.length ? `
+        <section class="section">
+          <div class="section-title">
+            <h2>📷 인스타에 언급된 글</h2>
+            <span class="more">${otherPosts.length}건</span>
+          </div>
+          <div class="ig-grid">
+            ${otherPosts.slice(0, 9).map(igCard).join('')}
+          </div>
+        </section>
+      ` : ''}
+
+      ${!relatedPosts.length ? `
+        <section class="section">
+          <div class="card">
+            <h3 style="font-size:14px;font-weight:700;color:var(--c-primary);margin-bottom:10px;">씽크스마트와 함께한 활동</h3>
+            <p style="font-size:13px;color:var(--c-sub);line-height:1.6;">
+              인스타그램 백업에서 이 저자명을 찾지 못했습니다.<br>
+              <span style="font-size:11px;">필명·약어·다른 이름으로 언급된 경우 매칭이 누락될 수 있습니다.</span>
+            </p>
+          </div>
+        </section>
+      ` : ''}
+
       <section class="section">
         <div class="card">
           <h3 style="font-size:14px;font-weight:700;color:var(--c-primary);margin-bottom:10px;">저자 코멘트 & 독자 후기</h3>
           <p style="font-size:13px;color:var(--c-sub);line-height:1.6;">
-            저자가 직접 올린 글과 독자 후기가 여기에 표시됩니다.<br>
-            <span style="font-size:11px;">(3단계 — 5~6개월차 구현 예정)</span>
+            저자가 직접 올린 글과 독자 후기 (Phase 3에서 추가 예정)
           </p>
         </div>
       </section>

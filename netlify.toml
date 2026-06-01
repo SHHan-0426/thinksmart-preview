@@ -1,5 +1,14 @@
 # 씽크스마트 v3 시험판 — Netlify 설정
 # https://thinksmart-preview.netlify.app
+#
+# ⚠️ 폼 알림 이메일 설정 (배포 후 1회 수동)
+# 1) https://app.netlify.com/projects/thinksmart-preview/forms
+# 2) "event-registration" 폼 클릭
+# 3) Settings → Form notifications → "Add notification" → Email notification
+# 4) 이메일 주소: kty0651@hanmail.net
+# 5) Event: New form submission
+# 6) Save
+# → 이후 신청 들어올 때마다 김태영 대표 이메일로 자동 발송
 
 [build]
   # 정적 사이트라 빌드 명령 없음 — 루트 그대로 게시

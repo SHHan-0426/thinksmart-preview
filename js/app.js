@@ -97,6 +97,193 @@ function igCard(post) {
     </a>`;
 }
 
+// ====== 참가 신청 모달 ======
+function registerModalMarkup() {
+  return `
+    <div class="reg-backdrop" data-reg-close></div>
+    <aside class="reg-modal" role="dialog" aria-modal="true" aria-labelledby="reg-title">
+      <div class="reg-head">
+        <h2 id="reg-title">참가 신청</h2>
+        <button class="icon-btn" data-reg-close aria-label="닫기">✕</button>
+      </div>
+      <div class="reg-event-info">
+        <div class="reg-event-title" id="reg-event-title"></div>
+        <div class="reg-event-sub" id="reg-event-sub"></div>
+      </div>
+      <form class="reg-form" name="event-registration" method="POST"
+            data-netlify="true" netlify-honeypot="bot-field"
+            data-reg-form>
+        <input type="hidden" name="form-name" value="event-registration">
+        <input type="hidden" name="event_id" id="reg-event-id" value="">
+        <input type="hidden" name="event_name" id="reg-event-name" value="">
+        <p style="display:none;"><label>안 보임: <input name="bot-field"></label></p>
+
+        <label class="reg-field">
+          <span class="reg-label">이름 <em>*</em></span>
+          <input type="text" name="name" required maxlength="20" placeholder="홍길동">
+        </label>
+        <label class="reg-field">
+          <span class="reg-label">휴대폰 <em>*</em></span>
+          <input type="tel" name="phone" required pattern="[0-9\\-]{9,13}"
+                 placeholder="010-0000-0000" inputmode="tel">
+        </label>
+        <label class="reg-field">
+          <span class="reg-label">참가 인원 <em>*</em></span>
+          <select name="attendees" required>
+            <option value="1">1명</option>
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+            <option value="4">4명</option>
+            <option value="5+">5명 이상</option>
+          </select>
+        </label>
+        <label class="reg-field">
+          <span class="reg-label">한 마디 (선택)</span>
+          <textarea name="message" rows="2" maxlength="200"
+                    placeholder="궁금한 점·요청사항을 적어주세요"></textarea>
+        </label>
+
+        <label class="reg-agree">
+          <input type="checkbox" name="agree" required>
+          <span>
+            <strong>개인정보 수집·이용 동의 (필수)</strong><br>
+            수집 항목: 이름·휴대폰·신청 정보 · 보유 기간: 행사 종료 후 3개월 ·
+            거부 시 신청이 불가합니다.
+          </span>
+        </label>
+
+        <p class="reg-notice">
+          ※ 신청 후 운영자가 카톡 또는 휴대폰으로 안내드립니다.
+          (24시간 내 응답)
+        </p>
+
+        <button type="submit" class="btn amber reg-submit">신청하기</button>
+      </form>
+
+      <div class="reg-success" style="display:none;">
+        <div class="reg-success-icon">✅</div>
+        <h3>신청 완료!</h3>
+        <p>운영자가 24시간 내 카톡 또는 휴대폰으로 안내드립니다.<br>
+           기다리시는 동안 인스타그램(@thinksmart.official)도 둘러보세요.</p>
+        <button class="btn outline" data-reg-close>확인</button>
+      </div>
+    </aside>
+  `;
+}
+
+function attachRegisterHandlers() {
+  if (document._regWired) return;
+  document._regWired = true;
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-event-register]');
+    if (btn) {
+      e.preventDefault();
+      const id    = btn.dataset.eventId    || '';
+      const name  = btn.dataset.eventName  || '';
+      const date  = btn.dataset.eventDate  || '';
+      const loc   = btn.dataset.eventLoc   || '';
+      document.getElementById('reg-event-id').value   = id;
+      document.getElementById('reg-event-name').value = name;
+      document.getElementById('reg-event-title').textContent = name;
+      document.getElementById('reg-event-sub').textContent = [date, loc].filter(Boolean).join(' · ');
+      // reset form state
+      const form = document.querySelector('[data-reg-form]');
+      const success = document.querySelector('.reg-success');
+      if (form && success) {
+        form.style.display = '';
+        form.reset();
+        success.style.display = 'none';
+      }
+      document.body.classList.add('reg-open');
+      return;
+    }
+    if (e.target.closest('[data-reg-close]')) {
+      document.body.classList.remove('reg-open');
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.body.classList.remove('reg-open');
+  });
+
+  document.addEventListener('submit', e => {
+    const form = e.target.closest('[data-reg-form]');
+    if (!form) return;
+    e.preventDefault();
+    const submitBtn = form.querySelector('.reg-submit');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중…';
+    const data = new FormData(form);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString(),
+    }).then(res => {
+      if (!res.ok) throw new Error('전송 실패');
+      form.style.display = 'none';
+      document.querySelector('.reg-success').style.display = 'block';
+    }).catch(err => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '신청하기';
+      alert('전송에 실패했어요. 잠시 후 다시 시도해 주세요.\n(' + err.message + ')');
+    });
+  });
+}
+
+// 페이지 로드 시 모달 마크업을 body에 한 번만 부착
+function ensureRegisterModalMounted() {
+  if (document.getElementById('reg-modal-mount')) return;
+  const mount = document.createElement('div');
+  mount.id = 'reg-modal-mount';
+  mount.innerHTML = registerModalMarkup();
+  document.body.appendChild(mount);
+  attachRegisterHandlers();
+}
+document.addEventListener('DOMContentLoaded', ensureRegisterModalMounted);
+
+// ====== 셔플 / 카테고리 그룹 헬퍼 ======
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pickOnePerGroup(items, keyFn) {
+  // 그룹별로 무작위 1개씩 선택, 그룹은 항목 수 내림차순
+  const groups = {};
+  for (const x of items) {
+    const k = keyFn(x);
+    if (!k) continue;
+    (groups[k] = groups[k] || []).push(x);
+  }
+  return Object.entries(groups)
+    .sort((a,b) => b[1].length - a[1].length)
+    .map(([k, list]) => ({
+      group: k,
+      count: list.length,
+      pick: list[Math.floor(Math.random() * list.length)],
+    }));
+}
+
+function authorNameCard(author) {
+  // 사진 대신 이름 전체 카드 (이니셜 아바타 안 씀)
+  const color = avatarColor(author.name);
+  return `
+    <a class="author-name-card" href="author.html?id=${author.id}">
+      <div class="name-block" style="background:${color};">
+        <div class="full-name">${author.name}</div>
+      </div>
+      <div class="name-meta">
+        <strong>${author.count}권</strong>
+        ${author.schools.length ? ` · ${author.schools[0]}` : ''}
+      </div>
+    </a>`;
+}
+
 function igListCard(post) {
   const img = post.images?.[0];
   return `

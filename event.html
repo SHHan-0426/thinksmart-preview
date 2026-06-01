@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#1F3A5F">
+<meta name="theme-color" content="#3B6EAA">
 <title>행사 상세 · 씽크스마트</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -56,7 +56,7 @@
   document.getElementById('content').innerHTML = `
     ${backBar(e.type || '행사')}
 
-    <div style="background:linear-gradient(180deg, #2E5984 0%, #1F3A5F 100%);color:#fff;padding:28px 22px 24px;border-radius:0 0 24px 24px;text-align:center;">
+    <div style="background:linear-gradient(180deg, #5C97D4 0%, #3B6EAA 100%);color:#fff;padding:28px 22px 24px;border-radius:0 0 24px 24px;text-align:center;">
       <div style="font-size:48px;margin-bottom:10px;">${eventTypeIcon(e.type)}</div>
       ${e.status==='upcoming' && dleft!==null ? `
         <div style="display:inline-block;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:12px;font-size:11px;margin-bottom:10px;">
@@ -82,7 +82,18 @@
       ` : ''}
 
       <div class="card" style="margin-top:14px;">
-        ${e.host ? `<div class="info-row"><span class="k">진행</span><span class="v">${e.host}</span></div>` : ''}
+        ${e.host ? `<div class="info-row"><span class="k">진행</span><span class="v">${
+          (function() {
+            // 진행자 이름이 저자 마스터에 있으면 링크로
+            const hostNames = e.host.split(/[,·/]/).map(s => s.trim());
+            return hostNames.map(hn => {
+              const matched = data.authors.find(a => a.name === hn || hn.includes(a.name));
+              return matched
+                ? `<a href="author.html?id=${matched.id}" style="color:var(--c-primary-2);">${hn}</a>`
+                : hn;
+            }).join(', ');
+          })()
+        }</span></div>` : ''}
         ${e.type ? `<div class="info-row"><span class="k">분류</span><span class="v">${e.type}</span></div>` : ''}
         ${e.related_school ? `<div class="info-row"><span class="k">연관 마을학교</span><span class="v"><a href="school.html?name=${encodeURIComponent(e.related_school)}" style="color:var(--c-primary-2);">${e.related_school}</a></span></div>` : ''}
         ${book ? `<div class="info-row" style="border:none;"><span class="k">연관 책</span><span class="v"><a href="book.html?id=${book.id}" style="color:var(--c-primary-2);">『${book.title}』</a></span></div>` : ''}
@@ -90,13 +101,15 @@
 
       ${igEmbed}
 
-      ${e.status === 'upcoming' && e.register_url ? `
+      ${e.status === 'upcoming' ? `
         <div class="btn-row" style="margin-top:18px;">
-          <a class="btn amber" href="${e.register_url}" target="_blank">참가 신청</a>
-        </div>
-      ` : e.status === 'upcoming' ? `
-        <div class="btn-row" style="margin-top:18px;">
-          <a class="btn outline">참가 신청 — 카톡 문의</a>
+          <button class="btn amber" type="button"
+                  data-event-register
+                  data-event-id="${e.id}"
+                  data-event-name="${e.title}"
+                  data-event-date="${fmtKoreanDate(e.date)}${e.time ? ' ' + e.time : ''}"
+                  data-event-loc="${e.location}"
+                  style="padding:14px 0;">참가 신청</button>
         </div>
       ` : ''}
     </main>

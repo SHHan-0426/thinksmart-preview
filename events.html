@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#1F3A5F">
+<meta name="theme-color" content="#3B6EAA">
 <title>행사 · 씽크스마트</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -16,6 +16,20 @@
   const ig = await loadInstagram();
   const tab = qs('tab', 'upcoming');
 
+  function classifyEventType(caption) {
+    const c = caption || '';
+    if (/북토크|북콘서트/.test(c)) return '북토크';
+    if (/출간\s*기념|출간기념|신간\s*출간/.test(c)) return '출간기념';
+    if (/모집|개강|신청|기수/.test(c)) return '마을학교 모집';
+    if (/수료|수료식|종강/.test(c)) return '수료식';
+    if (/살롱/.test(c)) return '살롱';
+    if (/강연|강좌|특강|세미나/.test(c)) return '강연';
+    if (/워크숍|워크샵/.test(c)) return '워크숍';
+    if (/낭독|낭독학교/.test(c)) return '낭독';
+    if (/현장|후기/.test(c)) return '현장 스케치';
+    return '기타';
+  }
+
   const upcoming = ev.events
     .filter(e => e.status === 'upcoming')
     .sort((a,b) => (a.date || '').localeCompare(b.date || ''));
@@ -23,34 +37,110 @@
     .filter(e => e.status === 'past')
     .sort((a,b) => (b.date || '').localeCompare(a.date || ''));
   const pastIg = ig.posts
-    .filter(p => p.types.includes('event'));
+    .filter(p => p.types.includes('event'))
+    .map(p => ({ ...p, event_type: classifyEventType(p.caption) }));
+
+  // 유형별 그룹
+  function renderByGroup() {
+    return pickOnePerGroup(pastIg, p => p.event_type)
+      .map(g => `
+        <a class="event-type-card" href="ig-post.html?id=${g.pick.id}">
+          ${g.pick.images[0] ? `<div class="evt-thumb" style="background-image:url('${thumb(g.pick.images[0])}');"></div>` : '<div class="evt-thumb"></div>'}
+          <div class="evt-body">
+            <div class="evt-type">${g.group} <span class="evt-count">· ${g.count}건</span></div>
+            <div class="evt-caption">${shortCaption(g.pick.caption, 80)}</div>
+            <div class="evt-date">${g.pick.date_display}</div>
+          </div>
+        </a>
+      `).join('');
+  }
+
+  function renderAllChronological() {
+    return pastIg
+      .sort((a,b) => (b.date||'').localeCompare(a.date||''))
+      .slice(0, 60)
+      .map(igListCard).join('');
+  }
 
   let body = '';
 
   if (tab === 'upcoming') {
     body = upcoming.length ? `
-      <div class="row-list">${upcoming.map(eventCard).join('')}</div>
+      <div class="row-list">
+        ${upcoming.map(e => `
+          <a class="event-card" href="event.html?id=${e.id}">
+            <div class="event-cover" style="background:linear-gradient(135deg, #5C97D4 0%, #3B6EAA 100%);">
+              <div class="event-icon">${eventTypeIcon(e.type)}</div>
+              <div class="event-date-badge">
+                <div class="m">${new Date(e.date).getMonth()+1}</div>
+                <div class="d">${new Date(e.date).getDate()}</div>
+              </div>
+            </div>
+            <div class="event-body">
+              <div class="event-meta">
+                <span class="tag">${e.type}</span>
+                <span class="tag" style="background:#D4A574;color:#fff;">D-${daysUntil(e.date)}</span>
+              </div>
+              <div class="event-title">${e.title}</div>
+              <div class="event-sub">${fmtKoreanDate(e.date)}${e.time ? ' · '+e.time : ''} · ${e.location}</div>
+              ${e.host ? `<div class="event-host">진행: ${e.host}</div>` : ''}
+              <div class="btn-row" style="margin-top:10px;">
+                <button class="btn amber" type="button"
+                        data-event-register
+                        data-event-id="${e.id}"
+                        data-event-name="${e.title}"
+                        data-event-date="${fmtKoreanDate(e.date)}${e.time ? ' ' + e.time : ''}"
+                        data-event-loc="${e.location}"
+                        style="font-size:12px;padding:10px 0;">참가 신청</button>
+              </div>
+            </div>
+          </a>
+        `).join('')}
+      </div>
     ` : `
       <div class="empty">
         <div class="icon">📭</div>
         예정된 행사가 없습니다.
       </div>
     `;
-  } else if (tab === 'past') {
+  } else {
+    const subview = qs('view', 'group');
     body = `
-      ${pastCurated.length ? `
-        <h3 style="font-size:13px;font-weight:700;color:var(--c-sub);margin:6px 0 10px;">큐레이션된 지난 행사</h3>
-        <div class="row-list" style="margin-bottom:24px;">${pastCurated.map(eventCard).join('')}</div>
-      ` : ''}
-      <h3 style="font-size:13px;font-weight:700;color:var(--c-sub);margin:6px 0 10px;">
-        📷 인스타그램에서 가져온 행사 기록 (${pastIg.length}건)
-      </h3>
-      <div class="row-list">${pastIg.slice(0, 30).map(igListCard).join('')}</div>
-      ${pastIg.length > 30 ? `
-        <div style="text-align:center;margin-top:16px;">
-          <a class="btn outline" href="instagram.html?filter=event">전체 ${pastIg.length}건 보기 →</a>
+      <div class="filter-bar">
+        <a class="chip ${subview==='group'?'active':''}" href="?tab=past&view=group">유형별 한 건</a>
+        <a class="chip ${subview==='all'?'active':''}"   href="?tab=past&view=all">최신순 전체</a>
+      </div>
+      ${subview === 'group' ? `
+        ${pastCurated.length ? `
+          <h3 class="subhead">큐레이션된 지난 행사</h3>
+          <div class="row-list" style="margin-bottom:20px;">
+            ${pastCurated.map(e => `
+              <a class="event-card" href="event.html?id=${e.id}">
+                <div class="event-cover" style="background:linear-gradient(135deg, #5C97D4 0%, #3B6EAA 100%);">
+                  <div class="event-icon">${eventTypeIcon(e.type)}</div>
+                  <div class="event-date-badge">
+                    <div class="m">${new Date(e.date).getMonth()+1}</div>
+                    <div class="d">${new Date(e.date).getDate()}</div>
+                  </div>
+                </div>
+                <div class="event-body">
+                  <div class="event-meta"><span class="tag">${e.type}</span></div>
+                  <div class="event-title">${e.title}</div>
+                  <div class="event-sub">${fmtKoreanDate(e.date)} · ${e.location}</div>
+                </div>
+              </a>
+            `).join('')}
+          </div>
+        ` : ''}
+        <div class="section-title">
+          <h3 class="subhead">📷 인스타 행사 — 유형별 한 건 (${ig.meta.event_posts}건 자동 분류)</h3>
+          <button class="shuffle-btn" data-shuffle="events-page" aria-label="셔플">🔀</button>
         </div>
-      ` : ''}
+        <div class="row-list" id="events-page-shuffle">${renderByGroup()}</div>
+      ` : `
+        <h3 class="subhead">📷 인스타 행사 전체 최신순 (Top 60)</h3>
+        <div class="row-list">${renderAllChronological()}</div>
+      `}
     `;
   }
 
@@ -68,7 +158,7 @@
         <a class="t ${tab==='upcoming'?'active':''}" href="?tab=upcoming">
           다가오는 (${upcoming.length})
         </a>
-        <a class="t ${tab==='past'?'active':''}" href="?tab=past">
+        <a class="t ${tab==='past'?'active':''}" href="?tab=past&view=group">
           지난 (${pastCurated.length + pastIg.length})
         </a>
       </div>
@@ -77,11 +167,20 @@
 
       <div class="notice" style="margin-top:22px;">
         <strong>📷 인스타그램 연동 (${ig.meta.updated} 기준)</strong><br>
-        @${ig.meta.profile.split('/').filter(Boolean).pop()}에서 백업 다운로드된 ${ig.meta.total_posts}개 게시물 중 행사 키워드(북토크·출간·모집 등)가 감지된 ${ig.meta.event_posts}건이 자동 등록되었습니다.
+        @${ig.meta.profile.split('/').filter(Boolean).pop()}에서 ${ig.meta.total_posts}개 게시물 자동 가져옴 · ${ig.meta.event_posts}건 행사 분류
       </div>
     </main>
     ${nav('events')}
   `;
+
+  // 셔플 버튼
+  document.addEventListener('click', e => {
+    const sb = e.target.closest('[data-shuffle="events-page"]');
+    if (sb) {
+      const el = document.getElementById('events-page-shuffle');
+      if (el) el.innerHTML = renderByGroup();
+    }
+  });
 })();
 </script>
 </body>
