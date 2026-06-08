@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#3B6EAA">
+<title>인스타 픽 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  const ev = await loadEvents();
+  const id = qs('id', (ev.instagram_picks || [])[0]?.id);
+  const picks = ev.instagram_picks || [];
+  const pick = picks.find(p => p.id === id) || picks[0];
+  if (!pick) {
+    document.getElementById('content').innerHTML = `
+      ${backBar('인스타 픽')}
+      <main><div class="empty"><div class="icon">📭</div>등록된 픽이 없습니다.</div></main>
+      ${nav('events')}
+    `;
+    return;
+  }
+
+  // /p/CODE/ → /p/CODE/embed/captioned/ 변환
+  const embedUrl = pick.instagram_url.replace(/\/?$/, '/').replace(/embed\/?$/, '') + 'embed/captioned/';
+
+  // 동일 픽 목록 (이전·다음)
+  const idx = picks.findIndex(p => p.id === id);
+  const prev = idx > 0 ? picks[idx-1] : null;
+  const next = idx < picks.length - 1 ? picks[idx+1] : null;
+
+  const color = pickTypeColor(pick.type);
+
+  document.getElementById('content').innerHTML = `
+    ${backBar(pick.type)}
+
+    <div style="background:${color};color:#fff;padding:24px 22px 22px;border-radius:0 0 20px 20px;">
+      <div style="font-size:11px;opacity:0.85;margin-bottom:6px;">${pick.date_hint || ''}</div>
+      <h1 style="font-size:18px;font-weight:700;line-height:1.4;">${pick.title}</h1>
+    </div>
+
+    <main>
+      <div class="card" style="margin-top:16px;">
+        <p style="font-size:13px;line-height:1.7;color:var(--c-text);white-space:pre-wrap;">${pick.summary}</p>
+      </div>
+
+      <section class="section">
+        <div class="section-title">
+          <h2>📷 인스타그램 원본</h2>
+          <a class="more" href="${pick.instagram_url}" target="_blank">앱에서 열기 →</a>
+        </div>
+        <div class="ig-embed-wrap">
+          <iframe src="${embedUrl}" scrolling="no" allowtransparency="true" loading="lazy"></iframe>
+        </div>
+      </section>
+
+      <div style="display:flex;gap:8px;margin-top:18px;">
+        ${prev ? `<a class="btn outline" href="ig-embed.html?id=${prev.id}" style="flex:1;">← 이전</a>` : '<div style="flex:1;"></div>'}
+        ${next ? `<a class="btn outline" href="ig-embed.html?id=${next.id}" style="flex:1;">다음 →</a>` : '<div style="flex:1;"></div>'}
+      </div>
+    </main>
+    ${nav('events')}
+  `;
+})();
+</script>
+</body>
+</html>

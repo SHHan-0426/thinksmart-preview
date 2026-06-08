@@ -1,12 +1,110 @@
 {
   "meta": {
-    "updated": "2026-05-24",
+    "updated": "2026-06-08",
     "source": "수동 입력 (인스타그램 @thinksmart.official 참조)",
     "note": "운영자가 인스타그램 게시물 URL을 instagram_url 필드에 넣으면 사이트에 자동 임베드됩니다. 입력 가이드는 /events-guide.html 참고.",
     "instagram_handle": "thinksmart.official",
     "instagram_url": "https://www.instagram.com/thinksmart.official/"
   },
+  "instagram_picks": [
+    {
+      "id": "ip-001",
+      "type": "북토크",
+      "title": "「여성리더 새로고침」 박보경 작가 북토크",
+      "summary": "5월 21일 <여성리더 새로고침> 북토크 현장! 서툴러도 흔들려도 당신이 서 있는 그 곳에서 당신은 빛나는 주인공입니다.",
+      "date_hint": "2026-05-21",
+      "instagram_url": "https://www.instagram.com/p/DYnr6_Jj4Y1/"
+    },
+    {
+      "id": "ip-002",
+      "type": "북콘서트",
+      "title": "「프로의 첫인상 수업」 홍종윤 작가 북콘서트",
+      "summary": "5월 30일에 진행했던 <프로의 첫인상 수업> 홍종윤 작가의 북콘서트. 비즈매너 & 이미지메이킹.",
+      "date_hint": "2026-05-30",
+      "instagram_url": "https://www.instagram.com/p/DZBfqs2D2eG/"
+    },
+    {
+      "id": "ip-003",
+      "type": "수상·소식",
+      "title": "「여성리더 새로고침」 — 2026년 6월 삼성생명 리더 추천 도서 선정",
+      "summary": "2026년 6월 '삼성생명 리더 추천 도서'에 씽크스마트의 여성리더 새로고침이 선정되었습니다!",
+      "date_hint": "2026-06-?",
+      "instagram_url": "https://www.instagram.com/p/DZUPnLqj0QH/"
+    },
+    {
+      "id": "ip-004",
+      "type": "신간",
+      "title": "신간 — 청소년 필사의 힘: 자존감",
+      "summary": "📝 매일 한 문장이 자존감을 만든다. 청소년을 위한 책이지만 부모와 교사가 함께 읽기에도 좋은 책.",
+      "date_hint": "2026-06-?",
+      "instagram_url": "https://www.instagram.com/p/DY0nzwLD3Jr/"
+    },
+    {
+      "id": "ip-005",
+      "type": "신간",
+      "title": "신간 — 소리치유혁명 율본",
+      "summary": "소리로 씻어내고 근본으로 돌아가자. 불면증, 만성통증, 중증, 난치성질환까지 소리·진동이 내 몸을 바꾼다.",
+      "date_hint": "2026-06-?",
+      "instagram_url": "https://www.instagram.com/p/DY3ovP7FHLv/"
+    },
+    {
+      "id": "ip-006",
+      "type": "신간",
+      "title": "「청소년 필사의 힘」 — 홍재기 작가",
+      "summary": "삶의 품격을 키우는 제일 간단한 방법. 인성교육 전문가 홍재기 작가가 알려주는 필사의 힘.",
+      "date_hint": "2026-06-?",
+      "instagram_url": "https://www.instagram.com/p/DZMRXBeD4WN/"
+    },
+    {
+      "id": "ip-007",
+      "type": "책 홍보",
+      "title": "「질문 잘 하는 법」 — 당신이 답을 못 찾는 진짜 이유",
+      "summary": "답이 없는 게 아니라 질문이 틀렸다! 질문을 바꾸면 대화·관계·일의 결과가 바뀐다. 『질문 잘 하는 법』.",
+      "date_hint": "2026-05-?",
+      "instagram_url": "https://www.instagram.com/p/DYlMNjBD447/"
+    },
+    {
+      "id": "ip-008",
+      "type": "일상",
+      "title": "누워있는 책… 오늘도 질문 20개 도전",
+      "summary": "#질문잘하는법 #씽크스마트 #천개의마을학교",
+      "date_hint": "2026-05-?",
+      "instagram_url": "https://www.instagram.com/p/DYzbvvJlKhO/"
+    }
+  ],
   "events": [
+    {
+      "id": "ev-2026-05-2",
+      "title": "「여성리더 새로고침」 박보경 작가 북토크",
+      "type": "북토크",
+      "date": "2026-05-21",
+      "time": "",
+      "location": "씽크스마트 북카페",
+      "host": "박보경",
+      "related_book_id": "",
+      "related_school": "",
+      "status": "past",
+      "cover": "",
+      "summary": "5월 21일 <여성리더 새로고침> 북토크 현장. 저자 5명(김문경·강명신·이미재·박보경·신정순)과 독자들이 함께한 시간.",
+      "instagram_url": "https://www.instagram.com/p/DYnr6_Jj4Y1/",
+      "register_url": ""
+    },
+    {
+      "id": "ev-2026-05-3",
+      "title": "「프로의 첫인상 수업」 홍종윤 작가 북콘서트",
+      "type": "북콘서트",
+      "date": "2026-05-30",
+      "time": "",
+      "location": "씽크스마트 북카페",
+      "host": "홍종윤",
+      "related_book_id": "B004",
+      "related_school": "",
+      "status": "past",
+      "cover": "",
+      "summary": "비즈매너 & 이미지메이킹 — 홍종윤 작가가 들려주는 프로의 첫인상 수업. 독자들과 함께 성황리에 마무리.",
+      "instagram_url": "https://www.instagram.com/p/DZBfqs2D2eG/",
+      "register_url": ""
+    },
     {
       "id": "ev-2026-06-1",
       "title": "[예시] 김무영 작가 북토크 — 인문학은 행복한 놀이다",

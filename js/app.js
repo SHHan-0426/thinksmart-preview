@@ -284,6 +284,43 @@ function authorNameCard(author) {
     </a>`;
 }
 
+// ====== 인스타 픽 (URL 임베드) ======
+function instaCode(url) {
+  // /p/CODE/ 추출
+  const m = (url || '').match(/\/p\/([^\/?]+)/);
+  return m ? m[1] : '';
+}
+
+function pickTypeColor(type) {
+  const map = {
+    '북토크':       '#E07857',
+    '북콘서트':     '#E07857',
+    '신간':         '#5C97D4',
+    '수상·소식':    '#D4A574',
+    '책 홍보':       '#7A6A8A',
+    '일상':         '#9B9B9B',
+  };
+  return map[type] || '#5C97D4';
+}
+
+function instaPickCard(pick) {
+  const color = pickTypeColor(pick.type);
+  return `
+    <a class="pick-card" href="ig-embed.html?id=${pick.id}">
+      <div class="pick-head" style="background:${color};">
+        <span class="pick-type">${pick.type}</span>
+        <span class="pick-date">${pick.date_hint || ''}</span>
+      </div>
+      <div class="pick-body">
+        <div class="pick-title">${pick.title}</div>
+        <div class="pick-summary">${shortCaption(pick.summary, 90)}</div>
+      </div>
+      <div class="pick-foot">
+        <span>📷 인스타 보기 →</span>
+      </div>
+    </a>`;
+}
+
 function igListCard(post) {
   const img = post.images?.[0];
   return `
