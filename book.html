@@ -13,6 +13,7 @@
 <script>
 (async function() {
   const data = await loadData();
+  await loadConfig();
   const id = qs('id', 'B001');
   const b = data.books.find(x => x.id === id) || data.books[0];
   const authors = b.authors.map(aid => data.authors.find(a => a.id === aid)).filter(Boolean);
@@ -61,10 +62,15 @@
       <section class="section">
         <div class="section-title"><h2>구매</h2></div>
         <div class="btn-row">
-          <a class="btn" href="${b.links.kyobo}" target="_blank">교보문고</a>
-          <a class="btn outline" href="${b.links.yes24}" target="_blank">예스24</a>
-          <a class="btn outline" href="${b.links.aladin}" target="_blank">알라딘</a>
+          <a class="btn" href="${applyAffiliate(b.links.kyobo, 'kyobo')}" target="_blank" rel="sponsored">교보문고</a>
+          <a class="btn outline" href="${applyAffiliate(b.links.yes24, 'yes24')}" target="_blank" rel="sponsored">예스24</a>
+          <a class="btn outline" href="${applyAffiliate(b.links.aladin, 'aladin')}" target="_blank" rel="sponsored">알라딘</a>
         </div>
+        ${(CONFIG && CONFIG.aladin_ttb_key) ? `
+          <p style="font-size:10px;color:var(--c-sub);text-align:center;margin-top:10px;">
+            ※ 구매 시 일부 수수료가 씽크스마트 운영비로 사용됩니다.
+          </p>
+        ` : ''}
       </section>
 
       ${b.intro ? `
@@ -74,11 +80,35 @@
             <p style="font-size:13px;line-height:1.7;">${b.intro}</p>
           </div>
         </section>
-      ` : `
-        <div class="notice" style="margin-top:16px;">
-          책 소개문은 알라딘 OpenAPI 연동(1회 일괄 보강) 후 자동 채워질 예정입니다.
-        </div>
-      `}
+      ` : (function() {
+        // 자동 생성 placeholder — 분야·시리즈·저자 기반
+        const cat = b.category || '인문';
+        const seriesShort = b.series ? b.series.replace(/시리즈\s*\d+\s*$/, '').trim() : '';
+        const authorName = b.author_names?.[0] || '';
+        const lines = [];
+        if (seriesShort && authorName) {
+          lines.push(`${authorName}이(가) 『${seriesShort}』 시리즈로 풀어내는 ${cat} 이야기.`);
+        } else if (authorName) {
+          lines.push(`${authorName}이(가) 들려주는 ${cat} 이야기.`);
+        } else {
+          lines.push(`${cat} 분야의 새로운 시선.`);
+        }
+        lines.push(`${b.subtitle || b.title}을(를) 통해 만나는 한 권의 깊이.`);
+        return `
+          <section class="section">
+            <div class="section-title">
+              <h2>한 줄 소개</h2>
+              <span class="more" style="font-size:10px;">자동 생성</span>
+            </div>
+            <div class="card" style="background:#FFF8E8;border:1px dashed #D4A574;">
+              <p style="font-size:13px;line-height:1.7;color:var(--c-text);">${lines.join('<br>')}</p>
+              <p style="font-size:10px;color:var(--c-sub);margin-top:10px;border-top:1px dashed var(--c-line);padding-top:8px;">
+                ※ 알라딘 OpenAPI 연동 후 실제 책 소개문으로 자동 교체됩니다.
+              </p>
+            </div>
+          </section>
+        `;
+      })()}
     </main>
     ${nav('books')}
   `;

@@ -14,17 +14,77 @@
 (async function() {
   const data = await loadData();
   const ig   = await loadInstagram();
+  const ev   = await loadEvents();
   const id = qs('id', 'A001');
   const a = data.authors.find(x => x.id === id) || data.authors[0];
   const books = data.books.filter(b => b.authors.includes(a.id));
+  const bookIds = books.map(b => b.id);
+  const bookTitles = books.map(b => b.title);
 
-  // 함께한 행사 — 매칭된 인스타 게시물
+  // 매칭 헬퍼 — 텍스트 안에 저자명·별칭·책 제목 포함 여부
+  function nameMatches(text) {
+    if (!text) return false;
+    const t = String(text);
+    if (t.includes(a.name)) return true;
+    // 별칭(괄호 안팎)
+    const m = a.name.match(/^(.+?)\s*\((.+?)\)\s*$/);
+    if (m) {
+      if (t.includes(m[1].trim()) || t.includes(m[2].trim())) return true;
+    }
+    return false;
+  }
+  function bookMatches(text) {
+    if (!text) return false;
+    const t = String(text);
+    return bookTitles.some(title => title && title.length >= 4 && t.includes(title));
+  }
+
+  // ① events.json events에서 매칭 — host/title/summary
+  const curatedEvents = (ev.events || []).filter(e =>
+    nameMatches(e.host) || nameMatches(e.title) ||
+    (e.related_book_id && bookIds.includes(e.related_book_id))
+  );
+  const curatedUpcoming = curatedEvents.filter(e => e.status === 'upcoming')
+    .sort((a,b) => (a.date || '').localeCompare(b.date || ''));
+  const curatedPast = curatedEvents.filter(e => e.status === 'past')
+    .sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+
+  // ② instagram_picks에서 매칭 — title/summary
+  const relatedPicks = (ev.instagram_picks || []).filter(p =>
+    nameMatches(p.title) || nameMatches(p.summary) || bookMatches(p.title) || bookMatches(p.summary)
+  );
+
+  // ③ 함께한 행사 (인스타 백업 매칭)
   const igIds = a.ig_post_ids || [];
   const relatedPosts = igIds
     .map(pid => ig.posts.find(p => p.id === pid))
     .filter(Boolean);
   const eventPosts = relatedPosts.filter(p => p.types.includes('event'));
   const otherPosts = relatedPosts.filter(p => !p.types.includes('event'));
+
+  // ④ 추천 행사 — 같은 마을학교 강사들의 다른 행사 + 같은 시리즈 동료 행사
+  const myschools = new Set(a.schools || []);
+  const mySeries = new Set(books.map(b => b.series).filter(Boolean)
+    .map(s => s.replace(/\s*시리즈\s*\d+\s*$/, '').trim()));
+  const peerAuthorIds = new Set();
+  data.authors.forEach(other => {
+    if (other.id === a.id) return;
+    const shared = (other.schools || []).some(s => myschools.has(s));
+    if (shared) peerAuthorIds.add(other.id);
+  });
+  data.books.forEach(b => {
+    const bSeries = b.series ? b.series.replace(/\s*시리즈\s*\d+\s*$/, '').trim() : '';
+    if (mySeries.has(bSeries)) {
+      (b.authors || []).forEach(aid => { if (aid !== a.id) peerAuthorIds.add(aid); });
+    }
+  });
+  const peerAuthors = data.authors.filter(x => peerAuthorIds.has(x.id));
+  const peerNames = new Set(peerAuthors.map(x => x.name));
+  const recommendedEvents = (ev.events || []).filter(e =>
+    e.status === 'upcoming' &&
+    !curatedEvents.includes(e) &&
+    (peerNames.has(e.host) || (e.related_school && myschools.has(e.related_school)))
+  ).slice(0, 3);
 
   document.getElementById('content').innerHTML = `
     ${backBar('저자')}
@@ -73,10 +133,76 @@
         </section>
       ` : ''}
 
+      ${curatedUpcoming.length ? `
+        <section class="section">
+          <div class="section-title">
+            <h2>📌 다가오는 행사 (이 저자 출연)</h2>
+            <span class="more">${curatedUpcoming.length}건</span>
+          </div>
+          <div class="row-list">
+            ${curatedUpcoming.map(e => `
+              <a class="event-card" href="event.html?id=${e.id}">
+                <div class="event-cover" style="background:linear-gradient(135deg, #E07857 0%, #B5483B 100%);">
+                  <div class="event-icon">${eventTypeIcon(e.type)}</div>
+                  <div class="event-date-badge">
+                    <div class="m">${new Date(e.date).getMonth()+1}</div>
+                    <div class="d">${new Date(e.date).getDate()}</div>
+                  </div>
+                </div>
+                <div class="event-body">
+                  <div class="event-meta">
+                    <span class="tag">${e.type}</span>
+                    <span class="tag" style="background:#D4A574;color:#fff;">D-${daysUntil(e.date)}</span>
+                  </div>
+                  <div class="event-title">${e.title}</div>
+                  <div class="event-sub">${fmtKoreanDate(e.date)} · ${e.location}</div>
+                </div>
+              </a>
+            `).join('')}
+          </div>
+        </section>
+      ` : ''}
+
+      ${(curatedPast.length || relatedPicks.length) ? `
+        <section class="section">
+          <div class="section-title">
+            <h2>📅 씽크스마트와 함께한 행사</h2>
+            <span class="more">큐레이션 ${curatedPast.length}건 · 인스타 픽 ${relatedPicks.length}건</span>
+          </div>
+          ${curatedPast.length ? `
+            <div class="row-list" style="margin-bottom:12px;">
+              ${curatedPast.slice(0, 4).map(e => `
+                <a class="event-card" href="event.html?id=${e.id}">
+                  <div class="event-cover" style="background:linear-gradient(135deg, #5C97D4 0%, #3B6EAA 100%);">
+                    <div class="event-icon">${eventTypeIcon(e.type)}</div>
+                    <div class="event-date-badge">
+                      <div class="m">${new Date(e.date).getMonth()+1}</div>
+                      <div class="d">${new Date(e.date).getDate()}</div>
+                    </div>
+                  </div>
+                  <div class="event-body">
+                    <div class="event-meta"><span class="tag">${e.type}</span></div>
+                    <div class="event-title">${e.title}</div>
+                    <div class="event-sub">${fmtKoreanDate(e.date)} · ${e.location}</div>
+                  </div>
+                </a>
+              `).join('')}
+            </div>
+          ` : ''}
+          ${relatedPicks.length ? `
+            <div class="h-scroll-wrap">
+              <div class="h-scroll" style="padding-right:40px;">
+                ${relatedPicks.map(instaPickCard).join('')}
+              </div>
+            </div>
+          ` : ''}
+        </section>
+      ` : ''}
+
       ${eventPosts.length ? `
         <section class="section">
           <div class="section-title">
-            <h2>🎤 씽크스마트와 함께한 행사</h2>
+            <h2>📷 인스타 행사 기록 (자동 매칭)</h2>
             <span class="more">총 ${eventPosts.length}건</span>
           </div>
           <div class="row-list">
@@ -87,6 +213,39 @@
               <a class="btn outline" href="instagram.html?filter=event">전체 인스타 행사 보기 →</a>
             </div>
           ` : ''}
+        </section>
+      ` : ''}
+
+      ${recommendedEvents.length ? `
+        <section class="section">
+          <div class="section-title">
+            <h2>🔗 추천 행사</h2>
+            <span class="more">동료 저자·같은 학교</span>
+          </div>
+          <p style="font-size:11px;color:var(--c-sub);margin:-6px 0 10px;">
+            같은 마을학교 강사 또는 같은 시리즈 동료의 다가오는 행사
+          </p>
+          <div class="row-list">
+            ${recommendedEvents.map(e => `
+              <a class="event-card" href="event.html?id=${e.id}">
+                <div class="event-cover" style="background:linear-gradient(135deg, #D4A574 0%, #B5894A 100%);">
+                  <div class="event-icon">${eventTypeIcon(e.type)}</div>
+                  <div class="event-date-badge">
+                    <div class="m">${new Date(e.date).getMonth()+1}</div>
+                    <div class="d">${new Date(e.date).getDate()}</div>
+                  </div>
+                </div>
+                <div class="event-body">
+                  <div class="event-meta">
+                    <span class="tag">${e.type}</span>
+                    <span class="tag" style="background:#D4A574;color:#fff;">D-${daysUntil(e.date)}</span>
+                  </div>
+                  <div class="event-title">${e.title}</div>
+                  <div class="event-sub">${fmtKoreanDate(e.date)} · ${e.host || ''}</div>
+                </div>
+              </a>
+            `).join('')}
+          </div>
         </section>
       ` : ''}
 

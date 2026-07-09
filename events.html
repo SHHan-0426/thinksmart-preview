@@ -30,6 +30,7 @@
     return '기타';
   }
 
+  const view = qs('cal', '');   // '' = 리스트, 'month' = 캘린더
   const upcoming = ev.events
     .filter(e => e.status === 'upcoming')
     .sort((a,b) => (a.date || '').localeCompare(b.date || ''));
@@ -62,9 +63,81 @@
       .map(igListCard).join('');
   }
 
+  // ── 캘린더 렌더링 (월별 그리드) ──
+  function renderCalendar(year, month) {
+    // month: 0~11
+    const allEvents = [...ev.events, ...pastIg.map(p => ({
+      id: p.id, title: shortCaption(p.caption, 30),
+      date: (p.date || '').slice(0, 10), type: p.event_type,
+      _isIg: true,
+    }))];
+    const byDay = {};
+    allEvents.forEach(e => {
+      if (!e.date) return;
+      const d = new Date(e.date);
+      if (d.getFullYear() !== year || d.getMonth() !== month) return;
+      const day = d.getDate();
+      (byDay[day] = byDay[day] || []).push(e);
+    });
+
+    const first = new Date(year, month, 1);
+    const last = new Date(year, month + 1, 0);
+    const startDow = first.getDay();
+    const daysInMonth = last.getDate();
+
+    const today = new Date();
+    const isCurMonth = today.getFullYear() === year && today.getMonth() === month;
+    const todayDate = today.getDate();
+
+    let cells = [];
+    for (let i = 0; i < startDow; i++) cells.push(null);
+    for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+    while (cells.length % 7 !== 0) cells.push(null);
+
+    const monthLabel = `${year}년 ${month + 1}월`;
+    const prev = month === 0 ? { y: year - 1, m: 11 } : { y: year, m: month - 1 };
+    const next = month === 11 ? { y: year + 1, m: 0 } : { y: year, m: month + 1 };
+
+    return `
+      <div class="cal-header">
+        <a class="cal-nav" href="?cal=month&y=${prev.y}&m=${prev.m}">‹</a>
+        <div class="cal-month">${monthLabel}</div>
+        <a class="cal-nav" href="?cal=month&y=${next.y}&m=${next.m}">›</a>
+      </div>
+      <div class="cal-grid">
+        ${['일','월','화','수','목','금','토'].map((w, i) => `
+          <div class="cal-dow" style="color:${i===0?'#E07857':i===6?'#5C97D4':'var(--c-sub)'};">${w}</div>
+        `).join('')}
+        ${cells.map(d => {
+          if (d === null) return '<div class="cal-cell empty"></div>';
+          const dayEvents = byDay[d] || [];
+          const isToday = isCurMonth && d === todayDate;
+          return `
+            <div class="cal-cell ${dayEvents.length ? 'has-event' : ''} ${isToday ? 'today' : ''}">
+              <div class="cal-day">${d}</div>
+              ${dayEvents.slice(0,2).map(e => `
+                <a class="cal-pill" href="${e._isIg ? `ig-post.html?id=${e.id}` : `event.html?id=${e.id}`}"
+                   style="background:${e._isIg ? '#A37A5B' : '#3B6EAA'};"
+                   title="${e.title}">${shortCaption(e.title, 8)}</a>
+              `).join('')}
+              ${dayEvents.length > 2 ? `<div class="cal-more">+${dayEvents.length - 2}</div>` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <p style="font-size:11px;color:var(--c-sub);margin-top:10px;text-align:center;">
+        파란색: 큐레이션 행사 · 갈색: 인스타 행사 기록
+      </p>
+    `;
+  }
+
   let body = '';
 
-  if (tab === 'upcoming') {
+  if (view === 'month') {
+    const y = parseInt(qs('y', new Date().getFullYear()));
+    const m = parseInt(qs('m', new Date().getMonth()));
+    body = renderCalendar(y, m);
+  } else if (tab === 'upcoming') {
     body = upcoming.length ? `
       <div class="row-list">
         ${upcoming.map(e => `
@@ -154,14 +227,21 @@
         북토크 · 출간 기념 · 마을학교 모집 · 살롱 · 수료식
       </p>
 
-      <div class="tab-toggle">
-        <a class="t ${tab==='upcoming'?'active':''}" href="?tab=upcoming">
-          다가오는 (${upcoming.length})
-        </a>
-        <a class="t ${tab==='past'?'active':''}" href="?tab=past&view=group">
-          지난 (${pastCurated.length + pastIg.length})
-        </a>
+      <div class="filter-bar" style="margin-bottom:8px;">
+        <a class="chip ${view!=='month'?'active':''}" href="?tab=${tab}">📋 리스트</a>
+        <a class="chip ${view==='month'?'active':''}" href="?cal=month">📅 캘린더</a>
       </div>
+
+      ${view !== 'month' ? `
+        <div class="tab-toggle">
+          <a class="t ${tab==='upcoming'?'active':''}" href="?tab=upcoming">
+            다가오는 (${upcoming.length})
+          </a>
+          <a class="t ${tab==='past'?'active':''}" href="?tab=past&view=group">
+            지난 (${pastCurated.length + pastIg.length})
+          </a>
+        </div>
+      ` : ''}
 
       ${body}
 

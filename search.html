@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#3B6EAA">
+<title>검색 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script>
+(async function() {
+  await loadData();
+  await loadEvents();
+  await loadInstagram();
+
+  const q0 = qs('q', '');
+
+  function render(query) {
+    const r = searchAll(query);
+    const total = r.authors.length + r.books.length + r.events.length +
+                  r.picks.length + r.schools.length + r.ig.length;
+
+    document.getElementById('content').innerHTML = `
+      ${backBar('검색')}
+
+      <div style="padding:14px 18px;background:var(--c-card);border-bottom:1px solid var(--c-line);position:sticky;top:50px;z-index:10;">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="search" id="search-input" placeholder="저자·책·행사·마을학교…"
+                 value="${query.replace(/"/g,'&quot;')}" autofocus>
+          ${query ? '<button id="search-clear" aria-label="지우기">✕</button>' : ''}
+        </div>
+        ${query ? `
+          <div style="font-size:11px;color:var(--c-sub);margin-top:8px;">
+            총 <strong style="color:var(--c-primary);">${total}건</strong>
+            ${total ? ` · 저자 ${r.authors.length} / 책 ${r.books.length} / 행사 ${r.events.length+r.picks.length} / 마을학교 ${r.schools.length} / 인스타 ${r.ig.length}` : ''}
+          </div>
+        ` : ''}
+      </div>
+
+      <main>
+        ${!query ? `
+          <div class="empty"><div class="icon">🔍</div>검색어를 입력하세요.<br>
+            <span style="font-size:11px;">저자명·책 제목·행사·마을학교·인스타 캡션까지 통합 검색합니다.</span>
+          </div>
+        ` : total === 0 ? `
+          <div class="empty"><div class="icon">📭</div>
+            <strong>「${query}」</strong>에 대한 결과가 없습니다.<br>
+            <span style="font-size:11px;">다른 키워드를 시도해 보세요.</span>
+          </div>
+        ` : `
+          ${r.authors.length ? `
+            <section class="section">
+              <div class="section-title"><h2>👤 저자 (${r.authors.length})</h2></div>
+              <div class="author-grid">
+                ${r.authors.slice(0, 12).map(authorCard).join('')}
+              </div>
+              ${r.authors.length > 12 ? `<p style="text-align:center;font-size:11px;color:var(--c-sub);margin-top:8px;">+ ${r.authors.length - 12}명 더</p>` : ''}
+            </section>
+          ` : ''}
+
+          ${r.books.length ? `
+            <section class="section">
+              <div class="section-title"><h2>📚 책 (${r.books.length})</h2></div>
+              <div class="row-list">
+                ${r.books.slice(0, 8).map(bookCard).join('')}
+              </div>
+              ${r.books.length > 8 ? `<p style="text-align:center;font-size:11px;color:var(--c-sub);margin-top:8px;">+ ${r.books.length - 8}권 더</p>` : ''}
+            </section>
+          ` : ''}
+
+          ${r.events.length ? `
+            <section class="section">
+              <div class="section-title"><h2>🎤 행사 (${r.events.length})</h2></div>
+              <div class="row-list">
+                ${r.events.slice(0, 6).map(e => `
+                  <a class="event-card" href="event.html?id=${e.id}">
+                    <div class="event-cover" style="background:linear-gradient(135deg, #5C97D4 0%, #3B6EAA 100%);">
+                      <div class="event-icon">${eventTypeIcon(e.type)}</div>
+                      <div class="event-date-badge">
+                        <div class="m">${new Date(e.date).getMonth()+1}</div>
+                        <div class="d">${new Date(e.date).getDate()}</div>
+                      </div>
+                    </div>
+                    <div class="event-body">
+                      <div class="event-meta"><span class="tag">${e.type}</span></div>
+                      <div class="event-title">${e.title}</div>
+                      <div class="event-sub">${fmtKoreanDate(e.date)} · ${e.location}</div>
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </section>
+          ` : ''}
+
+          ${r.picks.length ? `
+            <section class="section">
+              <div class="section-title"><h2>📷 인스타 픽 (${r.picks.length})</h2></div>
+              <div class="h-scroll-wrap">
+                <div class="h-scroll" style="padding-right:40px;">
+                  ${r.picks.map(instaPickCard).join('')}
+                </div>
+              </div>
+            </section>
+          ` : ''}
+
+          ${r.schools.length ? `
+            <section class="section">
+              <div class="section-title"><h2>🏫 마을학교 (${r.schools.length})</h2></div>
+              <div class="row-list">
+                ${r.schools.map(s => `
+                  <a class="card" href="school.html?name=${encodeURIComponent(s.name)}"
+                     style="display:flex;gap:14px;align-items:center;">
+                    <div style="font-size:24px;">${s.desc.icon}</div>
+                    <div style="flex:1;">
+                      <div style="font-size:14px;font-weight:700;color:var(--c-primary);">${s.name}</div>
+                      <div style="font-size:11px;color:var(--c-sub);">${s.desc.desc}</div>
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </section>
+          ` : ''}
+
+          ${r.ig.length ? `
+            <section class="section">
+              <div class="section-title"><h2>🖼️ 인스타 캡션 매칭 (${r.ig.length})</h2></div>
+              <div class="row-list">
+                ${r.ig.slice(0, 6).map(igListCard).join('')}
+              </div>
+            </section>
+          ` : ''}
+        `}
+      </main>
+      ${nav('')}
+    `;
+
+    // 실시간 입력 — 디바운스 250ms
+    const input = document.getElementById('search-input');
+    if (input) {
+      let t = null;
+      input.addEventListener('input', e => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+          const u = new URL(location.href);
+          u.searchParams.set('q', e.target.value);
+          history.replaceState({}, '', u.toString());
+          render(e.target.value);
+        }, 250);
+      });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') e.preventDefault();
+      });
+    }
+    const clear = document.getElementById('search-clear');
+    if (clear) {
+      clear.addEventListener('click', () => {
+        const u = new URL(location.href);
+        u.searchParams.delete('q');
+        history.replaceState({}, '', u.toString());
+        render('');
+      });
+    }
+  }
+
+  render(q0);
+})();
+</script>
+</body>
+</html>

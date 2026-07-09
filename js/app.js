@@ -4,6 +4,47 @@
 
 let DATA = null;
 let EVENTS = null;
+let CONFIG = null;
+
+async function loadConfig() {
+  if (CONFIG) return CONFIG;
+  try {
+    const res = await fetch('data/config.json');
+    CONFIG = await res.json();
+  } catch (e) {
+    CONFIG = {};
+  }
+  return CONFIG;
+}
+
+function applyAffiliate(url, source) {
+  if (!url || !CONFIG) return url;
+  const sep = url.includes('?') ? '&' : '?';
+  if (source === 'aladin' && CONFIG.aladin_ttb_key) {
+    return `${url}${sep}partner=${CONFIG.aladin_ttb_key}`;
+  }
+  if (source === 'yes24' && CONFIG.yes24_aff_id) {
+    return `${url}${sep}LinkID=${CONFIG.yes24_aff_id}`;
+  }
+  if (source === 'kyobo' && CONFIG.kyobo_aff_id) {
+    return `${url}${sep}aff=${CONFIG.kyobo_aff_id}`;
+  }
+  return url;
+}
+
+// GA4 자동 부트스트랩 — config에 ID가 있을 때만 활성화
+loadConfig().then(c => {
+  if (c && c.ga_measurement_id) {
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = `https://www.googletagmanager.com/gtag/js?id=${c.ga_measurement_id}`;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', c.ga_measurement_id);
+  }
+});
 
 async function loadData() {
   if (DATA) return DATA;
@@ -95,6 +136,71 @@ function igCard(post) {
         ${post.images.length > 1 ? `<span class="ig-multi">⊞ ${post.images.length}</span>` : ''}
       </div>
     </a>`;
+}
+
+// ====== 통합 검색 헬퍼 ======
+function normalize(s) {
+  return (s || '').toString().toLowerCase().replace(/\s+/g, '');
+}
+
+function searchAll(query) {
+  if (!query || !query.trim()) return { authors: [], books: [], events: [], schools: [], picks: [], ig: [] };
+  const q = normalize(query);
+  const results = { authors: [], books: [], events: [], schools: [], picks: [], ig: [] };
+  if (!DATA || !EVENTS) return results;
+
+  // 저자
+  DATA.authors.forEach(a => {
+    if (normalize(a.name).includes(q) || normalize(a.lead).includes(q)) {
+      results.authors.push(a);
+    }
+  });
+  // 책
+  DATA.books.forEach(b => {
+    if (normalize(b.title).includes(q) ||
+        normalize(b.subtitle).includes(q) ||
+        normalize(b.series).includes(q) ||
+        normalize(b.category).includes(q) ||
+        (b.author_names || []).some(n => normalize(n).includes(q))) {
+      results.books.push(b);
+    }
+  });
+  // 행사
+  (EVENTS.events || []).forEach(e => {
+    if (normalize(e.title).includes(q) ||
+        normalize(e.summary).includes(q) ||
+        normalize(e.host).includes(q) ||
+        normalize(e.location).includes(q)) {
+      results.events.push(e);
+    }
+  });
+  // 인스타 픽
+  (EVENTS.instagram_picks || []).forEach(p => {
+    if (normalize(p.title).includes(q) ||
+        normalize(p.summary).includes(q) ||
+        normalize(p.type).includes(q)) {
+      results.picks.push(p);
+    }
+  });
+  // 마을학교
+  Object.keys(DATA.schools || {}).forEach(name => {
+    const d = DATA.school_descriptions[name];
+    if (normalize(name).includes(q) || (d && normalize(d.desc).includes(q))) {
+      results.schools.push({ name, stats: DATA.schools[name], desc: d });
+    }
+  });
+  // 인스타 캡션 (상위 매칭만)
+  if (INSTAGRAM) {
+    let igHits = 0;
+    for (const p of INSTAGRAM.posts) {
+      if (igHits >= 12) break;
+      if (normalize(p.caption).includes(q)) {
+        results.ig.push(p);
+        igHits++;
+      }
+    }
+  }
+  return results;
 }
 
 // ====== 참가 신청 모달 ======
@@ -460,8 +566,9 @@ function drawerMarkup() {
       </div>
 
       <div class="drawer-search">
-        <input type="search" placeholder="저자·책·행사 검색…" disabled>
-        <span class="coming">곧 추가 예정</span>
+        <form action="search.html" method="get" style="margin:0;">
+          <input type="search" name="q" placeholder="저자·책·행사·마을학교 검색…" autocomplete="off">
+        </form>
       </div>
 
       <nav class="drawer-menu">

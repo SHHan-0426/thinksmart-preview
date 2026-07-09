@@ -74,8 +74,31 @@
     ${headerTop()}
     <main>
       <div class="notice">
-        <strong>⚠️ 시험판 v0.6</strong> — 저자 사진·책 표지는 추후 회수, 인스타 백업 ${ig.meta.total_posts}건 + 최근 픽 ${instaPicks.length}건 통합.
+        <strong>⚠️ 시험판 v0.7</strong> — 저자 사진·책 표지는 추후 회수, 인스타 백업 ${ig.meta.total_posts}건 + 최근 픽 ${instaPicks.length}건 통합.
       </div>
+
+      ${(function() {
+        // 오늘 이후 가장 가까운 행사 + D-14 이내면 강조 띠
+        const future = upcomingEvents.filter(e => {
+          const d = daysUntil(e.date);
+          return d !== null && d >= 0;
+        });
+        const next = future[0];
+        if (!next) return '';
+        const dleft = daysUntil(next.date);
+        if (dleft === null || dleft > 14) return '';
+        const urgent = dleft <= 7;
+        return `
+          <a class="dday-banner ${urgent ? 'urgent' : ''}" href="event.html?id=${next.id}">
+            <div class="dday-badge">${dleft <= 0 ? '오늘' : 'D-' + dleft}</div>
+            <div class="dday-body">
+              <div class="dday-title">${next.title}</div>
+              <div class="dday-meta">${fmtKoreanDate(next.date)}${next.time ? ' · ' + next.time : ''} · ${next.location}</div>
+            </div>
+            <div class="dday-arrow">›</div>
+          </a>
+        `;
+      })()}
 
       ${instaPicks.length ? `
         <!-- ⭐ 최근 인스타 픽 (운영자 큐레이션) -->

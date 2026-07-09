@@ -1,0 +1,11 @@
+{
+  "_comment": "사이트 운영 설정. 비워두면 fallback URL이 사용됩니다.",
+  "aladin_ttb_key": "",
+  "_aladin_ttb_key_help": "https://www.aladin.co.kr/ttb/wblog_main.aspx 에서 발급. 입력하면 책 구매 시 어필리에이트 수수료(3~5%) 자동 적용.",
+  "yes24_aff_id": "",
+  "_yes24_aff_id_help": "예스24 제휴마케팅 신청 후 발급된 코드",
+  "kyobo_aff_id": "",
+  "_kyobo_aff_id_help": "교보문고 제휴마케팅(B2B) — 별도 신청 필요",
+  "ga_measurement_id": "",
+  "_ga_help": "Google Analytics 4 측정 ID (G-XXXXXXXXXX). 입력하면 자동 트래픽 측정 시작."
+}
