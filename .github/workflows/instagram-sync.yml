@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   sync:
@@ -52,4 +53,27 @@ jobs:
             git add data/instagram.json
             git commit -m "🤖 인스타그램 자동 동기화 ($(date -u +%Y-%m-%d))"
             git push
+          fi
+
+      # 5) GH_PAT 만료 임박(21일 이내) 시 이슈 생성 → GitHub이 소유자에게 메일
+      - name: Warn if GH_PAT nearing expiry
+        env:
+          PAT: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -z "$PAT" ] && { echo "GH_PAT 없음 — 건너뜀"; exit 0; }
+          EXP=$(curl -sI -H "Authorization: Bearer $PAT" https://api.github.com/rate_limit \
+                | tr -d '\r' | awk -F': ' 'tolower($1) ~ /token-expiration/ {print $2}')
+          [ -z "$EXP" ] && { echo "만료 정보 없음(무기한?) — 건너뜀"; exit 0; }
+          EXP_TS=$(date -u -d "$EXP" +%s) || exit 0
+          DAYS=$(( (EXP_TS - $(date -u +%s)) / 86400 ))
+          echo "GH_PAT 만료까지 ${DAYS}일 (${EXP})"
+          if [ "$DAYS" -le 21 ]; then
+            OPEN=$(gh issue list --repo "${{ github.repository }}" --state open \
+                   --search "GH_PAT 만료 in:title" --json number -q 'length')
+            if [ "$OPEN" = "0" ]; then
+              gh issue create --repo "${{ github.repository }}" \
+                --title "🔑 GH_PAT 곧 만료 (${DAYS}일 남음) — 재발급 필요" \
+                --body "인스타그램 자동 동기화에 쓰는 **GH_PAT**가 **${EXP}**에 만료됩니다.\n\n재발급: github.com/settings/personal-access-tokens → 새 fine-grained PAT(권한: Secrets = Read and write, 저장소: thinksmart-preview) → 발급 후 \`gh secret set GH_PAT --repo ${{ github.repository }}\` 로 교체.\n\n(교체 안 하면 만료 후 토큰 자동갱신이 멈추고, IG_TOKEN도 약 60일 뒤 만료됩니다.)"
+            fi
           fi
