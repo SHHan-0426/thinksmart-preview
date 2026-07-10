@@ -115,6 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function thumb(path) {
+  // 인스타 CDN 등 http(s) URL은 그대로 사용 (자동 수집 게시물)
+  if (/^https?:/.test(path)) return path;
   // /assets/ig/XXXX.jpg → /assets/ig_thumb/XXXX.jpg
   return path
     .replace('/ig/', '/ig_thumb/')

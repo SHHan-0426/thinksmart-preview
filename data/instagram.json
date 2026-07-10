@@ -1,13 +1,272 @@
 {
   "meta": {
-    "source": "thinksmart.official 인스타그램 데이터 다운로드 (2026-05-25)",
+    "source": "Instagram Graph API 자동 수집 (@thinksmart.official)",
     "profile": "https://www.instagram.com/thinksmart.official/",
-    "updated": "2026-05-27",
-    "total_posts": 775,
-    "event_posts": 318,
-    "book_posts": 453
+    "updated": "2026-07-10",
+    "total_posts": 794,
+    "event_posts": 323,
+    "book_posts": 465
   },
   "posts": [
+    {
+      "id": "18599914990028909",
+      "caption": "지식 나눔 인문 살롱 수강생을 모집합니다! ✨\n\n“내가 하는 말이 아이에겐 ‘잔소리’로 들릴까?”\n“어떤 말을 어떻게 건네야 ‘듣기 좋은 잔소리’가 될 수 있을까?”\n\n 고민을 하시는 분들은 집중!\n\n『듣기 좋은 잔소리 가이드북』의 김태균 작가와 함께 알아보는 자녀 교육 시간!\n인문 살롱을 통해 공부력을 키우는 말의 기술을 배워봅시다!\n\n📌 일시 : 7월 11일(토) 오전 10시\n📌 장소 : 대산도서관\n📌 문의 : 661-8086, 8087",
+      "date": "2026-07-10T09:32",
+      "date_display": "2026년 07월 10일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/742876511_18463214092115828_6653357723053681499_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4RXJ8kcoL8EQ7kNvwG31HlP&_nc_oc=AdqZC6o3O2DBeSvcK3R86eMvcMUXXktkueYTuxbXqKKLWjZUxkdk-Q1YCpLARDWE0kw&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEd09VotFVIa23sWGtXlMumytdw52M_oSkvCtKJOtTQnxAq1Uu4GRnlLQe8XhkW4MXCQj7k0YoQ&oh=00_AQBKsuODFIBAxXFnaYClmedYGtIfrEiy64gb-iQxtDcQXQ&oe=6A562093"
+      ],
+      "types": [
+        "event",
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/Dal6SZaj1Gb/"
+    },
+    {
+      "id": "18135581815603213",
+      "caption": "우리 소리로 K-힐링의 새 지평을 열다!\n 『소리 치유 혁명 율본』이 조선일보 광고에 ✨\n\n#소리치유율본 #율본 #치유 #소리",
+      "date": "2026-07-08T09:18",
+      "date_display": "2026년 07월 08일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/732047577_18462879601115828_866952319617370502_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ghQfSFH6X1gQ7kNvwFcIrLw&_nc_oc=Adp3lSAPEpc5f5GyNTdqVIUArUoo5Xv5xmHw9aATfvnrhyEIk-z0dUXcZBSEQOadVpg&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGYyT4zBemh9eTq2hNUiEDcq0xrADIheOhG1jbP3d1ofmQY5YvEiGMky-VYjvXyr807zwyQetOi&oh=00_AQCdASwxSYnNaVmPYXFqitIn-4x_1jW9e3RbC-2JZ2qExg&oe=6A561598"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DagvJFXD1hl/"
+    },
+    {
+      "id": "18076932653693725",
+      "caption": "교육부에서 \"학교 독서교육 활성화 방안”을 발표했습니다!\n정부에서 문해력 저하 대응을 위해 체계적인 독서 교육을 실시하기로 했습니다! \n\n갈수록 책과 멀어지면서 떨어지는 문해력 🥲\n\n매일 아침 10분!\n책을 읽는 습관을 기르는 방법을 『독서습관 만드는 법』과 함께 길러보아요! 📚\n\n#독서교육 #독서습관 #책추천 #독서습관만드는법 #독서",
+      "date": "2026-07-06T12:32",
+      "date_display": "2026년 07월 06일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/740846313_18462555988115828_9108378250935001713_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=XhH-uqll_CgQ7kNvwEsB9Bd&_nc_oc=AdqSsmleAeYehetQEJnRl2I2iPc4QxM4V_6PwR4LPG4Ikd5qGBe12wXLiFUHHs56WUk&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGBXQUgp52YVmWYZxXIESBdFdzq5XkduWZweDZpJWaxIS5FdibycWj7-warsWtuYWeeZH01x3Yh&oh=00_AQDL3faQDBdwcc-ZxWZPHfWqFxWzhIyZ86EowtXf3sKzdQ&oe=6A562401"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/Dab7w7SjyPR/"
+    },
+    {
+      "id": "18275741986288838",
+      "caption": "『청소년 필사의 힘: 자존감』의 작가 홍재기 선생님의 7월 강연 일정 ✨\n\n학생들에게는 도전할 용기를,\n학부모에게는 믿고 기다리는 지혜를,\n원장과 교직원에게는\n성장을 이끌고 리더십을 전하는 시간을 가져보는 게 어떨까요? \n\n#청소년필사의힘자존감 \n#7월강연일정\n#인성교육전문가홍재기\n#행복성장모티베이터홍재기",
+      "date": "2026-07-01T09:15",
+      "date_display": "2026년 07월 01일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/736198390_18461637007115828_3612769439484911601_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=U2yy9sa1hfsQ7kNvwEpI0y4&_nc_oc=AdpJBh3f6OJf3UqzdsCS5QQTa4g34GXZZjldNd1cmPJ9lp8jSh690Yzo2U50H2WSR5Q&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQFWON7ILOVK0Mg0tMxQ9OosIMNT5HUNfwa3bvdjpZwjuYsHaS_hF-xaQw2lSlx1FULBCc-plL-O&oh=00_AQAC5bDHDH8lvoS3IurpqIDoZnLue3E4jQNpKD1KAt3aMA&oe=6A561EE6"
+      ],
+      "types": [
+        "event",
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DaOtNg4DzaN/"
+    },
+    {
+      "id": "17885873178597198",
+      "caption": "『소리 치유 혁명 율본』이 2쇄를 찍게 되었습니다! ✨\n독자분 감사드립니다! \n🎵\n#2쇄 #소리치유율본 #율본 #치유 #소리",
+      "date": "2026-06-29T16:19",
+      "date_display": "2026년 06월 29일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/731761145_18461302162115828_907526727262445867_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=-2cFDbZbp-0Q7kNvwE0heL7&_nc_oc=Adrc1D-5hqsE6Oif1NrL56yiXXdrgIa9aFdxBI1U3Ato3yeBUc26G4yIboVAtXqLFi0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEvIVTeSuHqfE9PaR7Uv1CfcMHyqr3a5alXnb5cYYSeRBeaSQkhi_b90NghUmMJxKLxNC5ODgeM&oh=00_AQBpjHbaQCJ2QiEDxbPkxTz8q79ygGROHBe30yuyz9xyeA&oe=6A563E1C"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DaKUG9AD4Sa/"
+    },
+    {
+      "id": "18013040795831734",
+      "caption": "🤨왜 내 질문엔 아무도 반응하지 않을까?\n\n#질문잘하는법 #질문 #질문하기",
+      "date": "2026-06-29T11:49",
+      "date_display": "2026년 06월 29일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/728823820_18461266468115828_2867951722045648719_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=eT2paLb3CDgQ7kNvwFUS1PB&_nc_oc=AdqtaLVpLlv_GALsNOgBMZm5fBWfxuVBYgVZZ_l76dnlldsWOLJzxkzP7exIMU3J838&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQHzKzvChNiMCQSBuwGfWlFY3azRRBo56BH9NoMfNF6NmbqMeAp-boMv_jbW1Rd3uApUrZGtDzEu&oh=00_AQDGnzIcoqqcseoxLdpwkSZeE2W7IxSd6ZLPEtWiYlpnBw&oe=6A56402C"
+      ],
+      "types": [
+        "other"
+      ],
+      "permalink": "https://www.instagram.com/reel/DaJ1EzHPVRa/"
+    },
+    {
+      "id": "17893479840510336",
+      "caption": "『청소년 필사의 힘 자존감』이 출간 한 달만에 2쇄를 찍게 되었습니다! ✨\n읽어주신 모든 분들께 감사드립니다! \n🔥🖋️\n#2쇄 #청소년필사의힘자존감 #필사책 #필사 #자존감",
+      "date": "2026-06-23T09:37",
+      "date_display": "2026년 06월 23일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/730122560_18460130539115828_6613900030384651844_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=0KIdih-WSr4Q7kNvwEsBSro&_nc_oc=AdqABrgm7jmi7JHDl9KEXb_rqKWrKufIxGtSOBtLBrqKtJ0dQw-VZdPpNPPEW_Qqw00&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGUF6NsaAHSRkxbdwl6i1elUrshY2I4uafsEFOBfn7_0_mpOzMoDqtc2AFcKmP12oaYWV9VXlGq&oh=00_AQCNxe_s-LrZdcghxqw-MEHXexcu7BeuUssCdeoiytS0eA&oe=6A561CDF"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DZ6JZMyD-WX/"
+    },
+    {
+      "id": "18098350028228853",
+      "caption": "『사랑은 강아지 모양일 거야』가 4쇄를 찍게 되었습니다! 🥰\n읽어주신 모든 분들께 감사드립니다! \n💜🐶\n#4쇄 #사랑은강아지모양일거야 #홍지이작가 #강아지",
+      "date": "2026-06-22T10:11",
+      "date_display": "2026년 06월 22일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/730120184_18459955306115828_6407944041229774606_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ILPWrkcwfJMQ7kNvwHBODIx&_nc_oc=AdpwgmXD3Lg_AC-DP5fWz-eX7BqmdO-N1WhUgMOaS7gGf6jt2990SMa3soy_8Xn-pOk&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEFTy35YtSEJekIql_YZIBBkSnCey6bW-ZuS5V7He4f2xTV9xlaLWEKw-BYXIvJH5bMXGBMNtYo&oh=00_AQAdhsLKZcOktIZzyRwvO199z_hdEyCIoEKY554z4NYp-A&oe=6A5615FB"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DZ3ohmkjy8e/"
+    },
+    {
+      "id": "17975840132886749",
+      "caption": "제주문학관에서\n<사랑은 분명 강아지 모양일 거야>의\n홍지이 작가님을 만나보세요!😊\n\n제주도민들을 대상으로 진행하는\n다양한 문학 프로그램과 함께합니다.",
+      "date": "2026-06-16T11:09",
+      "date_display": "2026년 06월 16일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/724133840_18458865469115828_1801557266577018435_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=lnBqEjv_LMsQ7kNvwGP38HA&_nc_oc=AdrNrilCfyLSOrveILqdcAbWeDBlm1VoDPjl62wMor0iv6hEavSShK6z1u0BnzL1qcA&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEY1VQkpHTWxtk-QVMf-x0mom-FrfdOCi4xUa7ZuEIdzAfA2t5VEt5ZRhrC5tDCGYaBiVIF6VUK&oh=00_AQCHV_jEfT6ZpzjYoi8mlUmJwVm534Xmj98ozF0zFzeP_Q&oe=6A561AA7",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/724276245_18458865460115828_1255810695149859646_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=0OcLqalyLOcQ7kNvwE4KQ0D&_nc_oc=AdpWtFGtWJXwkqX7i968ukBXwGUR5jo6BF9apF7t_e4n__8YzM2fF6tISOX912SmN5I&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQF8fdzfrwqT79q8BIVNrPZNTh9_spkh89CSrL8N4qP31hhX_Vm4mNQvJVo0dbeR-Ifku3065wxO&oh=00_AQBE7vfuWHKjN5KNuNqmTOLEmW_-4dNhbdTkqDAwxD8vqw&oe=6A562BFD"
+      ],
+      "types": [
+        "other"
+      ],
+      "permalink": "https://www.instagram.com/p/DZoSYzCjzhg/"
+    },
+    {
+      "id": "18106947436792974",
+      "caption": "❗️새로 나올 신간의 제목을 골라주세요!\n\n📖 도서 정보\n섹스에 관한 정보는 넘쳐나지만 정작 믿고 물어볼 곳은 드물다. 이 책은 성상담 현장의 실제 고민을 바탕으로, 성에 대한 오해와 불안을 솔직하고 유쾌하게 풀어낸 현실적인 안내서다. 자신의 몸과 욕구를 이해하고, 상대와 더 안전하고 편안하게 소통하고 싶은 사람들에게 따뜻하고 정확한 답을 건넨다.\n\n📍댓글을 통해 끌리는 신간 제목과 부제를 투표해 주세요!\n#제목투표 #신간투표",
+      "date": "2026-06-15T17:03",
+      "date_display": "2026년 06월 15일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/725127479_18458740366115828_7389901845717529927_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=kJZI9tcKKWUQ7kNvwFklyWa&_nc_oc=AdpuEG6sNxZoF8zplWBKoXlCWWOE_aKUuyaSHN4h-AiYRUS2an8caF7Amf2SXaIEioA&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQF3h5YBxIsdEneLNIAi2BZcrfFOn7lxsS-8gxJ1syFiar5jIWpqCehSbWghq6Fw6q-BflHBqOIq&oh=00_AQCTdQY_g8XgTVNveQWiHLkg0wIcpjnzYE4WAS2KJ0xLTw&oe=6A5630CF",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/724211510_18458740357115828_1210470769194035483_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=pa33uALNFooQ7kNvwFeMuuq&_nc_oc=Adq2nXHwVxOyGdY9sT0jaJhj_ymUhSpSMvtps5HKg3jip7g_OR9CSXnHS9gLW6_4xpA&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQG2l5OoB6DYU59qBsNg0RZaKfGPb9SCpTD8uXki5MP6cJ8Cdu3vJ0CjO0WSV7NnGhlLHnyyOnxm&oh=00_AQAiQ2-HBy1XPS3dzgYRfDb4hN_Q1mJTj3SdwjFEKTCqpA&oe=6A56366C"
+      ],
+      "types": [
+        "event",
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DZmWGAtDz6S/"
+    },
+    {
+      "id": "18592678510017904",
+      "caption": "그 분게 드리옵니다\n\n#서각\n#각하는출판사형\n#출판사형\n#씽크스마트",
+      "date": "2026-06-13T07:41",
+      "date_display": "2026년 06월 13일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t15.5256-10/723561298_2706028433125989_6358809561889075902_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=egBBzVYHikQQ7kNvwH1b_jB&_nc_oc=Adq68ot3yEMFdDMtv9hUSBr9cYpoaNibxiSCZ2vmkw44qmNSfYD8uo9ky2sCd36BH7Q&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGaicidZLjv73Mao7yBm1VZ5e5fhoNn-0rmHhOWBk8cCVNZRIkT9y17Ossm99EAC5NbaO99hWDd&oh=00_AQBukyr3ulz2rCTw2OiQRg-C1T9l5whMG8Ect5PE-Tzc8A&oe=6A5623F2"
+      ],
+      "types": [
+        "other"
+      ],
+      "permalink": "https://www.instagram.com/reel/DZgMJ4ECu4f/"
+    },
+    {
+      "id": "18103905548009547",
+      "caption": "교보문고에서 진행하는\n「여름 필사 생활」 이벤트의 \n필사 도서로 선정되었습니다.🎉\n\n⏰하루 5분.\n✔️한 문장을 읽고,\n✔️한 문장을 따라 쓰고,\n✔️한 가지를 실천하는 것.\n\n그 작은 반복이\n아이들의 자존감을 키우고,\n삶의 방향을 만들어 갈 것이라고 믿습니다.\n\n올여름, 스마트폰 화면보다\n한 권의 책과 한 권의 노트를\n더 자주 펼쳐 보시길 바랍니다.\n\n#청소년필사의힘자존감\n우리 아이들의 여름을 조금 더\n의미 있게 만들어 줄 수 있다면\n더없이 기쁠 것 같습니다.\n\n올여름, 교보문고와 함께\n‘필사하는 삶’을 시작해 보세요!\n\n교보문고 이벤트 ‘여름 필사 생활‘\nhttps://event.kyobobook.co.kr/detail/246933\n.\n.\n#청소년필사의힘자존감\n#홍재기\n#씽크스마트\n#교보문고여름필사생활",
+      "date": "2026-06-12T09:24",
+      "date_display": "2026년 06월 12일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/722204577_18458163256115828_3294383367881255326_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=L2vNkYhrt6wQ7kNvwHPzCzp&_nc_oc=AdpuKDkfTOVfwoiQG_hWYazV1JI4JpdnALEAZ8RIeoceZNEn5RJdIriJ4DSsIhcsnGE&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGUQuBLXc9FNKRhCzv1xPqtw_3ZKTdGPMTg8OzT_R4v4a4bDUx8czWm4UfdVNxniX9grH6hL2si&oh=00_AQBV9-J1_YiiTzqE53Aa0WUB5YpqmyWkuVjW4nKgmo5IbA&oe=6A5639F3",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/723126628_18458163244115828_3088950110445640346_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=3LjTCjq_Sr4Q7kNvwGGWugI&_nc_oc=AdoMqMt4gCr-7CdFbZXQEtkUniol2o6fx0s6jjralpd-FC7a3HhnwRgFNSVB4-olmaI&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEHu9IhqiC_kh28ZUAHRcv4VrXGwjkzQIR7XM7Q0ANFNkcaD1DqycWuv6NKqg3lb49eM_t9UhjD&oh=00_AQD9_k2YKJWwAguhMI8qxY5KWsOO3cynAq7whGoDCoQibg&oe=6A563EC7"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DZdzGSuD5KP/"
+    },
+    {
+      "id": "18192496756332780",
+      "caption": "2026년 6월 ‘삼성생명 리더 추천 도서’에 \n씽크스마트의 여성리더 새로고침이 선정되었습니다!🎉",
+      "date": "2026-06-08T16:20",
+      "date_display": "2026년 06월 08일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/720112019_18457545961115828_6274213680490648024_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=2jnhgGIvieAQ7kNvwFYNrEj&_nc_oc=AdoIZx7adgSHE3v2wK0FexhrvIEyq8fV-UCnnMRbWn8xyV-3yXvcep2RzbK8fu5H-ho&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGMZadG4ugCy_dg0fBE-GXx6XqppIKp4UFN0H5_JYHiKq4TWkBjGHq7sLNqjRd1Ct4BaxYh9rbh&oh=00_AQAgcC95dCawjAs3IVJrvsaS31U0f1OQsCzJ0CTjPuocYQ&oe=6A56473C"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DZUPnLqj0QH/"
+    },
+    {
+      "id": "17878482276664521",
+      "caption": "📌삶의 품격을 키우는 제일 간단한 방법이 있다!\n\n🧡좋은 문장을 반복해서 쓰는 아이는 좋은 생각을 반복한다\n💚좋은 생각은 좋은 선택이 되고, 좋은 선택은 좋은 태도가 된다\n\n인성교육 전문가 홍재기 작가가 알려주는 필사의 힘!🔥",
+      "date": "2026-06-05T14:02",
+      "date_display": "2026년 06월 05일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/714765796_18457008541115828_6464582710924264107_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=v2tg5LEW6IoQ7kNvwGHixKS&_nc_oc=Adoqf-cmFDaL4N_Ggjk8z6Rd4JDho2M0R8c6vkf9dxJly8cSdN1I0iVxCcgILpDscbc&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQFCGSgpHkWbAAgmqeApgvgjyivPBX3bJw-kWfcwzLM95rr9LzLZa6J3Trkq3DPl-R09R3KNxYOk&oh=00_AQBqp8HgWCC7OEbyIByc5EmUKVSOeUKoWtF6ZVk5Se5vxQ&oe=6A563692",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/714766089_18457008550115828_2145455902890770374_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=5bMAyuTEWT8Q7kNvwFdcB2W&_nc_oc=AdpiiSHJPVjYvktEakWteHjY7Ec7vfwO6YrXKM6ryvJhCINA9BR91fxzd1q-RCRQCUw&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQFuqcmAGOZ6P0Lu_D5wbRyAA__j4Hf3Ny-O-QzT8N1qbh2L_KIJUkQL0r69nknuDZ6xov7YQTuP&oh=00_AQCZYRt76le0NNNNDwXk9qpSZqDfpSsg48FVadu1ZYwvug&oe=6A563D19",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/714773905_18457008562115828_8912973526948757594_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=CtT7nsxyNFUQ7kNvwFaDygE&_nc_oc=AdrzL0oRNFTP-c5yZd6zxlkiSdUsGFIa1dns3CxqZcoiwtoOoAtYYXug3UCAJKmxEbo&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEUM8HvLfbZy8xmYFtFf6wP18RhqPsVsO5k-Bab7ElRuU2T9Ml2FTl3JvQuNquhrfIN39lCG39c&oh=00_AQC32NNFwidA1-j-9uo6pU-jv58dhQSbCNZ0GRzKaiqOIA&oe=6A5644D2"
+      ],
+      "types": [
+        "other"
+      ],
+      "permalink": "https://www.instagram.com/p/DZMRXBeD4WN/"
+    },
+    {
+      "id": "18047349956552007",
+      "caption": "5월 30일에 진행했던\n<프로의 첫인상 수업>\n홍종윤 작가의 북콘서트📚\n\n홍종윤 작가가 들려주는 \n‘비즈매너 & 이미지메이킹’\n\n자리해주신 독자님들 덕분에\n성황리에 마무리되었습니다!\n독자님들 감사합니다!",
+      "date": "2026-06-01T09:35",
+      "date_display": "2026년 06월 01일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/710959521_18456283822115828_8874770287438285980_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=xhC504lNaCgQ7kNvwGS9zlS&_nc_oc=AdpioNwLTvkJfuZyJ13I5AAhIfTrxoj4ECjxPdFPUZGp3BWhgVgx0Km84aGyK6yGLZU&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQFkIbRvkEgQPPZn4G6PINn5SWkvvCsiH6RswYeKmlfyRmmEays0oFUnkkTU07-uIJLC9r5pz6n1&oh=00_AQB8tF4hKG4qeIbPigig77dJFyDBl9O2eY2R59qPhiS9BQ&oe=6A561984",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/713724158_18456283813115828_1294817981098932126_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=6FHgcW8pHm8Q7kNvwGISVcp&_nc_oc=AdpjDPW16PorxXHJIrSvsl97NUwErF1fmrdYENAVk5ySLSrDrVxM_zw5U0ZYiz0QkAE&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEy_G70Xkp2mDmY15L4MYFPyiK3zUjXF5nxhvKq2FTtBPY-xKt0nu8OgLpUMBK5cDV5ceZy1TzD&oh=00_AQD-D1IAbH7QyL3j2f-TSu3xg-6Zlnj4zsrFHid4lju4zA&oe=6A562B0C"
+      ],
+      "types": [
+        "event"
+      ],
+      "permalink": "https://www.instagram.com/p/DZBfqs2D2eG/"
+    },
+    {
+      "id": "18090463706033913",
+      "caption": "소리로 씻어내고 근본으로 돌아가자\n<소리치유혁명 율본>\n\n불면증, 만성통증, 중증, 난치성질환까지 \n소리🔈진동이 내 몸을 바꾼다 \n\n#소리치유혁명율본\n씽크스마트 \n#율본",
+      "date": "2026-05-28T13:42",
+      "date_display": "2026년 05월 28일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t39.30808-6/710755601_10243449005827874_4880294573944336127_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=pN9-voDBkz0Q7kNvwEwgRLL&_nc_oc=Adrc_17N5V6KrE6D1HWYxxXluhKwsKW9LpiAo3zW4WGMr5abKqunTPRfiM50vNrZQck&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGMLX7xXb_RvK0Oqao2dGpn2IhKrf-u7OXOZ79b7_8X3f7e1uvE_LLpdV4qH6ARV1OTd-rFcBTV&oh=00_AQBqMjd-Lwf5FcX9Zd8zJYDWxlTJ1-xlgGGNbSp2giXzXg&oe=6A5624E0"
+      ],
+      "types": [
+        "other"
+      ],
+      "permalink": "https://www.instagram.com/p/DY3ovP7FHLv/"
+    },
+    {
+      "id": "17977693476001656",
+      "caption": "씽크스마트 신간도서📚\n\n📝매일 한 문장이 자존감을 만든다\n\n📌 순서대로 진행할 필요는 없다. \n📌 목차에서 마음에 드는 제목을 골라도 좋다. \n📌 중요한 것은 필사를 시작했다면 끝까지 하는 것이다. \n📌 『청소년 필사의 힘: 자존감』과 함께 살아가는 데 도움이 되는 자신만의 무기를 만들어보자!\n\n『청소년 필사의 힘: 자존감』은 청소년을 위한 책이지만, 부모와 교사가 함께 읽기에도 좋다. 아이의 자존감은 단번에 만들어지지 않는다. 매일 듣는 말, 매일 하는 선택, 매일 반복하는 생각 속에서 서서히 만들어진다. 이 책은 그 과정을 따뜻하고 실용적으로 돕는다. 자존감이 낮아 쉽게 비교하고, 실패 앞에서 멈추고, 자신의 장점을 잘 보지 못하는 청소년에게 이 책은 조용하지만 단단한 응원이 되어줄 것이다.",
+      "date": "2026-05-27T09:36",
+      "date_display": "2026년 05월 27일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/708254647_18455351101115828_1281377904831647931_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=papGs4ku1ZkQ7kNvwETZQI8&_nc_oc=AdpvIYPQsCGaukwOOCl531S-Dt3prslSVpPOIjWdVEZXZMjPf1COz44CMr-c587YgPI&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQE2uQGR1-TkvAXWD_2elR-V2UrE7i-ctPdSl-y-NGsTd-YEIF1f-HEN6L2VmP517-u3ZYJNoCt8&oh=00_AQDLjreio7kmNRnLvzZrGoj13FFAoxloS2PSXmpjhF8PvA&oe=6A56422E"
+      ],
+      "types": [
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DY0nzwLD3Jr/"
+    },
+    {
+      "id": "18064509482436459",
+      "caption": "누워있는 책ᆢ\n오늘도 질문만 20개ᆢ 도전\n\n#질문잘하는법\n#씽크스마트 \n#천개의마을학교",
+      "date": "2026-05-26T22:31",
+      "date_display": "2026년 05월 26일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t39.30808-6/708512490_10243424545456380_1180578590546699227_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=HznKvJ8b22QQ7kNvwEWwwTK&_nc_oc=Ado_52ociAuPHCz0f7pplY-UUIIIQziFdLfa0DTtRal2dMEyF0mxqeUvjzymt6ySuKs&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQHWatFTXolhJ5lIn96ha2laD8tNbCf4j3VCvMFjiRaFQNR0TZsz5a6QPJcx3Y83JvwBOTx4Tw35&oh=00_AQC-ro7Bvg2Bsva6cVyBkFRyzUKmVgYNcNcuH_FEe-ARHg&oe=6A5640F5"
+      ],
+      "types": [
+        "other"
+      ],
+      "permalink": "https://www.instagram.com/p/DYzbvvJlKhO/"
+    },
+    {
+      "id": "18098058956143002",
+      "caption": "5월 21일 <여성리더 새로고침> 북토크 현장!📚\n\n서툴러도 흔들려도\n당신이 서 있는 그 곳에서 당신은 빛나는 주인공입니다.\n<여성리더 새로고침> 박보경\n\n여성리더 새로고침 저자분들과 독자님들과 함께\n뜻깊은 시간을 보냈습니다\n자리에 와주신 독자님들 감사합니다!",
+      "date": "2026-05-22T09:02",
+      "date_display": "2026년 05월 22일",
+      "images": [
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/704048721_18454467982115828_3726098517382202520_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=At6Uj9yboDwQ7kNvwFtx4gt&_nc_oc=AdqzXll0R6eFlvVNrHshhDPrd8CgYmtQnpyikHyaTOOfIATvuCUD8h_QjkYg4djOaTU&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQGfkGqiV0v7ANUsmdxm-LO3Rv5d52SBXR-gt5BCJtlqH2FmrfTsQJojxL3Q5sVUo0iGG7NUEbSL&oh=00_AQB0Rp2IqfN75ofHTWuECTbuAc5aZlZ6ixlVw9mSw_Clgg&oe=6A563903",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/704898638_18454467991115828_7343836695011427944_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=R-531KIqQsUQ7kNvwHp3kp1&_nc_oc=AdqjnnvEz6hpls31DAoBNn402e8efg31flnSwSmkJWsb7SwJLvM-wXcLvbtOb_sdQGM&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQFOV0lRNc3fTZffRdOwgN4sQ9rdU8G7BhbXYaBLYAUwP_1-U83Z1aM5Y342uhDMcA2ZeD-0GNVN&oh=00_AQAkGaXY17qplxBU1Xg1j54k4azueieeIxXDDGgFIsLRZQ&oe=6A562C7E",
+        "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/703474175_18454467973115828_104153707724103416_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=NXikCCnQlHsQ7kNvwES6zKb&_nc_oc=AdrtPsUYSS9bvuTF1eR0K2EkoVMSeEj21IaE9bhKblqJZblnXP8rYSGhZ3z17d08U7g&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&edm=ANo9K5cEAAAA&_nc_gid=26FRDzZkJYCRttb2vuuahQ&_nc_tpa=Q5bMBQEV63mI5oQlZhFet88q1D83aognU3_3zugxhJa8AdPUsMznThVK2Qnr5azkfK1qvvrMeIFo_QaV&oh=00_AQAFX7LzrnPLcitEKm46bkyIn2CwH6je9MaaHCgm3EzZ6g&oe=6A564C39"
+      ],
+      "types": [
+        "event",
+        "book"
+      ],
+      "permalink": "https://www.instagram.com/p/DYnr6_Jj4Y1/"
+    },
     {
       "id": "ig-0001",
       "caption": "5월 21일 <여성리더 새로고침> 북토크 현장!📚\n\n서툴러도 흔들려도\n당신이 서 있는 그 곳에서 당신은 빛나는 주인공입니다.\n<여성리더 새로고침> 박보경\n\n여성리더 새로고침 저자분들과 독자님들과 함께\n뜻깊은 시간을 보냈습니다\n자리에 와주신 독자님들 감사합니다!",
