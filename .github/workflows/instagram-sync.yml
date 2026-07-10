@@ -2,7 +2,7 @@ name: Instagram 자동 동기화
 
 on:
   schedule:
-    - cron: '0 21 * * *'   # 매일 06:00 KST (UTC 21:00)
+    - cron: '0 21 * * 0'   # 매주 월요일 06:00 KST (UTC 일 21:00) · 추후 더 잦게(실시간) 전환 예정
   workflow_dispatch:        # 수동 실행 버튼
 
 permissions:
