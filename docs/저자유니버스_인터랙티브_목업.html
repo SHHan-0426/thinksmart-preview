@@ -1,0 +1,536 @@
+<title>저자 유니버스 · 씽크스마트 모바일 구축안</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --ink:#15202b; --paper:#f7f3ea; --card:#fffdf7; --card-2:#efe9db;
+    --muted:#5f6b78; --line:rgba(21,32,43,.13); --line-2:rgba(21,32,43,.07);
+    --brand:#3b6eaa; --sage:#3e7c5a; --gold:#a9791a; --teal:#1a827b;
+    --shadow:0 18px 40px -22px rgba(21,32,43,.5);
+    --font-sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;
+    --font-mono:ui-monospace,"SF Mono",Menlo,"Cascadia Mono",monospace;
+    --maxw:1080px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ink:#ece7db; --paper:#0f1822; --card:#182430; --card-2:#101a24;
+      --muted:#94a1ae; --line:rgba(255,255,255,.14); --line-2:rgba(255,255,255,.06);
+      --brand:#77a6d9; --sage:#6fb88c; --gold:#d7a83e; --teal:#4fbfb5;
+      --shadow:0 20px 46px -20px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"]{
+    --ink:#15202b; --paper:#f7f3ea; --card:#fffdf7; --card-2:#efe9db;
+    --muted:#5f6b78; --line:rgba(21,32,43,.13); --line-2:rgba(21,32,43,.07);
+    --brand:#3b6eaa; --sage:#3e7c5a; --gold:#a9791a; --teal:#1a827b;
+    --shadow:0 18px 40px -22px rgba(21,32,43,.5);
+  }
+  :root[data-theme="dark"]{
+    --ink:#ece7db; --paper:#0f1822; --card:#182430; --card-2:#101a24;
+    --muted:#94a1ae; --line:rgba(255,255,255,.14); --line-2:rgba(255,255,255,.06);
+    --brand:#77a6d9; --sage:#6fb88c; --gold:#d7a83e; --teal:#4fbfb5;
+    --shadow:0 20px 46px -20px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans);
+    line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  h1,h2,h3{text-wrap:balance;line-height:1.15;margin:0}
+  a{color:inherit}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:currentColor;opacity:.6}
+
+  /* HERO */
+  header.hero{position:relative;padding:80px 0 54px;overflow:hidden}
+  .hero .stars{position:absolute;inset:0;opacity:.5;pointer-events:none}
+  .hero-inner{position:relative}
+  .tag-lab{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.16em;color:var(--muted);
+    display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+  .tag-lab b{color:var(--brand);font-weight:600}
+  h1.title{font-size:clamp(38px,8.5vw,76px);font-weight:800;letter-spacing:-.03em}
+  h1.title .u{color:var(--brand)}
+  h1.title em{font-style:normal;position:relative;white-space:nowrap}
+  .lede{max-width:56ch;margin-top:22px;font-size:clamp(16px,2.3vw,19px);color:var(--muted)}
+  .lede b{color:var(--ink);font-weight:600}
+  .hero-meta{margin-top:34px;display:flex;gap:26px;flex-wrap:wrap;font-family:var(--font-mono);
+    font-size:12.5px;color:var(--muted)}
+  .hero-meta div b{display:block;font-size:23px;color:var(--ink);font-weight:700;letter-spacing:-.02em;
+    font-family:var(--font-sans)}
+
+  /* SECTION scaffold */
+  section{padding:56px 0;border-top:1px solid var(--line-2)}
+  .sec-head{max-width:60ch;margin-bottom:34px}
+  .sec-head h2{font-size:clamp(25px,4.4vw,36px);font-weight:800;letter-spacing:-.02em;margin-top:14px}
+  .sec-head p{color:var(--muted);margin:14px 0 0;font-size:16.5px}
+
+  /* concept 4-axis grid */
+  .axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .axis{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;
+    box-shadow:var(--shadow)}
+  .axis .n{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.1em}
+  .axis h3{font-size:18px;font-weight:700;margin:8px 0 6px;letter-spacing:-.01em}
+  .axis p{margin:0;font-size:14px;color:var(--muted);line-height:1.55}
+  .axis .k{color:var(--brand);font-weight:600}
+
+  /* AUTHOR blocks */
+  .author{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:40px;align-items:center}
+  .author.rev{grid-template-columns:320px minmax(0,1fr)}
+  .author.rev .phone-col{order:-1}
+  @media(max-width:820px){
+    .author,.author.rev{grid-template-columns:1fr;gap:30px}
+    .author.rev .phone-col{order:0}
+    .phone-col{justify-items:center;display:grid}
+  }
+  .a-kicker{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-weight:600}
+  .a-kicker .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  .author h2{font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.025em;margin:14px 0 4px}
+  .a-book{color:var(--muted);font-size:15px;margin:0 0 16px}
+  .a-book b{color:var(--ink)}
+  .concept{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:0 14px 14px 0;padding:16px 18px;margin:16px 0}
+  .concept .lab{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;color:var(--accent);
+    text-transform:uppercase;font-weight:600}
+  .concept h3{font-size:17.5px;font-weight:700;margin:6px 0 6px;letter-spacing:-.01em}
+  .concept p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.6}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{font-size:12.5px;font-family:var(--font-mono);padding:5px 11px;border-radius:999px;
+    border:1px solid var(--line);color:var(--muted);background:var(--card-2)}
+  .chip.acc{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+  .link-flow{font-size:13.5px;color:var(--muted);margin-top:14px;line-height:1.7}
+  .link-flow b{color:var(--accent)}
+
+  /* PHONE mockup */
+  .phone{width:300px;max-width:86vw;aspect-ratio:300/620;background:var(--card);border-radius:34px;
+    border:1px solid var(--line);box-shadow:var(--shadow);padding:12px;position:relative;overflow:hidden}
+  .phone .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:96px;height:22px;
+    background:var(--ink);opacity:.85;border-radius:0 0 14px 14px;z-index:5}
+  .screen{height:100%;border-radius:24px;overflow:hidden;position:relative;background:var(--card-2);
+    display:flex;flex-direction:column}
+  .sc-top{padding:30px 16px 12px;background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 22%,var(--card)),var(--card));
+    border-bottom:1px solid var(--line-2)}
+  .sc-top .app{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+  .sc-top .aname{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-top:4px;display:flex;align-items:center;gap:9px}
+  .sc-top .grade{font-family:var(--font-mono);font-size:10px;font-weight:700;color:#fff;background:var(--accent);
+    border-radius:6px;padding:2px 7px;letter-spacing:.05em}
+  .sc-top .aline{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .sc-body{padding:14px 14px 16px;overflow:hidden;flex:1;display:flex;flex-direction:column;gap:11px}
+  .m-lab{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .m-card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 12px}
+  .m-book{display:flex;gap:10px;align-items:center}
+  .m-cover{width:38px;height:52px;border-radius:5px;flex:none;
+    background:linear-gradient(150deg,var(--accent),color-mix(in srgb,var(--accent) 40%,var(--ink)));
+    box-shadow:0 5px 12px -6px var(--accent)}
+  .m-book .t{font-size:12.5px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+  .m-book .s{font-size:10.5px;color:var(--muted);margin-top:2px}
+  .m-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;
+    font-weight:600;padding:11px 13px;border-radius:11px;border:1px solid var(--accent);
+    color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);cursor:pointer;
+    width:100%;font-family:var(--font-sans)}
+  .m-btn .ar{font-family:var(--font-mono);opacity:.8}
+  .m-row{display:flex;gap:7px;flex-wrap:wrap}
+  .m-tag{font-size:10.5px;font-family:var(--font-mono);padding:4px 9px;border-radius:999px;
+    background:var(--card-2);border:1px solid var(--line);color:var(--muted)}
+  .m-tag.a{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+  .ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+  .ig-grid i{aspect-ratio:1;border-radius:4px;background:
+    linear-gradient(135deg,color-mix(in srgb,var(--accent) 55%,var(--card)),color-mix(in srgb,var(--accent) 12%,var(--card)))}
+
+  /* 강현구 plant */
+  .plant{height:64px;display:flex;align-items:flex-end;justify-content:center}
+  .plant svg{overflow:visible}
+  .stem{stroke:var(--accent);stroke-width:3;fill:none;stroke-linecap:round;
+    stroke-dasharray:120;stroke-dashoffset:120;transition:stroke-dashoffset 1.4s ease}
+  .leaf{fill:var(--accent);opacity:0;transform-origin:center bottom;transform:scale(.2);
+    transition:opacity .6s ease,transform .7s cubic-bezier(.34,1.56,.64,1)}
+  .grown .stem{stroke-dashoffset:0}
+  .grown .leaf{opacity:.9;transform:scale(1)}
+  .grown .leaf.l2{transition-delay:.5s}
+  .grown .leaf.l3{transition-delay:.8s}
+
+  /* 이관로 question card */
+  .qwrap{position:relative}
+  .qcard{cursor:pointer;user-select:none}
+  .qcard .q{font-size:14px;font-weight:700;line-height:1.4;letter-spacing:-.01em}
+  .qcard .hint{font-size:10.5px;color:var(--muted);margin-top:8px;font-family:var(--font-mono)}
+  .qcard .ans{max-height:0;overflow:hidden;transition:max-height .5s ease;opacity:0}
+  .qcard.open .ans{max-height:120px;opacity:1;transition:max-height .5s ease,opacity .4s ease .15s;margin-top:9px}
+  .qcard .ans p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.55}
+  .qopts{display:flex;flex-direction:column;gap:6px;margin-top:9px}
+  .qopt{font-size:11.5px;text-align:left;padding:8px 10px;border-radius:9px;border:1px solid var(--line);
+    background:var(--card-2);color:var(--ink);font-family:var(--font-sans);cursor:pointer}
+
+  /* 홍재기 constellation */
+  #constel{width:100%;height:150px;display:block}
+
+  /* home integration */
+  .home-grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:40px;align-items:center}
+  @media(max-width:820px){.home-grid{grid-template-columns:1fr}.home-grid .phone-col{display:grid;justify-items:center}}
+  .feat{display:grid;gap:12px}
+  .feat .f{display:flex;gap:14px;align-items:flex-start}
+  .feat .f .ic{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--brand);
+    border:1px solid var(--line);border-radius:9px;min-width:34px;height:34px;display:grid;place-items:center;flex:none}
+  .feat .f h3{font-size:16px;font-weight:700;margin:2px 0 3px;letter-spacing:-.01em}
+  .feat .f p{margin:0;font-size:14px;color:var(--muted);line-height:1.55}
+
+  /* home phone rotation */
+  .hm-rot{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px;overflow:hidden}
+  .hm-rot .track{display:flex;gap:10px;transition:transform .6s cubic-bezier(.5,0,.2,1)}
+  .hm-slide{flex:0 0 100%;border-radius:10px;padding:12px;color:#fff}
+  .hm-slide .k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;opacity:.85}
+  .hm-slide .nm{font-size:19px;font-weight:800;margin-top:3px}
+  .hm-slide .ln{font-size:11.5px;opacity:.92;margin-top:2px}
+  .dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+  .dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:.3s}
+  .dots i.on{background:var(--brand);width:16px;border-radius:3px}
+
+  /* BUILD phases */
+  .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;counter-reset:p}
+  .phase{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px 18px;position:relative}
+  .phase::before{counter-increment:p;content:"P" counter(p);font-family:var(--font-mono);font-size:12px;
+    font-weight:700;color:var(--brand)}
+  .phase h3{font-size:16.5px;font-weight:700;margin:6px 0 4px;letter-spacing:-.01em}
+  .phase .wk{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+  .phase p{margin:9px 0 0;font-size:13.5px;color:var(--muted);line-height:1.55}
+
+  .note{background:color-mix(in srgb,var(--gold) 12%,var(--card));border:1px solid color-mix(in srgb,var(--gold) 40%,var(--line));
+    border-radius:14px;padding:18px 20px;margin-top:26px}
+  .note h3{font-size:15px;font-weight:700;color:var(--gold);margin:0 0 6px;font-family:var(--font-mono);letter-spacing:.04em}
+  .note p{margin:0;font-size:14px;color:var(--muted);line-height:1.6}
+  .note b{color:var(--ink)}
+
+  footer{padding:44px 0 60px;border-top:1px solid var(--line-2);color:var(--muted);font-size:13px;
+    font-family:var(--font-mono)}
+  footer b{color:var(--ink);font-weight:600}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .stem,.leaf{transition:none}
+  }
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
+</style>
+
+<header class="hero">
+  <canvas class="stars" id="stars"></canvas>
+  <div class="wrap hero-inner">
+    <div class="tag-lab">
+      <span>씽크스마트 &nbsp;·&nbsp; 사람이 책이 된다</span>
+      <b>모바일 사이트 구축 제안 v1</b>
+    </div>
+    <h1 class="title">저자가 <span class="u">살아 숨쉬는</span><br>모바일 <em>유니버스</em></h1>
+    <p class="lede">출판사 저자 목록을 넘어, <b>저자 한 사람 = 하나의 작은 세계</b>로. 사람·책·마을학교·인스타를 하나의 동선으로 잇고, 저자마다 <b>책의 세계에서 끌어낸 시그니처 인터랙션</b>을 홈페이지와 연동합니다. 실제 데이터로 만든 세 저자 — <b>강현구·홍재기·이관로</b> — 로 개념을 증명합니다.</p>
+    <div class="hero-meta">
+      <div><b>321</b>저자 (A등급 30)</div>
+      <div><b>296</b>권 도서</div>
+      <div><b>5</b>종 마을학교</div>
+      <div><b>4축</b>사람·책·학교·인스타</div>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- CONCEPT -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">핵심 개념</span>
+      <h2>모든 저자 페이지는 홈으로 흐르고, 홈은 저자로 되돌아온다</h2>
+      <p>기존 사이트의 강점(4축 크로스링크)을 유지하되, 저자 페이지를 '정보 나열'에서 '몰입 경험'으로 끌어올립니다. 네 개의 축이 서로를 참조하며 순환합니다.</p>
+    </div>
+    <div class="axes">
+      <div class="axis reveal"><div class="n">01 · 사람</div><h3>저자 유니버스</h3><p>저자별 <span class="k">테마 컬러·모션·시그니처 인터랙션</span>. 약력·대표작·SNS를 한 화면에.</p></div>
+      <div class="axis reveal"><div class="n">02 · 책</div><h3>책 → 저자 왕복</h3><p>책 상세에서 저자로, 저자에서 전작으로. <span class="k">알라딘·교보·예스24</span> 실구매 링크 연동.</p></div>
+      <div class="axis reveal"><div class="n">03 · 마을학교</div><h3>배움으로 연결</h3><p>저자가 참여한 <span class="k">낭독학교·사춘기살롱</span> 등으로 오프라인 만남까지.</p></div>
+      <div class="axis reveal"><div class="n">04 · 인스타</div><h3>지금 이 순간</h3><p>저자 관련 게시물을 자동 매칭해 <span class="k">살아있는 근황</span>을 홈·저자 페이지에 노출.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 이관로 -->
+<section>
+  <div class="wrap">
+    <div class="author reveal" style="--accent:var(--teal)">
+      <div>
+        <span class="a-kicker"><span class="dot"></span>저자 01 · A등급 · 2권</span>
+        <h2>이관로</h2>
+        <p class="a-book">『<b>질문 잘 하는 법</b>』 · 『인생오후 굿애프터눈』 · 사춘기살롱 · 인스타 최다 활동 저자</p>
+        <div class="concept">
+          <div class="lab">Signature — 오늘의 질문 봇</div>
+          <h3>사이트가 먼저 질문을 던진다</h3>
+          <p>『질문 잘 하는 법』의 세계관을 UX로. 빈 검색창 대신 <b>봇이 질문하고 사용자는 버튼만 누르면</b> 저자·책·마을학교로 안내됩니다. 디지털 취약 이용자도 부담 없는 '버튼 우선' 설계 — 대표님의 <b>컴투게더 이음</b> 철학과 그대로 이어집니다.</p>
+        </div>
+        <div class="link-flow">동선: <b>홈 '오늘의 질문' 카드</b> → 답 선택 → <b>이관로 저자 페이지</b> → 책 구매 · 사춘기살롱 신청 · 인스타 6건 피드</div>
+        <div class="chips">
+          <span class="chip acc">질문 인터랙션</span><span class="chip">음성 입력</span>
+          <span class="chip">사춘기살롱 연동</span><span class="chip">인스타 6건 자동매칭</span>
+        </div>
+      </div>
+      <div class="phone-col">
+        <div class="phone"><div class="notch"></div><div class="screen">
+          <div class="sc-top" style="--accent:var(--teal)">
+            <div class="app">Thinksmart · 저자</div>
+            <div class="aname">이관로 <span class="grade" style="background:var(--teal)">A</span></div>
+            <div class="aline">질문 잘 하는 법 · 잘하는 법 시리즈 3</div>
+          </div>
+          <div class="sc-body">
+            <div class="m-lab">오늘의 질문</div>
+            <div class="m-card qcard qwrap" id="qcard" tabindex="0" role="button" aria-expanded="false">
+              <div class="q" id="qtext">요즘 가장 답이 궁금한 건 무엇인가요?</div>
+              <div class="qopts" id="qopts">
+                <button class="qopt">진로가 고민이에요</button>
+                <button class="qopt">아이와 대화가 어려워요</button>
+                <button class="qopt">퇴직 후가 막막해요</button>
+              </div>
+              <div class="ans"><p>→ 이관로의 <b>『질문 잘 하는 법』</b> 10가지 질문공식과 <b>사춘기살롱</b>을 추천합니다.</p></div>
+              <div class="hint" id="qhint">↑ 눌러서 답해 보세요</div>
+            </div>
+            <div class="m-lab">대표작</div>
+            <div class="m-card m-book">
+              <div class="m-cover" style="--accent:var(--teal)"></div>
+              <div><div class="t">질문 잘 하는 법</div><div class="s">2026.06 · 16,800원 · 예스24·교보·알라딘</div></div>
+            </div>
+            <div class="m-row"><span class="m-tag a">#사춘기살롱</span><span class="m-tag">#인생오후</span><span class="m-tag">#질문공식</span></div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 홍재기 -->
+<section>
+  <div class="wrap">
+    <div class="author rev reveal" style="--accent:var(--gold)">
+      <div class="phone-col">
+        <div class="phone"><div class="notch"></div><div class="screen">
+          <div class="sc-top" style="--accent:var(--gold)">
+            <div class="app">Thinksmart · 저자</div>
+            <div class="aname">홍재기 <span class="grade" style="background:var(--gold)">A</span></div>
+            <div class="aline">삶의 무기가 되는 진로 · 4권 집필</div>
+          </div>
+          <div class="sc-body">
+            <div class="m-lab">공저자 성좌 · 함께 쓴 저자들</div>
+            <div class="m-card"><canvas id="constel" aria-label="공저자 네트워크"></canvas></div>
+            <div class="m-lab">대표작 4권</div>
+            <div class="m-card m-book">
+              <div class="m-cover" style="--accent:var(--gold)"></div>
+              <div><div class="t">삶의 무기가 되는 진로</div><div class="s">공저 8인 · 진로 · 2024.07</div></div>
+            </div>
+            <div class="m-row"><span class="m-tag a">#낭독학교</span><span class="m-tag a">#사춘기살롱</span><span class="m-tag">#부모살롱</span></div>
+          </div>
+        </div></div>
+      </div>
+      <div>
+        <span class="a-kicker"><span class="dot"></span>저자 02 · A등급 · 4권</span>
+        <h2>홍재기</h2>
+        <p class="a-book">『삶의 무기가 되는 진로』 · 『부모살롱』 · 『그럼에도, 맑음』 · 『인생 응원 문장』 · 낭독학교·사춘기살롱</p>
+        <div class="concept">
+          <div class="lab">Signature — 공저자 성좌</div>
+          <h3>혼자가 아니라 '함께 쓴 사람들'의 별자리</h3>
+          <p>홍재기의 4권은 모두 <b>공저</b> — 20여 명의 저자와 연결됩니다. 이 관계를 <b>별자리 그래프</b>로 시각화해, 한 저자에서 다른 저자로 탐색이 번지게 합니다. 씽크스마트의 '집단 창작' 정체성을 그대로 보여주는 화면.</p>
+        </div>
+        <div class="link-flow">동선: <b>홈 '이 주의 공저 네트워크'</b> → 별 하나 탭 → 공저자 페이지 → 낭독학교·부모살롱 프로그램</div>
+        <div class="chips">
+          <span class="chip acc">공저 네트워크 그래프</span><span class="chip">진로 나침반</span>
+          <span class="chip">낭독학교 연동</span><span class="chip">전작 4권 크로스링크</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 강현구 -->
+<section>
+  <div class="wrap">
+    <div class="author reveal" style="--accent:var(--sage)">
+      <div>
+        <span class="a-kicker"><span class="dot"></span>저자 03 · 단권 · 발굴</span>
+        <h2>강현구</h2>
+        <p class="a-book">『<b>식물의 사생활 훔쳐보기</b> — 50년 식물학자의 비밀노트』 · 더 생각 인문학 24</p>
+        <div class="concept">
+          <div class="lab">Signature — 자라나는 비밀노트</div>
+          <h3>스크롤하면 식물이 자란다</h3>
+          <p>'50년 식물학자의 비밀노트'라는 책의 물성을 화면으로. <b>스크롤에 따라 줄기가 뻗고 잎이 돋는</b> 인터랙션과 '오늘의 식물 문장' 카드로, 단권 저자도 <b>기억에 남는 한 페이지</b>를 갖습니다. 마을학교가 없는 저자에게는 <b>신규 '식물 세밀화 산책'</b> 프로그램을 연결해 발굴합니다.</p>
+        </div>
+        <div class="link-flow">동선: <b>홈 '오늘의 식물 문장'</b> → 강현구 페이지(성장 인터랙션) → 책 구매 · 신규 마을학교 관심 등록</div>
+        <div class="chips">
+          <span class="chip acc">스크롤 성장 모션</span><span class="chip">세밀화 갤러리</span>
+          <span class="chip">신규 마을학교 발굴</span><span class="chip">인스타 2건</span>
+        </div>
+      </div>
+      <div class="phone-col">
+        <div class="phone"><div class="notch"></div><div class="screen">
+          <div class="sc-top" style="--accent:var(--sage)">
+            <div class="app">Thinksmart · 저자</div>
+            <div class="aname">강현구 <span class="grade" style="background:var(--sage)">C</span></div>
+            <div class="aline">식물의 사생활 훔쳐보기</div>
+          </div>
+          <div class="sc-body">
+            <div class="m-lab">오늘의 식물 문장</div>
+            <div class="m-card" style="--accent:var(--sage)">
+              <div class="plant" id="plant">
+                <svg width="60" height="64" viewBox="0 0 60 64" aria-hidden="true">
+                  <path class="stem" d="M30 62 C30 44 30 40 30 20"/>
+                  <ellipse class="leaf l1" cx="30" cy="20" rx="7" ry="4"/>
+                  <ellipse class="leaf l2" cx="18" cy="34" rx="9" ry="4.5" transform="rotate(-28 18 34)"/>
+                  <ellipse class="leaf l3" cx="42" cy="42" rx="9" ry="4.5" transform="rotate(28 42 42)"/>
+                </svg>
+              </div>
+              <p style="font-size:11.5px;color:var(--muted);margin:6px 0 0;text-align:center;line-height:1.5">"식물은 도망치지 않는 대신, 50년을 기다려 답한다."</p>
+            </div>
+            <div class="m-lab">비밀노트</div>
+            <div class="m-card m-book">
+              <div class="m-cover" style="--accent:var(--sage)"></div>
+              <div><div class="t">식물의 사생활 훔쳐보기</div><div class="s">2026.03 · 22,000원 · 더생각 인문학 24</div></div>
+            </div>
+            <button class="m-btn" style="--accent:var(--sage)">'식물 세밀화 산책' 관심 등록 <span class="ar">→</span></button>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOME INTEGRATION -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">홈페이지 연동</span>
+      <h2>세 저자의 시그니처가 홈에서 매일 로테이션된다</h2>
+      <p>저자 유니버스는 개별 페이지에 갇히지 않습니다. 홈 상단 '오늘의 저자' 슬롯이 각 저자의 시그니처 카드를 순환 노출하고, 탭 한 번으로 해당 유니버스에 진입합니다.</p>
+    </div>
+    <div class="home-grid">
+      <div class="phone-col">
+        <div class="phone"><div class="notch"></div><div class="screen">
+          <div class="sc-top"><div class="app">Thinksmart · 홈</div><div class="aname" style="font-size:20px">사람이 책이 된다</div><div class="aline">오늘의 저자 · 다가오는 행사 · 신간</div></div>
+          <div class="sc-body">
+            <div class="m-lab">오늘의 저자</div>
+            <div class="hm-rot">
+              <div class="track" id="track">
+                <div class="hm-slide" style="background:linear-gradient(145deg,var(--teal),color-mix(in srgb,var(--teal) 45%,#000))"><div class="k">Q · 오늘의 질문</div><div class="nm">이관로</div><div class="ln">"요즘 가장 궁금한 건?" → 눌러서 답하기</div></div>
+                <div class="hm-slide" style="background:linear-gradient(145deg,var(--gold),color-mix(in srgb,var(--gold) 45%,#000))"><div class="k">✦ 공저 성좌</div><div class="nm">홍재기</div><div class="ln">함께 쓴 저자 20인의 별자리 보기</div></div>
+                <div class="hm-slide" style="background:linear-gradient(145deg,var(--sage),color-mix(in srgb,var(--sage) 45%,#000))"><div class="k">❀ 오늘의 식물 문장</div><div class="nm">강현구</div><div class="ln">스크롤하면 자라는 비밀노트</div></div>
+              </div>
+              <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
+            </div>
+            <div class="m-lab">바로가기</div>
+            <div class="m-row"><span class="m-tag a">저자 321</span><span class="m-tag">책방 296</span><span class="m-tag">마을학교 5</span><span class="m-tag">인스타</span></div>
+          </div>
+        </div></div>
+      </div>
+      <div class="feat">
+        <div class="f reveal"><div class="ic">↻</div><div><h3>오늘의 저자 로테이션</h3><p>홈 히어로가 저자별 시그니처(질문·성좌·식물)를 매일 바꿔 노출. 방문할 때마다 다른 얼굴.</p></div></div>
+        <div class="f reveal"><div class="ic">?</div><div><h3>버튼형 질문 진입</h3><p>빈 입력창 대신 봇이 질문 → 답 선택으로 저자·책 추천. 디지털 취약층까지 포용(이음 철학 재사용).</p></div></div>
+        <div class="f reveal"><div class="ic">✦</div><div><h3>공저 네트워크 탐색</h3><p>한 저자에서 함께 쓴 저자로 탐색이 번지는 별자리 그래프. 체류·회유 동선 강화.</p></div></div>
+        <div class="f reveal"><div class="ic">◎</div><div><h3>오프라인으로 연결</h3><p>저자 → 마을학교(낭독·사춘기살롱) → 신청. 미보유 저자는 신규 프로그램으로 발굴.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD PLAN -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">구축 로드맵</span>
+      <h2>기존 정적 사이트 위에 4주로 얹는다</h2>
+      <p>현재 Vanilla HTML/CSS/JS · Netlify 자동배포 구조를 그대로 활용. 빌드 도구 추가 없이 컴포넌트만 확장합니다.</p>
+    </div>
+    <div class="phases">
+      <div class="phase reveal"><div class="wk">1주차</div><h3>저자 유니버스 프레임</h3><p>저자별 테마 토큰(컬러·모션)·상세 페이지 리팩터. 세 저자 파일럿.</p></div>
+      <div class="phase reveal"><div class="wk">2주차</div><h3>시그니처 인터랙션</h3><p>질문 봇·공저 성좌·식물 성장 3종 구현. 접근성·음성 옵션 포함.</p></div>
+      <div class="phase reveal"><div class="wk">3주차</div><h3>홈 연동·로테이션</h3><p>'오늘의 저자' 슬롯, 버튼형 진입, 마을학교/인스타 자동 매칭 강화.</p></div>
+      <div class="phase reveal"><div class="wk">4주차</div><h3>확산·QA·배포</h3><p>A등급 30명으로 템플릿 확산, 크로스브라우저 QA, 대표 검수·오픈.</p></div>
+    </div>
+    <div class="note reveal">
+      <h3>데이터 준비 · 선결 과제</h3>
+      <p>세 저자 모두 <b>photo·bio·insta 필드가 비어 있습니다</b>(현재 이니셜 아바타 대체). 유니버스 몰입도를 위해 <b>저자 사진·한 줄 소개·SNS 링크 수집</b>이 1주차 병행 과제입니다. 책 표지는 <b>알라딘 OpenAPI</b>로 자동 보강 예정. 인스타 매칭은 이미 저자별 ig_post_ids로 연동되어 있어 즉시 활용 가능합니다.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>저자 유니버스</b> · 씽크스마트 모바일 사이트 구축 제안 v1</div>
+    <div style="margin-top:6px">데이터 출처: thinksmart_proto/data.json (저자 321·도서 296) · 라이브 thinksmart-preview.netlify.app · 제안 거닐만 한성호 PM</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // reveal
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.14});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  // hero starfield
+  var cv=document.getElementById('stars'); if(cv){
+    var cx=cv.getContext('2d'), W,H,pts;
+    function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+    function init(){ W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight;
+      pts=Array.from({length:Math.min(70,Math.round(W/16))},function(){return{x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,a:Math.random()*.6+.2};}); }
+    function draw(){ cx.clearRect(0,0,W,H); var c=css('--brand');
+      pts.forEach(function(p){ cx.beginPath(); cx.globalAlpha=p.a; cx.fillStyle=c; cx.arc(p.x,p.y,p.r,0,7); cx.fill(); }); cx.globalAlpha=1; }
+    init(); draw(); addEventListener('resize',function(){init();draw();});
+  }
+
+  // 이관로 question card
+  var qc=document.getElementById('qcard');
+  if(qc){
+    var opts=qc.querySelectorAll('.qopt'), hint=document.getElementById('qhint');
+    opts.forEach(function(b){ b.addEventListener('click',function(ev){
+      ev.stopPropagation(); qc.classList.add('open'); qc.setAttribute('aria-expanded','true');
+      document.getElementById('qtext').textContent='좋아요. 이렇게 안내할게요 ↓';
+      hint.textContent='다시 눌러 닫기';
+    });});
+    qc.addEventListener('click',function(){ qc.classList.toggle('open'); });
+    qc.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault(); qc.classList.toggle('open');}});
+  }
+
+  // 강현구 plant grow when visible
+  var plant=document.getElementById('plant');
+  if(plant){ if(reduce){plant.classList.add('grown');} else {
+    var pio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){plant.classList.add('grown');pio.disconnect();}});},{threshold:.5});
+    pio.observe(plant);
+  }}
+
+  // 홍재기 constellation
+  var con=document.getElementById('constel');
+  if(con){
+    var dpr=Math.min(devicePixelRatio||1,2);
+    function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+    function drawCon(){
+      var w=con.offsetWidth,h=150; con.width=w*dpr; con.height=h*dpr;
+      var g=con.getContext('2d'); g.scale(dpr,dpr); g.clearRect(0,0,w,h);
+      var acc=css('--gold'), mut=css('--muted');
+      var cxp=w*0.5, cyp=h*0.5;
+      var sats=[[0.16,0.28],[0.34,0.72],[0.62,0.2],[0.8,0.6],[0.7,0.85],[0.22,0.62],[0.5,0.14],[0.88,0.34]];
+      g.strokeStyle=acc; g.globalAlpha=.35; g.lineWidth=1;
+      sats.forEach(function(s){ g.beginPath(); g.moveTo(cxp,cyp); g.lineTo(s[0]*w,s[1]*h); g.stroke(); });
+      g.globalAlpha=1;
+      sats.forEach(function(s){ g.beginPath(); g.fillStyle=mut; g.arc(s[0]*w,s[1]*h,2.4,0,7); g.fill(); });
+      // center = 홍재기
+      g.beginPath(); g.fillStyle=acc; g.arc(cxp,cyp,6,0,7); g.fill();
+      g.globalAlpha=.25; g.beginPath(); g.arc(cxp,cyp,11,0,7); g.fill(); g.globalAlpha=1;
+      g.fillStyle=css('--ink'); g.font='700 11px '+css('--font-sans'); g.textAlign='center';
+      g.fillText('홍재기 + 공저 20인', cxp, h-8);
+    }
+    drawCon(); addEventListener('resize',drawCon);
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)drawCon();});},{threshold:.3}).observe(con);
+  }
+
+  // home rotation
+  var track=document.getElementById('track'), dots=document.getElementById('dots');
+  if(track && !reduce){
+    var i=0,n=3;
+    setInterval(function(){ i=(i+1)%n; track.style.transform='translateX(-'+(i*100)+'%)';
+      dots.querySelectorAll('i').forEach(function(d,k){d.classList.toggle('on',k===i);}); },2600);
+  }
+})();
+</script>
