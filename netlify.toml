@@ -71,3 +71,11 @@
   from = "/more"
   to = "/more.html"
   status = 200
+
+# 내부 문서(docs) 비공개 — Git에는 보관하되 라이브 배포에서는 차단
+# force=true 없으면 실제 파일이 그대로 서빙되어 차단이 무시됨
+[[redirects]]
+  from = "/docs/*"
+  to = "/404.html"
+  status = 404
+  force = true
