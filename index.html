@@ -25,6 +25,7 @@
 </form>
 
 <script src="js/app.js"></script>
+<script src="js/universe.js"></script>
 <script>
 (async function() {
   const data = await loadData();
@@ -99,6 +100,8 @@
           </a>
         `;
       })()}
+
+      ${universeHomeSection(data.authors)}
 
       ${instaPicks.length ? `
         <!-- ⭐ 최근 인스타 픽 (운영자 큐레이션) -->
@@ -247,6 +250,9 @@
     </main>
     ${nav('home')}
   `;
+
+  // 오늘의 저자 유니버스 로테이션 시작
+  initUniverseHome();
 
   // ── 인터랙션: 셔플 / 전체 보기 토글
   document.addEventListener('click', e => {

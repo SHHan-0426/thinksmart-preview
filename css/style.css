@@ -1108,3 +1108,94 @@ body.drawer-open { overflow: hidden; }
 
 /* ====== 유틸 ====== */
 .row-list > * + * { margin-top: 10px; }
+
+/* =========================================================
+   저자 유니버스 (Author Universe) — Phase 1~3
+   ========================================================= */
+.author-hero.has-uni {
+  background: var(--c-bg);
+  background: linear-gradient(170deg, color-mix(in srgb, var(--uni) 16%, var(--c-bg)), var(--c-bg));
+  color: var(--c-text);
+}
+.author-hero.has-uni h1 { color: var(--uni); }
+.author-hero.has-uni .meta { color: var(--c-sub); opacity: 1; }
+
+.uni-sig { margin: 20px 0 4px; }
+.uni-lab {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--c-sub); font-weight: 700; margin-bottom: 9px;
+}
+
+/* — 질문봇 (이관로) — */
+.uni-qcard {
+  background: var(--c-card); border: 1px solid var(--c-line);
+  border-left: 3px solid var(--uni); border-radius: 0 var(--r) var(--r) 0;
+  padding: 15px 16px; box-shadow: var(--shadow);
+}
+.uni-q-text { font-size: 15px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; color: var(--c-text); }
+.uni-q-opts { display: flex; flex-direction: column; gap: 8px; }
+.uni-q-opt {
+  text-align: left; font-size: 13.5px; padding: 11px 13px; border-radius: 11px;
+  border: 1px solid var(--c-line); background: var(--c-bg); color: var(--c-text); transition: 0.15s;
+}
+.uni-q-opt:active, .uni-q-opt.sel {
+  border-color: var(--uni); color: var(--uni); font-weight: 600;
+  background: color-mix(in srgb, var(--uni) 10%, transparent);
+}
+.uni-q-ans { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s ease; }
+.uni-q-ans.open { max-height: 200px; opacity: 1; margin-top: 12px; }
+.uni-q-ans p { font-size: 13px; color: var(--c-sub); line-height: 1.55; margin-bottom: 10px; }
+.uni-cta {
+  display: inline-block; font-size: 13px; font-weight: 700; color: #fff;
+  background: var(--uni); padding: 9px 15px; border-radius: 10px;
+}
+
+/* — 공저자 성좌 (홍재기) — */
+.uni-constel-wrap {
+  background: var(--c-card); border: 1px solid var(--c-line);
+  border-radius: var(--r); padding: 8px; box-shadow: var(--shadow);
+}
+#uni-constel { width: 100%; height: 200px; display: block; cursor: pointer; }
+.uni-hint { font-size: 11px; color: var(--c-sub); text-align: center; margin-top: 6px; }
+
+/* — 식물 (강현구) — */
+.uni-plant-card {
+  background: var(--c-card); border: 1px solid var(--c-line);
+  border-radius: var(--r); padding: 16px; box-shadow: var(--shadow); text-align: center;
+}
+.uni-plant { height: 80px; display: flex; align-items: flex-end; justify-content: center; }
+.uni-plant svg { overflow: visible; }
+.uni-stem {
+  stroke: var(--uni); stroke-width: 3; fill: none; stroke-linecap: round;
+  stroke-dasharray: 130; stroke-dashoffset: 130; transition: stroke-dashoffset 1.4s ease;
+}
+.uni-leaf {
+  fill: var(--uni); opacity: 0; transform: scale(0.2); transform-origin: center bottom;
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.uni-plant.grown .uni-stem { stroke-dashoffset: 0; }
+.uni-plant.grown .uni-leaf { opacity: 0.9; transform: scale(1); }
+.uni-plant.grown .uni-leaf.l2 { transition-delay: 0.5s; }
+.uni-plant.grown .uni-leaf.l3 { transition-delay: 0.8s; }
+.uni-quote { font-size: 13px; color: var(--c-sub); line-height: 1.55; margin-top: 10px; font-style: italic; }
+
+/* — 홈 '오늘의 저자' 로테이션 (Phase 3) — */
+.uni-rot { position: relative; overflow: hidden; border-radius: var(--r); box-shadow: var(--shadow); }
+.uni-rot-track { display: flex; transition: transform 0.6s cubic-bezier(0.5, 0, 0.2, 1); }
+.uni-slide {
+  flex: 0 0 100%; padding: 20px 18px; color: #fff; min-height: 104px;
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--uni);
+  background: linear-gradient(140deg, var(--uni), color-mix(in srgb, var(--uni) 45%, #000));
+}
+.uni-slide-k { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.9; font-weight: 600; }
+.uni-slide-nm { font-size: 22px; font-weight: 800; margin-top: 3px; letter-spacing: -0.02em; }
+.uni-slide-ln { font-size: 12.5px; opacity: 0.92; margin-top: 3px; }
+.uni-rot-dots { display: flex; gap: 6px; justify-content: center; padding: 10px 0 2px; }
+.uni-rot-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-line); transition: 0.3s; }
+.uni-rot-dots i.on { background: var(--c-primary); width: 16px; border-radius: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .uni-rot-track { transition: none; }
+  .uni-stem, .uni-leaf { transition: none; }
+}

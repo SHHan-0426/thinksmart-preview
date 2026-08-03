@@ -10,6 +10,7 @@
 <body>
 <div id="app"><div id="content"></div></div>
 <script src="js/app.js"></script>
+<script src="js/universe.js"></script>
 <script>
 (async function() {
   const data = await loadData();
@@ -20,6 +21,12 @@
   const books = data.books.filter(b => b.authors.includes(a.id));
   const bookIds = books.map(b => b.id);
   const bookTitles = books.map(b => b.title);
+
+  // 저자 유니버스 — 테마 + 공저자(성좌용)
+  const uni = universeOf(a.id);
+  const coAuthorIds = new Set();
+  books.forEach(b => (b.authors || []).forEach(cid => { if (cid !== a.id) coAuthorIds.add(cid); }));
+  const coAuthors = data.authors.filter(x => coAuthorIds.has(x.id));
 
   // 매칭 헬퍼 — 텍스트 안에 저자명·별칭·책 제목 포함 여부
   function nameMatches(text) {
@@ -88,8 +95,8 @@
 
   document.getElementById('content').innerHTML = `
     ${backBar('저자')}
-    <div class="author-hero">
-      <div class="avatar" style="background:${avatarColor(a.name)};color:#fff;">
+    <div class="author-hero${uni ? ' has-uni' : ''}"${uni ? ` style="--uni:${uni.accent}"` : ''}>
+      <div class="avatar" style="background:${uni ? uni.accent : avatarColor(a.name)};color:#fff;">
         ${initial(a.name)}
       </div>
       <h1>${a.name}</h1>
@@ -111,6 +118,8 @@
           한 줄 소개·약력은 저자 본인 회신 후 채워질 예정입니다.
         </div>
       `}
+
+      ${universeSignature(a, { coAuthors })}
 
       <section class="section" style="margin-top:22px;">
         <div class="section-title">
@@ -284,6 +293,9 @@
     </main>
     ${nav('authors')}
   `;
+
+  // 저자 유니버스 인터랙션 초기화
+  initUniverse(a, { coAuthors });
 })();
 </script>
 </body>
