@@ -42,8 +42,8 @@
     .filter(e => e.status === 'upcoming')
     .sort((a,b) => (a.date || '').localeCompare(b.date || ''));
 
-  // 인스타 픽 (운영자 직접 임베드)
-  const instaPicks = ev.instagram_picks || [];
+  // 최근 인스타 — 자동 동기화 피드(instagram.json)의 최신 게시물 (완전 자동)
+  const instaPicks = (ig.posts || []).filter(p => p.images && p.images.length).slice(0, 12);
 
   // 지난 행사 = 인스타 행사 게시물을 유형별로 분류
   function classifyEventType(caption) {
@@ -104,15 +104,15 @@
       ${universeHomeSection(data.authors)}
 
       ${instaPicks.length ? `
-        <!-- ⭐ 최근 인스타 픽 (운영자 큐레이션) -->
+        <!-- 📷 최근 인스타 (자동 동기화 피드 최신) -->
         <section class="section">
           <div class="section-title">
-            <h2>📷 최근 인스타 픽</h2>
-            <span class="more">${instaPicks.length}건 · 운영자 픽</span>
+            <h2>📷 최근 인스타</h2>
+            <a class="more" href="instagram.html">전체 →</a>
           </div>
           <div class="h-scroll-wrap">
-            <div class="h-scroll" style="padding-right:40px;">
-              ${instaPicks.map(instaPickCard).join('')}
+            <div class="h-scroll ig-h-scroll" style="padding-right:40px;">
+              ${instaPicks.map(igCard).join('')}
             </div>
           </div>
         </section>
@@ -222,7 +222,7 @@
             <a class="cat-book-card" href="book.html?id=${g.pick.id}">
               <div class="cat-tag">${g.group} <span style="color:var(--c-sub);font-weight:400;">· ${g.count}권</span></div>
               <div class="cat-book-row">
-                ${bookCover(g.pick.title, g.pick.series)}
+                ${bookCover(g.pick.title, g.pick.series, g.pick.cover)}
                 <div class="cat-book-info">
                   <div class="cat-book-title">${g.pick.title}</div>
                   ${g.pick.subtitle ? `<div class="cat-book-sub">${g.pick.subtitle}</div>` : ''}
@@ -280,7 +280,7 @@
             <a class="cat-book-card" href="book.html?id=${g.pick.id}">
               <div class="cat-tag">${g.group} <span style="color:var(--c-sub);font-weight:400;">· ${g.count}권</span></div>
               <div class="cat-book-row">
-                ${bookCover(g.pick.title, g.pick.series)}
+                ${bookCover(g.pick.title, g.pick.series, g.pick.cover)}
                 <div class="cat-book-info">
                   <div class="cat-book-title">${g.pick.title}</div>
                   ${g.pick.subtitle ? `<div class="cat-book-sub">${g.pick.subtitle}</div>` : ''}

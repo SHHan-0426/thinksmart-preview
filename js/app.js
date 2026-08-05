@@ -590,7 +590,7 @@ function drawerMarkup() {
       </nav>
 
       <div class="drawer-foot">
-        v0.4 · ${new Date().toISOString().slice(0,10)}<br>
+        v0.8 · ${new Date().toISOString().slice(0,10)}<br>
         <a href="https://www.instagram.com/thinksmart.official/" target="_blank">@thinksmart.official</a>
       </div>
     </aside>
@@ -628,7 +628,15 @@ function avatar(name, size = 60, fontSize = 22) {
     </div>`;
 }
 
-function bookCover(title, series) {
+function bookCover(title, series, cover) {
+  if (cover) {
+    return `
+    <div class="cover" style="padding:0;overflow:hidden;">
+      <img src="${cover}" alt="${title}" loading="lazy"
+           style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;"
+           onerror="this.style.display='none'">
+    </div>`;
+  }
   return `
     <div class="cover">
       ${series ? `<div style="font-size:9px;opacity:0.7;margin-bottom:3px;">${series.split(' 시리즈')[0]}</div>` : ''}
@@ -640,7 +648,7 @@ function bookCard(book) {
   const authors = book.author_names.slice(0, 2).join(', ') + (book.author_names.length > 2 ? ` 외 ${book.author_names.length - 2}` : '');
   return `
     <a class="book-card" href="book.html?id=${book.id}">
-      ${bookCover(book.title, book.series)}
+      ${bookCover(book.title, book.series, book.cover)}
       <div class="info">
         <div class="title">${book.title}</div>
         ${book.subtitle ? `<div class="sub">${book.subtitle}</div>` : ''}
