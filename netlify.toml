@@ -39,7 +39,8 @@
 [[headers]]
   for = "/data/*.json"
   [headers.values]
-    Cache-Control = "public, max-age=3600"
+    # etag로 매번 재검증(304면 캐시 사용) — 표지·인스타 업데이트 즉시 반영
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 # 깔끔한 URL — /authors → /authors.html
 [[redirects]]
