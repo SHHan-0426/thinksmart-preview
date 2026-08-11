@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#3B6EAA">
+<title>브랜드 소개 · 씽크스마트</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"><div id="content"></div></div>
+<script src="js/app.js"></script>
+<script src="js/universe.js"></script>
+<script>
+(async function() {
+  const data = await loadData();
+  const books = data.books || [];
+  const authors = data.authors || [];
+
+  // ── 실시간 통계 (숫자로 보는 씽크스마트) ──────────────
+  const totalBooks = data.meta?.total_books || books.length;
+  const totalAuthors = data.meta?.total_authors || authors.length;
+  const repeatAuthors = authors.filter(a => (a.count || 0) >= 2).length;
+  const schoolBooks = books.filter(b => (b.schools || []).length).length;
+
+  const catCount = {};
+  books.forEach(b => { const c = b.category || '기타'; catCount[c] = (catCount[c] || 0) + 1; });
+  const topCats = Object.entries(catCount).sort((a, b) => b[1] - a[1]).slice(0, 6);
+
+  const serCount = {};
+  books.forEach(b => { if (b.series) { const s = b.series.replace(/\s*시리즈\s*\d+\s*$/, '').trim(); if (s) serCount[s] = (serCount[s] || 0) + 1; } });
+  const topSeries = Object.entries(serCount).sort((a, b) => b[1] - a[1]).slice(0, 4);
+
+  const schoolCount = {};
+  books.forEach(b => (b.schools || []).forEach(s => { schoolCount[s] = (schoolCount[s] || 0) + 1; }));
+  const schoolList = Object.entries(schoolCount).sort((a, b) => b[1] - a[1]);
+
+  // 유니버스 파일럿 저자
+  const pilots = (typeof UNIVERSE_PILOTS !== 'undefined' ? UNIVERSE_PILOTS : [])
+    .map(id => authors.find(a => a.id === id)).filter(Boolean);
+
+  // 통계 타일
+  const stat = (num, label, meaning) => `
+    <div style="background:var(--c-card);border:1px solid var(--c-line);border-radius:var(--r);padding:16px 14px;">
+      <div style="font-size:26px;font-weight:800;color:var(--c-primary);line-height:1;">${num}</div>
+      <div style="font-size:13px;font-weight:600;margin-top:6px;">${label}</div>
+      ${meaning ? `<div style="font-size:11px;color:var(--c-sub);margin-top:4px;line-height:1.4;">${meaning}</div>` : ''}
+    </div>`;
+
+  document.getElementById('content').innerHTML = `
+    ${backBar('브랜드 소개')}
+    <main>
+
+      <!-- ① 브랜드 스토리 (초안) -->
+      <section style="background:linear-gradient(135deg,#3B6EAA 0%,#1F3A5F 100%);color:#fff;border-radius:var(--r);padding:26px 22px;margin-bottom:8px;box-shadow:var(--shadow);">
+        <div style="font-size:12px;letter-spacing:2px;opacity:0.75;margin-bottom:12px;">THINKSMART</div>
+        <h1 style="font-size:23px;font-weight:800;line-height:1.4;margin-bottom:14px;">씽크스마트는<br>책이 아니라 <span style="color:#FFD98A;">사람</span>을 펴냅니다.</h1>
+        <p style="font-size:14px;line-height:1.75;opacity:0.94;">
+          유명한 저자가 아니라 자기 자리에서 살아온 사람들의 <b>경험</b>을,<br>
+          지식이 아니라 경험을 · 거대한 담론이 아니라<br>
+          개인·가족·학교·마을의 <b>작은 이야기</b>를 옮겨 왔습니다.
+        </p>
+        <p style="font-size:13px;line-height:1.7;opacity:0.85;margin-top:12px;">
+          그렇게 만든 책은 강연·교육·마을학교로 이어져,<br>책 밖에서도 사람과 사람을 잇습니다.
+        </p>
+        <div style="font-size:13px;font-weight:700;color:#FFD98A;margin-top:16px;">— 더 큰 생각으로 통하는 길</div>
+      </section>
+      <p style="font-size:10px;color:var(--c-sub);text-align:right;margin:0 0 22px;">※ 브랜딩 1차 회의(2026.08.10) 기반 초안 — 편집장 검토 후 확정</p>
+
+      <!-- ② 숫자로 보는 씽크스마트 -->
+      <section class="section">
+        <div class="section-title"><h2>숫자로 보는 씽크스마트</h2></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          ${stat(totalBooks + '권', '펴낸 책', '20년 가까이 축적')}
+          ${stat(totalAuthors + '명', '함께한 저자', '대부분 생활인·현장 전문가')}
+          ${stat(repeatAuthors + '명', '다시 함께한 저자', '2권 이상 — 한 번의 인연이 다음 책으로')}
+          ${stat(schoolBooks + '권', '책 밖 마을학교로', schoolList.map(([n, c]) => n + ' ' + c).join(' · '))}
+        </div>
+
+        <h3 class="subhead">📖 삶의 전 영역을 다룹니다</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
+          ${topCats.map(([c, n]) => `<span style="background:var(--c-card);border:1px solid var(--c-line);border-radius:20px;padding:6px 12px;font-size:12px;">${c} <b style="color:var(--c-primary);">${n}</b></span>`).join('')}
+        </div>
+
+        <h3 class="subhead">🔁 이어지는 시리즈 — 주제와 저자가 지속됩니다</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          ${topSeries.map(([s, n]) => `<span style="background:var(--c-card);border:1px solid var(--c-line);border-radius:20px;padding:6px 12px;font-size:12px;">${s} <b style="color:var(--c-primary);">${n}</b></span>`).join('')}
+        </div>
+      </section>
+
+      <!-- ① 저자 유니버스 정렬 -->
+      ${pilots.length ? `
+      <section class="section">
+        <div class="section-title">
+          <h2>저자 한 사람이 하나의 세계</h2>
+          <a class="more" href="people.html">저자 전체 →</a>
+        </div>
+        <p style="font-size:13px;color:var(--c-sub);margin:-6px 0 14px;line-height:1.6;">
+          "작가를 만드는 출판사"라는 씽크스마트의 방식을, 저자마다의 작은 세계 <b>저자 유니버스</b>로 담았습니다.
+        </p>
+        <div class="h-scroll-wrap">
+          <div class="h-scroll" style="padding-right:40px;">
+            ${pilots.map(uniHomeSlide).join('')}
+          </div>
+        </div>
+      </section>` : ''}
+
+      <!-- ③ 우리가 하지 않는 것 (초안) -->
+      <section class="section">
+        <div class="section-title"><h2>우리가 하지 않는 것</h2></div>
+        <p style="font-size:13px;color:var(--c-sub);margin:-6px 0 14px;line-height:1.6;">하지 않는 것을 정하는 일이, 우리를 가장 선명하게 만듭니다.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          ${[
+            '유행이라고 해서 따라가지 않습니다',
+            '잘 팔려도 우리답지 않은 책은 내지 않습니다',
+            '저자를 한 번 쓰고 버리지 않습니다',
+            '돈과 철학이 부딪히면, 철학을 지킵니다',
+          ].map(t => `<div style="display:flex;gap:10px;align-items:flex-start;background:var(--c-card);border:1px solid var(--c-line);border-left:3px solid #B5483B;border-radius:var(--r);padding:12px 14px;font-size:14px;line-height:1.5;"><span style="color:#B5483B;font-weight:800;">×</span><span>${t}</span></div>`).join('')}
+        </div>
+        <p style="font-size:10px;color:var(--c-sub);text-align:right;margin-top:8px;">※ 초안 — 편집장 검토 후 확정</p>
+      </section>
+
+      <p style="text-align:center;font-size:11px;color:var(--c-sub);margin:30px 0 10px;">
+        씽크스마트 · 더 큰 생각으로 통하는 길
+      </p>
+    </main>
+  `;
+})();
+</script>
+</body>
+</html>

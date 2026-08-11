@@ -578,7 +578,7 @@ function drawerMarkup() {
         <a class="d-item" href="events.html"><span class="d-ic">🎤</span><span>모든 행사</span><span class="d-arrow">›</span></a>
         <a class="d-item" href="instagram.html"><span class="d-ic">📷</span><span>인스타그램 피드</span><span class="d-arrow">›</span></a>
         <a class="d-item" href="events-guide.html"><span class="d-ic">📘</span><span>인스타 입력 가이드</span><span class="d-arrow">›</span></a>
-        <a class="d-item"><span class="d-ic">📖</span><span>씽크스마트 소개</span><span class="d-arrow">›</span></a>
+        <a class="d-item" href="brand.html"><span class="d-ic">📖</span><span>씽크스마트 소개</span><span class="d-arrow">›</span></a>
         <a class="d-item"><span class="d-ic">✉️</span><span>출판 상담 신청</span><span class="d-arrow">›</span></a>
       </nav>
 
